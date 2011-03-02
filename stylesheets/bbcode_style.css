@@ -1,0 +1,115 @@
+/* BBCode lookup */
+#checkboxes {
+	clear:both;
+	height: 150px;
+	padding-top: 20px;
+	padding-left: 10px;
+	color: #f2f2f2;
+	width: 900px;
+}
+.checkbox_column {
+	text-align:left;
+	font-family: TFSec;
+	font-size:13px;
+	width: 150px;
+	height: 130px;
+	float:left;
+}
+
+.checkbox_column_wide {
+	width: 300px;
+}
+
+.checkbox_title {
+	font-size: 14px;
+	font-family: TFBuild;
+	text-decoration: underline;
+	text-align:left;
+	color: #9ea3f0;
+	text-shadow: black 0.1em 0.1em 0.1em;
+	display: block;
+	height: 20px;
+}
+
+#lookup_submit {
+	font-family:TFBuild;
+	font-size:20px;
+	position: relative;
+	left: 400px;
+	height: 35px;
+}
+
+
+#tool_title {
+	float:left;
+	width: 585px;
+}
+
+#tool_img {
+	float:left;
+}
+
+#tool_text {
+	float: left;
+	margin-top: 15px;
+	margin-left: 5px;
+	height: 50px;
+	width: 500px;
+}
+
+#tool_name {
+	font-family: TFBuild;
+	font-size: 20px;
+	color: #9ea3f0;
+	text-shadow: black 0.2em 0.2em 0.2em;
+}
+
+#tool_desc {
+	font-family: TFSec;
+	font-size: 12px;
+	color: white;
+}
+
+/* BBCode styling */
+#bbcode_output {
+	padding-left: 24px;
+	padding-top: 10px;
+	padding-bottom: 15px;
+	width: 820px;
+	float:left;
+}
+
+#bbcode_status {
+	padding-top:40px;
+	width: 300px;
+	float:left;
+}
+
+#bbcode_status_display {
+	font-size: 16px;
+	font-family: TFBuild;
+	text-decoration: underline;
+	text-align:left;
+	color: #ffffff;
+	text-shadow: black 0.1em 0.1em 0.1em;
+	display: block;
+	height: 20px;
+}
+
+#bbcode_status_list {
+	color: #ffffff;
+	font-size: 14px;
+}
+
+#bbcode_status_list li {
+	padding: 10px 0px;
+}
+#retry_button {
+	font-family:TFBuild;
+	font-size:16px;
+}
+
+#bbcode_text {
+	font-family: Verdana;
+	font-size: 12px;
+}

@@ -1,0 +1,214 @@
+/* Custom fonts declared here */
+
+@font-face {
+	font-family: TFBuild;
+	src: url('../fonts/tf2build.ttf');
+}
+
+@font-face {
+	font-family: TFSec;
+	src: url('../fonts/tf2secondary.ttf');
+}
+
+/* Global HTML element styling */
+
+html, body {
+	margin: 0px;
+	padding: 0px;
+	background-color: #313131;
+}
+
+/* Default font-family */
+* {
+	font-family: TFSec, "Myriad Pro", "Myriad", sans-serif;
+}
+
+/* Header styling*/
+#header {
+	height: 100px;   /* 50 header_banner + 10*2 padding + 30 toolbar table */
+	border-bottom: 1px solid #505050;
+	min-width: 950px;		/* Make sure this is set so we don't get any weird overlapping! */
+	width: 100%;
+	background-color: #2B2B2B;
+}
+
+#header_banner {
+	position:relative;
+	float: left;
+	width: 400px;
+	height: 50px;
+	padding: 10px;
+}
+
+#banner_img {
+	float:left;
+}
+
+#banner_button {
+	width: 60px;
+	height: 60px;
+	z-index: 4;
+	position: absolute;
+	top: 1px;
+	right: 35px;
+}
+
+#banner_text {
+	font-family: TFBuild;
+	font-size: 26px;
+	color: #ffefae;
+	float: left;
+	line-height: 50px;
+	position: relative;
+	left: 20px;
+	text-shadow: black 0.2em 0.2em 0.2em;
+}
+
+#current_user {
+	float: right;
+	width: 500px;
+	height: 90px;
+	font-family: TFBuild;
+	color: white;
+	margin-top: 10px;
+	margin-right: 10px;
+	text-align: right;
+	line-height: 50px;
+	text-shadow: black 0.2em 0.2em 0.2em;
+}
+
+#current_user a {
+	font-family: TFBuild;
+	text-decoration: none;
+}
+
+#current_user a:link {
+	color: white;
+}
+
+#current_user a:visited {
+	color: white;
+}
+
+#current_user a:hover {
+	color: white;
+}
+
+#signin_forms {
+	position: relative;
+	clear: both;
+	top: 5px;
+	width: 500px;
+	height: 30px;
+	margin-left: 0px;
+	/*overflow:hidden;*/		/* Hack because forms have some crap attached to the end. Hide overflow so that stuff aligns.*/
+}
+
+#signin_input {
+	margin-left: 0px;
+	font-size:11px;
+}
+
+#steam_button {
+	float: left;
+	position: relative;
+	top: 3px;
+}
+
+#signin_form {
+	float: left;
+	margin-left: 10px;
+	height: 30px;
+	line-height: 30px;
+	font-size: 16px;
+}
+
+#avatar {
+	float: right;
+	height: 48px;
+	width: 48px;
+	border: 2px solid gray;
+	margin-left: 10px;
+	margin-right: 12px;
+}
+
+#header_toolbar {
+	height: 30px;
+	clear:left;		/* Only clear the toolbox, not the current user. */
+}
+
+#header_toolbar_table {
+	height: 30px;
+	color: white;
+	border-collapse: collapse;
+	border-top: 1px solid #505050;
+	background-color: #000000;
+}
+
+#header_toolbar_table * {
+	font-family: TFBuild;
+	text-decoration: none;
+	font-size: 14px;
+}
+
+#header_toolbar_table a:link {
+	color: white;
+}
+
+#header_toolbar_table a:visited {
+	color: white;
+}
+
+#header_toolbar_table a:hover {
+	color: #ffefae;
+}
+
+#header_toolbar_table td {
+	border-right: 1px solid #505050;
+	padding: 5px 10px;
+}
+
+#active_tool_cell {
+	background-color: #d27c00;
+}
+
+#content {
+	width: 100%;
+	min-width: 850px;
+	min-height: 400px;
+	position: relative;
+}
+
+#footer {
+	background-color: #2B2B2B;
+	width: 100%;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	border-top: 1px solid #505050;
+	border-bottom: 1px solid #505050;
+}
+
+#footer_text {
+	color: #ffefae;
+}
+
+#footer_text a {
+	text-decoration: none;
+}
+
+#footer a:link {
+	color: #ffefae;
+}
+
+#footer a:visited {
+	color: #ffefae;
+}
+
+#footer a:hover {
+	color: #ffffff;
+}
+
+a img {
+	border-style: none;
+}
