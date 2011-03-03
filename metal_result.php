@@ -256,6 +256,7 @@ if(isset($steamID)) {
 	<title>TF2Toolbox: Backpack Tools for Team Fortress 2</title>
 	<link href="stylesheets/style.css" media="screen" rel="stylesheet" type="text/css" />
 	<link href="stylesheets/metal_style.css" media="screen" rel="stylesheet" type="text/css" />
+	<link href="stylesheets/metal_output.css" media="screen" rel="stylesheet" type="text/css" />
 	<link rel="shortcut icon" href="media/favicon.ico" />
 	<link rel="icon" type="image/png" href="media/engie_toolbox_32.png" />
 </head>

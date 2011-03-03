@@ -16,6 +16,7 @@ html, body {
 	margin: 0px;
 	padding: 0px;
 	background-color: #313131;
+	width:100%;
 }
 
 /* Default font-family */
@@ -30,6 +31,7 @@ html, body {
 	min-width: 950px;		/* Make sure this is set so we don't get any weird overlapping! */
 	width: 100%;
 	background-color: #2B2B2B;
+	
 }
 
 #header_banner {
@@ -173,7 +175,6 @@ html, body {
 }
 
 #content {
-	width: 100%;
 	min-width: 850px;
 	min-height: 400px;
 	position: relative;
