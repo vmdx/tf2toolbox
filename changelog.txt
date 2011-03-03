@@ -1,9 +1,14 @@
 3.2.2011
   - Set up subversion. :D
+  - Hacked all day, got the Metal Maker implementation done! Statistics could 
+  use some work, as well as layout...
+  - Did a little hack on metal_output.css that fixes the weird pixel offset on
+  the right side of screens... hopefully I can investigate and figure this out.
 
 2.24.2011
   - Fixed bug on Unusual hats not coming first in precedence.
-  - Fixed CSS bug on signin form, still needs alignment work (maybe padding 0 on the input form?)
+  - Fixed CSS bug on signin form, still needs alignment work (maybe padding 
+  0 on the input form?)
 
 2.23.2011
   - First major code push.
