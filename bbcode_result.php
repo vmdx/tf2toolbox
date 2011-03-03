@@ -97,7 +97,7 @@ if(isset($steamID)) {
     }
     
     /* Weapons - don't show custom-named stock weapons (defindex 0 through 30) */
-    if (in_array($my_item_slot, $weapon_slots) and $my_defindex > 30) {
+    if (in_array($my_item_slot, $weapon_slots) and $my_defindex > 30 and $my_item_class != "slot_token") {
       if (in_array($my_item_name, $PROMO_WEAPONS_DICT)) {
         if ($my_quality == $vintage_quality) {
           $promo_weapons = set_item_in_array($promo_weapons, "Vintage ".$my_item_name);

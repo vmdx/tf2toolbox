@@ -18,6 +18,8 @@ $backpack_url = "http://api.steampowered.com/ITFItems_440/GetPlayerItems/v0001/?
 //$backpack_url = "http://api.steampowered.com/ITFItems_440/GetPlayerItems/v0001/?SteamID=76561197961814215&key=74EA34072E00ED29B92691B6F929F590";
 /* VMDX's backpack */
 //$backpack_url = "http://api.steampowered.com/ITFItems_440/GetPlayerItems/v0001/?SteamID=76561197998913767&key=74EA34072E00ED29B92691B6F929F590";
+/* Fireblade's backpack */
+//$backpack_url = "http://api.steampowered.com/ITFItems_440/GetPlayerItems/v0001/?SteamID=76561197986187065&key=74EA34072E00ED29B92691B6F929F590";
 
 
 $schema_url = "http://api.steampowered.com/ITFItems_440/GetSchema/v0001/?key=74EA34072E00ED29B92691B6F929F590&language=en";
@@ -33,6 +35,7 @@ $schema = json_decode($schema_json);
 $item_names = array();
 $item_slots = array();
 $item_classes = array();
+$craft_classes = array();
 $used_by_classes = array();
 $image_urls = array();
 
@@ -40,6 +43,7 @@ foreach ( $schema->{"result"}->{"items"}->{"item"} as $entry ) {
   $item_names[$entry->{"defindex"}] = $entry->{"item_name"};
   $item_slots[$entry->{"defindex"}] = $entry->{"item_slot"};
   $item_classes[$entry->{"defindex"}] = $entry->{"item_class"};
+  $craft_classes[$entry->{"defindex"}] = $entry->{"craft_class"};
   $used_by_classes[$entry->{"defindex"}] = $entry->{"used_by_classes"}->{"class"};
   $image_urls[$entry->{"defindex"}] = $entry->{"image_url"};
 }
@@ -103,6 +107,7 @@ if(isset($steamID)) {
     $my_item_name = $item_names[$my_defindex];
     $my_item_slot = $item_slots[$my_defindex];
     $my_item_class = $item_classes[$my_defindex];
+    $my_craft_class = $craft_classes[$my_defindex];
     $my_image = $image_urls[$my_defindex];
     
     
@@ -116,7 +121,7 @@ if(isset($steamID)) {
     }
     
     /* Weapons - don't show custom-named stock weapons (defindex 0 through 30, 190 through 212) */
-    if (in_array($my_item_slot, $weapon_slots) and $my_defindex > 30 and ($my_defindex < 190 or $my_defindex > 212)) {
+    if ($my_craft_class == "weapon" and $my_defindex > 30 and ($my_defindex < 190 or $my_defindex > 212)) {
       if (in_array($my_item_name, $PROMO_WEAPONS_DICT) or ($my_quality != $vintage_quality and $my_quality != $normal_quality)) {
         continue;
       }
