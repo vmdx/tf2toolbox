@@ -622,8 +622,8 @@ else {
   <?php
   require('footer.php');
   ?>
-<?php require("google_analytics.php") ?>
-</body>
+  
+<?php require("google_analytics.php") ?></body>
 </html>
 
 
