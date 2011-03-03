@@ -1,0 +1,17 @@
+.about_title {
+	font-family: TFBuild;
+	color: #ffffff;
+	text-shadow: black 0.2em 0.2em 0.2em;
+	display: block;
+	margin-top: 20px;
+	margin-left: 10px;
+	text-decoration: underline;
+}
+
+p {
+	color: #dddddd;
+	text-shadow: black 0.1em 0.1em 0.2em;
+	padding-left: 15px;
+	width: 800px;
+	font-size:14px;
+}
