@@ -38,12 +38,13 @@
       </div>
       <div id="checkboxes">
 
-        <div class="checkbox_column checkbox_column_extra_wide">
+        <!-- <div class="checkbox_column checkbox_column_extra_wide">
           <span class="checkbox_title">Options:</span>
-          <input type="radio" name="weapon_use" value="smart" checked>Keep one of each weapon on selected pages<br />
-          <input type="radio" name="weapon_use" value="all">Use all weapons on selected pages<br />
+          <input type="checkbox" name="weapon_use[]" value="smart" checked>Keep all named, described, and off-level weapons<br />
+          <input type="checkbox" name="weapon_use[]" value="all" checked>Keep all vintage weapons<br />
+          <input type="checkbox" name="weapon_use[]" value="smart" checked>Keep at least one of each weapon<br />
           <br />
-        </div>
+        </div> -->
         
         <div class="checkbox_column">
           <span class="checkbox_title">Pages to Search:</span>
@@ -51,7 +52,6 @@
           <input type="checkbox" name="pages[]" value="1">1<br />
           <input type="checkbox" name="pages[]" value="2">2<br />
           <input type="checkbox" name="pages[]" value="3">3<br />
-
         </div>
         
         <div class="checkbox_column">
@@ -61,11 +61,19 @@
           <input type="checkbox" name="pages[]" value="6">6<br />
         </div>
         
+        <div class="checkbox_column checkbox_column_extra_wide">
+          <span class="checkbox_title">Notes:</span>
+          <ul>
+            <li>Weapons will be split into special, vintage, and normal weapons.</li><br/>
+            <li>Special weapons are ones with custom names, custom descriptions, or non-standard levels.</li>
+          </ul>
+        </div>
+        
       </div>
       
       <?php
       if(!empty($_SESSION['steamID'])) {
-        echo '<input type="submit" id="lookup_submit" value="Not yet done :(" disabled/>'; 
+        echo '<input type="submit" id="lookup_submit" value="Go!"/>'; 
       }
       else {
         echo '<input type="submit" style="color:#bbbbbb" id="lookup_submit" value="Please lookup an user first." disabled/>';

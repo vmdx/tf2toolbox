@@ -25,8 +25,8 @@ $username = $_SESSION['username'];
 
 // Call Steam API
 $backpack_url = "http://api.steampowered.com/ITFItems_440/GetPlayerItems/v0001/?SteamID=".$steamID."&key=74EA34072E00ED29B92691B6F929F590";
-/* Evil Mav's backpack 76561197995771543*/
-//$backpack_url = "http://api.steampowered.com/ITFItems_440/GetPlayerItems/v0001/?SteamID=76561197995771543&key=74EA34072E00ED29B92691B6F929F590";
+/* Evil Mav's backpack 76561197961814215*/
+//$backpack_url = "http://api.steampowered.com/ITFItems_440/GetPlayerItems/v0001/?SteamID=76561197961814215&key=74EA34072E00ED29B92691B6F929F590";
 
 $schema_url = "http://api.steampowered.com/ITFItems_440/GetSchema/v0001/?key=74EA34072E00ED29B92691B6F929F590&language=en";
 

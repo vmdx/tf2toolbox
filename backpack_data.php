@@ -74,8 +74,18 @@ $EFFECT_MAP = array(
   19 => "Hearts"
 );
 
-$TOOL_MAP = array(
-  "Haunted Metal Scrap" => "[color=#8650AC]Haunted Metal Scrap[/color]"
+$WEAPON_LEVEL_MAP = array(
+  
+  1 => array("Buffalo Steak Sandvich", "Dalokohs Bar", "Direct Hit", "Normal items", "Rocket Jumper", "Sandvich", "Shortstop", "Sticky Jumper", "Sydney Sleeper", "Your Eternal Reward"),
+  5 => array("Ambassador", "Black Box", "Big Kill", "Blutsauger", "Bonk! Atomic Punch", "Brass Beast", "Buff Banner", "Bushwacka", "Claidheamh Mòr", "Cloak and Dagger", "Crit-a-Cola", "Dead Ringer", "Enthusiast's Timepiece", "Eyelander", "Frontier Justice", "Frying Pan", "Homewrecker", "Iron Curtain", "Jarate", "L'Etranger", "Lugermorph", "Mad Milk", "Natascha", "Pain Train", "Powerjack", "Scotsman's Skullcutter", "Scottish Resistance", "Tribalman's Shiv", "Vita-Saw", "Wrangler"),
+  7 => array("Killing Gloves of Boxing"),
+  8 => array("Kritzkrieg"),
+  10 => array("Axtinguisher", "Backburner", "Back Scratcher", "Battalion's Backup", "Chargin' Targe", "Darwin's Danger Shield", "Degreaser", "Equalizer", "Fists of Steel", "Flare Gun", "Force-A-Nature", "Gloves of Running Urgently", "Gunboats", "Huntsman", "Loch-n-Load", "Razorback", "Sharpened Volcano Fragment", "Sun-on-a-Stick", "Ubersaw", "Ullapool Caber", "Warrior's Spirit"),
+  15 => array("Amputator", "Crusader's Crossbow", "Gunslinger", "Jag", "Sandman"),
+  20 => array("Southern Hospitality"),
+  25 => array("Boston Basher", "Candy Cane", "Golden Wrench"),
+  42 => array("Holy Mackerel")
+  
 );
 
 

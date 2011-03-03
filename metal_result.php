@@ -4,19 +4,23 @@ require_once('backpack_lookup_functions.php');
 require_once('backpack_data.php');
 
 // Retrieve POST and SESSION variables.
-$weapon_use = $_POST['weapon_use'];
+//$weapon_use = $_POST['weapon_use'];
 
 $valid_pages = $_POST['pages'];
+$valid_pages = array("all");
 
 $steamID = $_SESSION['steamID'];
-//$steamID = 76561197961814215;
+$steamID = 76561197961814215;
 $avatar = $_SESSION['avatar'];
 $username = $_SESSION['username'];
 
 // Call Steam API
 $backpack_url = "http://api.steampowered.com/ITFItems_440/GetPlayerItems/v0001/?SteamID=".$steamID."&key=74EA34072E00ED29B92691B6F929F590";
 /* Evil Mav's backpack */
-//$backpack_url = "http://api.steampowered.com/ITFItems_440/GetPlayerItems/v0001/?SteamID=76561197961814215&key=74EA34072E00ED29B92691B6F929F590";
+$backpack_url = "http://api.steampowered.com/ITFItems_440/GetPlayerItems/v0001/?SteamID=76561197961814215&key=74EA34072E00ED29B92691B6F929F590";
+/* VMDX's backpack */
+$backpack_url = "http://api.steampowered.com/ITFItems_440/GetPlayerItems/v0001/?SteamID=76561197998913767&key=74EA34072E00ED29B92691B6F929F590";
+
 
 $schema_url = "http://api.steampowered.com/ITFItems_440/GetSchema/v0001/?key=74EA34072E00ED29B92691B6F929F590&language=en";
 
@@ -32,12 +36,14 @@ $item_names = array();
 $item_slots = array();
 $item_classes = array();
 $used_by_classes = array();
+$image_urls = array();
 
 foreach ( $schema->{"result"}->{"items"}->{"item"} as $entry ) {
   $item_names[$entry->{"defindex"}] = $entry->{"item_name"};
   $item_slots[$entry->{"defindex"}] = $entry->{"item_slot"};
   $item_classes[$entry->{"defindex"}] = $entry->{"item_class"};
   $used_by_classes[$entry->{"defindex"}] = $entry->{"used_by_classes"}->{"class"};
+  $image_urls[$entry->{"defindex"}] = $entry->{"image_url"};
 }
 
 /* TF2 Schema specific setup. Dictionaries, definition maps, etc. */
@@ -45,27 +51,43 @@ $vintage_quality = $schema->{"result"}->{"qualities"}->{"vintage"};
 $normal_quality = $schema->{"result"}->{"qualities"}->{"unique"};
 
 /* Inventory setup: special weapons contain all off-level, named, and described weapons */
-$scout_weapons = array("SPECIAL_WEAPONS" => array(), "VINTAGE_WEAPONS" => array(), "WEAPONS" => array());
-$soldier_weapons = array("SPECIAL_WEAPONS" => array(), "VINTAGE_WEAPONS" => array(), "WEAPONS" => array());
-$pyro_weapons = array("SPECIAL_WEAPONS" => array(), "VINTAGE_WEAPONS" => array(), "WEAPONS" => array());
-$demoman_weapons = array("SPECIAL_WEAPONS" => array(), "VINTAGE_WEAPONS" => array(), "WEAPONS" => array());
-$heavy_weapons = array("SPECIAL_WEAPONS" => array(), "VINTAGE_WEAPONS" => array(), "WEAPONS" => array());
-$engineer_weapons = array("SPECIAL_WEAPONS" => array(), "VINTAGE_WEAPONS" => array(), "WEAPONS" => array());
-$medic_weapons = array("SPECIAL_WEAPONS" => array(), "VINTAGE_WEAPONS" => array(), "WEAPONS" => array());
-$sniper_weapons = array("SPECIAL_WEAPONS" => array(), "VINTAGE_WEAPONS" => array(), "WEAPONS" => array());
-$spy_weapons = array("SPECIAL_WEAPONS" => array(), "VINTAGE_WEAPONS" => array(), "WEAPONS" => array());
-$multi_class_weapons = array("SPECIAL_WEAPONS" => array(), "VINTAGE_WEAPONS" => array(), "WEAPONS" => array());
+$all_weapons = array(
+  "Scout" => array("SPECIAL_WEAPONS" => array(), "VINTAGE_WEAPONS" => array(), "WEAPONS" => array()),
+  "Soldier" => array("SPECIAL_WEAPONS" => array(), "VINTAGE_WEAPONS" => array(), "WEAPONS" => array()),
+  "Pyro" => array("SPECIAL_WEAPONS" => array(), "VINTAGE_WEAPONS" => array(), "WEAPONS" => array()),
+  "Demoman" => array("SPECIAL_WEAPONS" => array(), "VINTAGE_WEAPONS" => array(), "WEAPONS" => array()),
+  "Heavy" => array("SPECIAL_WEAPONS" => array(), "VINTAGE_WEAPONS" => array(), "WEAPONS" => array()),
+  "Engineer" => array("SPECIAL_WEAPONS" => array(), "VINTAGE_WEAPONS" => array(), "WEAPONS" => array()),
+  "Medic" => array("SPECIAL_WEAPONS" => array(), "VINTAGE_WEAPONS" => array(), "WEAPONS" => array()),
+  "Sniper" => array("SPECIAL_WEAPONS" => array(), "VINTAGE_WEAPONS" => array(), "WEAPONS" => array()),
+  "Spy" => array("SPECIAL_WEAPONS" => array(), "VINTAGE_WEAPONS" => array(), "WEAPONS" => array()),
+  "MultiClass" => array("SPECIAL_WEAPONS" => array(), "VINTAGE_WEAPONS" => array(), "WEAPONS" => array())
+);
 
 $tokens = array();
 
 $metals = array();
 
-$crates = array();
-
 $weapon_slots = array("primary", "secondary", "melee", "pda", "pda2");
 
 $mask = 0xFFFF;   // Get the first word in the inventory token -> corresponds to inventory slot.
 
+/* Keep track of all seen weapons. */
+$seen_weapons = array(
+  "Scout" => array(),
+  "Soldier" => array(),
+  "Pyro" => array(),
+  "Demoman" => array(),
+  "Heavy" => array(),
+  "Engineer" => array(),
+  "Medic" => array(),
+  "Sniper" => array(),
+  "Spy" => array(),
+  "MultiClass" => array()
+);
+
+/* Keep track of image - display name map */
+$weapon_to_image_map = array();
 
 if(isset($steamID)) {
   foreach ( $backpack->{"result"}->{"items"}->{"item"} as $inv_entry ) {
@@ -75,7 +97,7 @@ if(isset($steamID)) {
     $my_item_name = $item_names[$my_defindex];
     $my_item_slot = $item_slots[$my_defindex];
     $my_item_class = $item_classes[$my_defindex];
-    $my_use_class = implode("+", $used_by_classes[$my_defindex]);
+    $my_image = $image_urls[$my_defindex];
     
     
     $inventory_token = $inv_entry->{"inventory"};
@@ -93,36 +115,91 @@ if(isset($steamID)) {
         continue;
       }
       
-      switch ($my_use_class) {
-        case "Scout":
-          $scout_weapons = set_item_in_class_weapon_array($scout_weapons, $my_item_name, $inv_entry, $my_quality == $vintage_quality, !in_array($my_item_name, $WEAPON_LEVEL_MAP[$inv_entry->{"level"}]));
-          break;
-        case "Soldier":
-          $soldier_weapons = set_item_in_class_weapon_array($soldier_weapons, $my_item_name, $inv_entry, $my_quality == $vintage_quality, !in_array($my_item_name, $WEAPON_LEVEL_MAP[$inv_entry->{"level"}]));
-          break;
-        case "Pyro":
-          $pyro_weapons = set_item_in_class_weapon_array($pyro_weapons, $my_item_name, $inv_entry, $my_quality == $vintage_quality, !in_array($my_item_name, $WEAPON_LEVEL_MAP[$inv_entry->{"level"}]));
-          break;
-        case "Demoman":
-          $demoman_weapons = set_item_in_class_weapon_array($demoman_weapons, $my_item_name, $inv_entry, $my_quality == $vintage_quality, !in_array($my_item_name, $WEAPON_LEVEL_MAP[$inv_entry->{"level"}]));
-          break;
-        case "Heavy":
-          $heavy_weapons = set_item_in_class_weapon_array($heavy_weapons, $my_item_name, $inv_entry, $my_quality == $vintage_quality, !in_array($my_item_name, $WEAPON_LEVEL_MAP[$inv_entry->{"level"}]));
-          break;
-        case "Engineer":
-          $engineer_weapons = set_item_in_class_weapon_array($engineer_weapons, $my_item_name, $inv_entry, $my_quality == $vintage_quality, !in_array($my_item_name, $WEAPON_LEVEL_MAP[$inv_entry->{"level"}]));
-          break;
-        case "Medic":
-          $medic_weapons = set_item_in_class_weapon_array($medic_weapons, $my_item_name, $inv_entry, $my_quality == $vintage_quality, !in_array($my_item_name, $WEAPON_LEVEL_MAP[$inv_entry->{"level"}]));
-          break;
-        case "Sniper":
-          $sniper_weapons = set_item_in_class_weapon_array($sniper_weapons, $my_item_name, $inv_entry, $my_quality == $vintage_quality, !in_array($my_item_name, $WEAPON_LEVEL_MAP[$inv_entry->{"level"}]));
-          break;
-        case "Spy":
-          $spy_weapons = set_item_in_class_weapon_array($spy_weapons, $my_item_name, $inv_entry, $my_quality == $vintage_quality, !in_array($my_item_name, $WEAPON_LEVEL_MAP[$inv_entry->{"level"}]));
-          break;
-        default:
-          break;
+      /* Fill the image map. */
+      if (!isset($weapon_to_image_map[$my_item_name])) {
+        $weapon_to_image_map[$my_item_name] = $my_image;
+      }
+      
+      /* Check for special weapons (named, descd, offlevel) */
+      $special = false;
+      $special_info = "";
+      
+      /* Array choice: which array in weapons to go to, SPECIAL_WEAPONS, VINTAGE_WEAPONS, or WEAPONS
+         Display name: the display name of the weapon: Vintage if needed, custom if needed. */
+      if ($my_quality == $vintage_quality) {
+        $array_choice = "VINTAGE_WEAPONS";
+        $display_name = "Vintage ".$my_item_name;
+      }
+      else {
+        $array_choice = "WEAPONS";
+        $display_name = $my_item_name;
+      }
+      
+      /* Custom name + desc check */
+      if ($inv_entry->{"custom_name"}) {
+        $special_info = $display_name;
+        $display_name = $inv_entry->{"custom_name"};
+        $special = true;
+      }
+      
+      if ($inv_entry->{"custom_desc"}) {
+        $custom_desc = $inv_entry->{"custom_desc"};
+        $special = true;
+        if ($special_info != "") {
+          $special_info = $special_info.", ";
+        }
+        $special_info = $special_info."Description: '".$custom_desc."'";
+      }
+      else {
+        $custom_desc = "";
+      }
+      
+      /* Level -1 if standard, offlevel if offlevel. */
+      if (!$WEAPON_LEVEL_MAP[$inv_entry->{"level"}] or !in_array($my_item_name, $WEAPON_LEVEL_MAP[$inv_entry->{"level"}])) {
+        $level = $inv_entry->{"level"};
+        $special = true;
+        if ($special_info != "") {
+          $special_info = $special_info.", ";
+        }
+        $special_info = $special_info."Level ".$level;
+      }
+      else {
+        $level = -1;
+      }
+      
+      /* Add the special info to the display name. */
+      if ($special) {
+        $array_choice = "SPECIAL_WEAPONS";
+        $display_name = $display_name." (".$special_info.")";
+      }
+      
+      /* Only look up use class for weapons. */
+      if(count($used_by_classes[$my_defindex]) > 1) {
+        $my_use_class = "MultiClass";
+      }
+      else if (count($used_by_classes[$my_defindex]) == 1) {
+        $my_use_class = $used_by_classes[$my_defindex][0];
+      }
+      
+      /* Mark that we've seen the weapon. */
+      if (!in_array($my_item_name, $seen_weapons[$my_use_class])) {
+        array_push($seen_weapons[$my_use_class], $my_item_name);
+      }
+       
+      /* Put stuff into our all_weapons array. */
+      if ($array_choice == "SPECIAL_WEAPONS") {
+        /* Create the weapon entry. */
+        $entry = array(
+          "display_name" => $display_name,
+          "image" => $my_image,
+          "slot" => $my_item_slot,
+          "level" => $level,
+          "custom_desc" => $custom_desc
+        );
+        array_push($all_weapons[$my_use_class][$array_choice], $entry);
+      }
+      else {
+        $all_weapons[$my_use_class][$array_choice] = set_item_in_array($all_weapons[$my_use_class][$array_choice], $my_item_name);
       }
 
     }
@@ -138,6 +215,7 @@ if(isset($steamID)) {
     }
 
   }
+  
 }
 ?>
 
@@ -171,17 +249,105 @@ if(isset($steamID)) {
   <div id="content">
    
     <div id="metal_output">
+      
+      <div id="class_avatars">
+        <span class="class_avatar" style="background-image:url('media/class_avatars/scout.png');">Scout</span>
+        <span class="class_avatar" style="background-image:url('media/class_avatars/soldier.png');">Soldier</span>
+        <span class="class_avatar" style="background-image:url('media/class_avatars/pyro.png');">Pyro</span>
+        <span class="class_avatar" style="background-image:url('media/class_avatars/demoman.png');">Demoman</span>
+        <span class="class_avatar" style="background-image:url('media/class_avatars/heavy.png');">Heavy</span>
+        <span class="class_avatar" style="background-image:url('media/class_avatars/engineer.png');">Engineer</span>
+        <span class="class_avatar" style="background-image:url('media/class_avatars/medic.png');">Medic</span>
+        <span class="class_avatar" style="background-image:url('media/class_avatars/sniper.png');">Sniper</span>
+        <span class="class_avatar" style="background-image:url('media/class_avatars/spy.png');">Spy</span>
+        <span class="class_avatar" style="background-image:url('media/class_avatars/multiclass.png');">Multiple</span>     
+      </div>
+
+      <div class="cross_column_title">
+        <span class="vintage">Vintage</span><span style="color: #dddddd;"> & </span><span class="normal">Normal</span><span style="color: #dddddd;"> Weapons</span>
+      </div>
+      
+<?php
+  $all_classes = array("Scout", "Soldier", "Pyro", "Demoman", "Heavy", "Engineer", "Medic", "Sniper", "Spy", "MultiClass");
+  foreach ($all_classes as $class) {
+    echo "      <div class=\"class_column\">\n";
+    foreach ($seen_weapons[$class] as $seen_weapon) {
+      if (!isset($all_weapons[$class]["VINTAGE_WEAPONS"][$seen_weapon]) and !isset($all_weapons[$class]["WEAPONS"][$seen_weapon])) {
+        continue;
+      }
+      echo "        <div class=\"weapon_entry\">\n";
+      echo "          <img class=\"weapon_image\" src=\"".$weapon_to_image_map[$seen_weapon]."\" alt=\"\">\n";
+      
+      if (isset($all_weapons[$class]["VINTAGE_WEAPONS"][$seen_weapon]) and isset($all_weapons[$class]["WEAPONS"][$seen_weapon])) {
+        echo "          <span class=\"quantity q_double q_x\">x</span><span class=\"quantity q_double q_num vintage\">".$all_weapons[$class]["VINTAGE_WEAPONS"][$seen_weapon]."</span>\n";
+        echo "          <span class=\"quantity q_double q_x\">x</span><span class=\"quantity q_double q_num normal\">".$all_weapons[$class]["WEAPONS"][$seen_weapon]."</span>\n";
+      }
+      
+      else if (isset($all_weapons[$class]["VINTAGE_WEAPONS"][$seen_weapon])) {
+                echo "          <span class=\"quantity q_single q_x\">x</span><span class=\"quantity q_single q_num vintage\">".$all_weapons[$class]["VINTAGE_WEAPONS"][$seen_weapon]."</span>\n";
+      }
+      
+      else if (isset($all_weapons[$class]["WEAPONS"][$seen_weapon])) {
+        echo "          <span class=\"quantity q_single q_x\">x</span><span class=\"quantity q_single q_num normal\">".$all_weapons[$class]["WEAPONS"][$seen_weapon]."</span>\n";        
+      }
+      
+      echo "        </div>\n";
+    }
+    echo "      </div>\n";
+  }
+?>
+
+      <div class="cross_column_title">
+        <span class="special">Special Weapons</span>
+      </div>
+
+<?php
+  foreach ($all_classes as $class) {
+    echo "      <div class=\"class_column\">\n";
+    foreach ($all_weapons[$class]["SPECIAL_WEAPONS"] as $special_weapon) {
+      echo "        <img class=\"weapon_image spec_wep\" src=\"".$special_weapon["image"]."\" alt=\"".$special_weapon["display_name"]."\">\n";
+    }
+    echo "<br/>\n";
+    echo "      </div>\n";
+  }
+?>
 
     </div>
-
+    <div class="clearbar"></div>
     
   </div>
   
   <?php
   require('footer.php');
   ?>
-<?php require("google_analytics.php") ?>
-</body>
+
+<script type="text/javascript" src="javascript/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="javascript/jquery.qtip-1.0.0-rc3.js"></script>
+<script>
+$(document).ready(function() {
+
+    /* Create tooltips for every single item on mouseover. */
+    $(".spec_wep").each( function(i) {
+      var data = $(this).attr('alt');
+      if (data !== "") {
+        $(this).qtip({
+          content: data,
+          position: { target: 'mouse'},
+          show: { delay: 0, effect: {length: 0} },
+          hide: { delay: 0, effect: {length: 0} },
+          style: {
+            textAlign: 'center',
+            name: 'dark',
+            'font-size': 14,
+            'font-family': 'Verdana'
+          }
+        });
+      }
+    }); 
+})
+</script>
+
+<?php require("google_analytics.php") ?></body>
 </html>
 
 
