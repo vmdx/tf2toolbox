@@ -304,12 +304,12 @@ if(isset($steamID)) {
   $all_classes = array("Scout", "Soldier", "Pyro", "Demoman", "Heavy", "Engineer", "Medic", "Sniper", "Spy", "MultiClass");
   foreach ($all_classes as $class) {
     echo "        <div class=\"class_column\">\n";
-    $set_weapon = false;
+    $set_weapon = "no";
     foreach ($seen_weapons[$class] as $seen_weapon) {
       if (!isset($all_weapons[$class]["VINTAGE_WEAPONS"][$seen_weapon]) and !isset($all_weapons[$class]["WEAPONS"][$seen_weapon])) {
         continue;
       }
-      $set_weapon = true;
+      $set_weapon = "yes";
       echo "          <div class=\"weapon_entry\">\n";
       echo "            <img class=\"weapon_image\" src=\"".$weapon_to_image_map[$seen_weapon]."\" alt=\"".$seen_weapon."\">\n";
       
@@ -325,7 +325,7 @@ if(isset($steamID)) {
       else if (isset($all_weapons[$class]["WEAPONS"][$seen_weapon])) {
         echo "            <span class=\"quantity q_single q_x\">x</span><span class=\"quantity q_single q_num normal\">".$all_weapons[$class]["WEAPONS"][$seen_weapon]."</span>\n";        
       }
-      if (!$set_weapon) {
+      if ($set_weapon == "no") {
         echo "          <br/>";
       }
       echo "          </div>\n";
