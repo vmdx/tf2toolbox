@@ -59,6 +59,9 @@ if (isset($url_field)) {
         if ($currentFile == "bbcode_result.php") {
           $currentFile = "bbcode_lookup.php";
         }
+        if ($currentFile == "metal_result.php") {
+          $currentFile = "metal_lookup.php";
+        }
         
         echo '
         <form id="signin_form" action="'.$currentFile.'" method="post">

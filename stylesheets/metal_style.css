@@ -78,6 +78,52 @@
 	width: 1400px;
 }
 
+#weapon_content {
+	width: 1160px;
+	float:left;
+}
+
+#statistics {
+	padding-top: 30px;
+	width: 240px;
+	height: 800px;
+	float:left;
+}
+
+.stat_title {
+	font-size: 18px;
+	font-family: TFBuild;
+	text-decoration: underline;
+	text-align:center;
+	color: #ffefae;
+	text-shadow: black 0.1em 0.1em 0.1em;
+	display: block;
+}
+
+.stat {
+	font-size: 13px;
+	font-family: TFBuild;
+	text-align:center;
+	color: white;
+	text-shadow: black 0.1em 0.1em 0.2em;
+	display: block;
+	margin-bottom:10px;
+}
+
+.subtitle {
+	font-size: 15px;
+	text-decoration: underline;
+}
+
+.subsubtitle {
+	font-size: 14px;
+}
+
+#stat_notes * {
+	font-size: 12px;
+	color: white;
+}
+
 .class_column {
 	width: 100px;
 	padding-left: 8px;
@@ -110,6 +156,20 @@
 }
 .normal {
 	color: #FFD700;
+}
+.unique {
+	color: #ffba82;
+}
+.plain {
+	color:#e9e9e9;
+}
+.white {
+	color:white;
+}
+
+.scrap_metal_pic {
+	width: 50px;
+	height: 38px;
 }
 
 .weapon_entry {
@@ -151,6 +211,47 @@
 .q_num {
 	width: 40px;
 	font-size: 18px;
+}
+
+#calculations {
+	clear:both;
+	width: 1150px;
+	height: 140px;
+	margin-top:10px;
+}
+
+.center {
+	text-align: center;
+}
+
+.calc {
+	font-family: TFBuild;
+	font-size: 18px;
+	text-shadow: black 0.1em 0.1em 0.2em;
+}
+
+.calc_small {
+	font-family: TFBuild;
+	font-size: 12px;
+	text-shadow: black 0.1em 0.1em 0.2em;
+}
+
+.calc_space {
+	padding-top: 10px;
+}
+
+.center_number {
+	display:block;
+	float:left;
+	width:50px;
+	text-align:center;
+	line-height: 38px;
+}
+
+.scrap_metal_pic {
+	float:left;
+	width: 50px;
+	height:38px;
 }
 
 .cross_column_title {

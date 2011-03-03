@@ -64,8 +64,8 @@
         <div class="checkbox_column checkbox_column_extra_wide">
           <span class="checkbox_title">Notes:</span>
           <ul>
-            <li>Weapons will be split into special, vintage, and normal weapons.</li><br/>
-            <li>Special weapons are ones with custom names, custom descriptions, or non-standard levels.</li>
+            <li>Weapons will be split into <span class="special">special</span>, <span class="vintage">vintage</span>, and <span class="normal">normal</span> weapons.</li><br/>
+            <li><span class="special">Special</span> weapons are ones with custom names, custom descriptions, or non-standard levels. These <u>are not</u> included in metal calculations.</li>
           </ul>
         </div>
         
