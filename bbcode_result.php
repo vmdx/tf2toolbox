@@ -173,6 +173,9 @@ if(isset($steamID)) {
         else if ($my_quality == $vintage_quality) {
           $high_promo_hats = set_item_in_array($high_promo_hats, "Vintage ".$my_item_name);
         }
+        else if ($my_quality == $genuine_quality) {
+          $high_promo_hats = set_item_in_array($high_promo_hats, "Genuine ".$my_item_name);
+        }
         else {
           $high_promo_hats = set_item_in_array($high_promo_hats, $my_item_name);
         }

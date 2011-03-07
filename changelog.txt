@@ -1,6 +1,7 @@
 3.7.2011
   - Added check for Genuine items (and Community and Valve and Self-Made)...
-  - Added Dirty/Clean check for UHHH, Voodoo Juju, Spine-Chilling Skull
+  - Added Dirty/Clean check for UHHH, Voodoo Juju, Spine-Chilling Skull.
+  - Added Hero's Hachimaki and Genuine quality check for hats.
 
 3.3.2011
   - Fixed a bug with primary and secondary slot tokens being classified

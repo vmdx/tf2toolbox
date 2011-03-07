@@ -14,7 +14,7 @@ $PROMO_HATS_DICT = array(
 
 $HIGH_PROMO_HATS_DICT = array(
   "Bill's Hat", "Max's Severed Head", "Hat of Undeniable Wealth And Respect", "Earbuds", "Voodoo Juju", "Spine-Chilling Skull",
-  "Gentle Manne's Service Medal"
+  "Gentle Manne's Service Medal", "Hero's Hachimaki"
 );
 
 $POLYCOUNT_SET_HATS_DICT = array(
