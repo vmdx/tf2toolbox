@@ -108,6 +108,16 @@ if(isset($steamID)) {
     $my_inventory_slot = (int)$inventory_token & $mask;
     $my_inventory_page = floor(($my_inventory_slot - 1) / 50) + 1;
     
+    $is_gifted = false;
+    if ($inv_entry->{"attributes"}->{"attribute"}) {
+      foreach($inv_entry->{"attributes"}->{"attribute"} as $attr) {
+        if ($attr->{"defindex"} == 186) { //gifted
+          $is_gifted = true;
+          break;
+        } 
+      }
+    }
+    
     /* Skip invalid pages */
     if (!in_array("all", $valid_pages) and !in_array($my_inventory_page, $valid_pages)) {
       continue;
@@ -134,12 +144,25 @@ if(isset($steamID)) {
       }
       else if ($my_quality == $unusual_quality and $my_item_name == "Horseless Headless Horsemann's Headtaker") {
         $axe_name = "Unusual Horseless Headless Horsemann's Headtaker";
-        if ($inv_entry->{"flag_cannot_trade"}) {
-          $weapons = set_item_in_array($weapons, "[/color][color=#8650AC]Dirty ".$axe_name);
+        $suffix = "";
+        if ($inv_entry->{"flag_cannot_trade"} or $is_gifted) {
+          $axe_name = "Dirty ".$axe_name;
+          $suffix = "[/color][color=#FFFFFF] (";
         }
         else {
-          $weapons = set_item_in_array($weapons, "[/color][color=#8650AC]Clean ".$axe_name);
+          $axe_name = "Clean ".$axe_name;
         }
+
+        if ($inv_entry->{"flag_cannot_trade"} and $is_gifted) {
+          $suffix = $suffix."Untradeable, Gifted)";
+        }
+        else if ($inv_entry->{"flag_cannot_trade"}) {
+          $suffix = $suffix."Untradeable)";
+        }
+        else if ($is_gifted) {
+          $suffix = $suffix."Gifted)";
+        }
+        $weapons = set_item_in_array($weapons, "[/color][color=#8650AC]".$axe_name.$suffix);
       }
     }
 
@@ -163,8 +186,22 @@ if(isset($steamID)) {
           $high_promo_hats = set_item_in_array($high_promo_hats, $my_item_name." (#".$inv_entry->{"attributes"}->{"attribute"}[0]->{"value"}.")");
         }
         else if ($my_item_name == "Voodoo Juju" || $my_item_name == "Spine-Chilling Skull") {
-          if ($inv_entry->{"flag_cannot_trade"}) {
-            $high_promo_hats = set_item_in_array($high_promo_hats, "Dirty ".$my_item_name);
+          $suffix = "";
+          if ($inv_entry->{"flag_cannot_trade"} or $is_gifted) {
+            $suffix = "[/color][color=#FFFFFF] (";
+          }
+          if ($inv_entry->{"flag_cannot_trade"} and $is_gifted) {
+            $suffix = $suffix."Untradeable, Gifted)";
+          }
+          else if ($inv_entry->{"flag_cannot_trade"}) {
+            $suffix = $suffix."Untradeable)";
+          }
+          else if ($is_gifted) {
+            $suffix = $suffix."Gifted)";
+          }
+
+          if ($inv_entry->{"flag_cannot_trade"} or $is_gifted) {
+            $high_promo_hats = set_item_in_array($high_promo_hats, "Dirty ".$my_item_name.$suffix);
           }
           else {
             $high_promo_hats = set_item_in_array($high_promo_hats, "Clean ".$my_item_name);
