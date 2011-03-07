@@ -133,11 +133,12 @@ if(isset($steamID)) {
         $weapons = set_item_in_array($weapons, $my_item_name);
       }
       else if ($my_quality == $unusual_quality and $my_item_name == "Horseless Headless Horsemann's Headtaker") {
-        if(isset($weapons["UHHH Axe"])) {
-          $weapons["UHHH Axe"] += 1;
+        $axe_name = "Unusual Horseless Headless Horsemann's Headtaker";
+        if ($inv_entry->{"flag_cannot_trade"}) {
+          $weapons = set_item_in_array($weapons, "[/color][color=#8650AC]Dirty ".$axe_name);
         }
         else {
-          $weapons["UHHH Axe"] = 1;
+          $weapons = set_item_in_array($weapons, "[/color][color=#8650AC]Clean ".$axe_name);
         }
       }
     }
@@ -160,6 +161,14 @@ if(isset($steamID)) {
       else if (in_array($my_item_name, $HIGH_PROMO_HATS_DICT)) {
         if ($my_item_name == "Gentle Manne's Service Medal") {
           $high_promo_hats = set_item_in_array($high_promo_hats, $my_item_name." (#".$inv_entry->{"attributes"}->{"attribute"}[0]->{"value"}.")");
+        }
+        else if ($my_item_name == "Voodoo Juju" || $my_item_name == "Spine-Chilling Skull") {
+          if ($inv_entry->{"flag_cannot_trade"}) {
+            $high_promo_hats = set_item_in_array($high_promo_hats, "Dirty ".$my_item_name);
+          }
+          else {
+            $high_promo_hats = set_item_in_array($high_promo_hats, "Clean ".$my_item_name);
+          }
         }
         else if ($my_quality == $vintage_quality) {
           $high_promo_hats = set_item_in_array($high_promo_hats, "Vintage ".$my_item_name);
