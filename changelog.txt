@@ -1,3 +1,11 @@
+3.7.2011
+  - Added check for Genuine items (and Community and Valve and Self-Made)...
+
+3.3.2011
+  - Fixed a bug with primary and secondary slot tokens being classified
+  as weapons. They have "item_slot" = "primary" and "secondary"...
+  - Added preliminary about page.
+
 3.2.2011
   - Set up subversion. :D
   - Hacked all day, got the Metal Maker implementation done! Statistics could 

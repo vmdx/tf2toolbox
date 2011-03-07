@@ -10,7 +10,7 @@
 }
 
 .tools_title {
-	font-family: TFBuild;
+	font-family: TFBuild, Verdana;
 	color: #ffffff;
 	text-shadow: black 0.2em 0.2em 0.2em;
 	display: block;
@@ -37,7 +37,7 @@
 
 .tool_title {
 	float:left;
-	font-family: TFBuild;
+	font-family: TFBuild, Verdana;
 	font-size: 16px;
 	text-shadow: black 0.2em 0.2em 0.2em;
 	display: block;

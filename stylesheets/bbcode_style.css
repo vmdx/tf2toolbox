@@ -22,7 +22,7 @@
 
 .checkbox_title {
 	font-size: 14px;
-	font-family: TFBuild;
+	font-family: TFBuild, Verdana;
 	text-decoration: underline;
 	text-align:left;
 	color: #9ea3f0;
@@ -32,7 +32,7 @@
 }
 
 #lookup_submit {
-	font-family:TFBuild;
+	font-family:TFBuild, Verdana;
 	font-size:20px;
 	position: relative;
 	left: 400px;
@@ -58,7 +58,7 @@
 }
 
 #tool_name {
-	font-family: TFBuild;
+	font-family: TFBuild, Verdana;
 	font-size: 20px;
 	color: #9ea3f0;
 	text-shadow: black 0.2em 0.2em 0.2em;
@@ -87,7 +87,7 @@
 
 #bbcode_status_display {
 	font-size: 16px;
-	font-family: TFBuild;
+	font-family: TFBuild, Verdana;
 	text-decoration: underline;
 	text-align:left;
 	color: #ffffff;
@@ -105,7 +105,7 @@
 	padding: 10px 0px;
 }
 #retry_button {
-	font-family:TFBuild;
+	font-family:TFBuild, Verdana;
 	font-size:16px;
 }
 

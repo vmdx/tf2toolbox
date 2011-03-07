@@ -4,6 +4,22 @@ require_once('backpack_lookup_functions.php');
 require_once('backpack_data.php');
 
 // Retrieve POST and SESSION variables.
+/* 
+// Form saving code for SESSION.
+<?php
+$check_vals = array("u_hats" => "Unusual Hats", "v_hats" => "Vintage Hats", 
+                    "hats" => "Normal Hats", "v_weps" => "Vintage Weapons", "weps" => "Normal Weapons");
+
+foreach($check_vals as $key => $value) {
+  if (isset($_SESSION['bbcode_form'][$key]) and $_SESSION['bbcode_form'][$key])
+}
+
+foreach($_POST as $key => $value) {
+  $_SESSION['bbcode_form'][$key] = $value;
+}
+
+?>*/
+
 $show_u_hats = $_POST['u_hats'];
 $show_v_hats = $_POST['v_hats'];
 $show_hats = $_POST['hats'];
@@ -52,6 +68,7 @@ foreach ( $schema->{"result"}->{"items"}->{"item"} as $entry ) {
 $vintage_quality = $schema->{"result"}->{"qualities"}->{"vintage"};
 $normal_quality = $schema->{"result"}->{"qualities"}->{"unique"};
 $unusual_quality = $schema->{"result"}->{"qualities"}->{"rarity4"};
+$genuine_quality = $schema->{"result"}->{"qualities"}->{"rarity1"};
 
 /* Inventory setup */
 $promo_weapons = array();
@@ -105,6 +122,9 @@ if(isset($steamID)) {
         else {
           $promo_weapons = set_item_in_array($promo_weapons, $my_item_name);
         }
+      }
+      else if ($my_quality == $genuine_quality) {
+        $promo_weapons = set_item_in_array($promo_weapons, "Genuine ".$my_item_name);
       }
       else if ($my_quality == $vintage_quality) {
         $vintage_weapons = set_item_in_array($vintage_weapons, $my_item_name);

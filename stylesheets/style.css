@@ -21,7 +21,7 @@ html, body {
 
 /* Default font-family */
 * {
-	font-family: TFSec, "Myriad Pro", "Myriad", sans-serif;
+	font-family: TFSec, sans-serif;
 }
 
 /* Header styling*/
@@ -56,7 +56,7 @@ html, body {
 }
 
 #banner_text {
-	font-family: TFBuild;
+	font-family: TFBuild, Verdana;
 	font-size: 26px;
 	color: #ffefae;
 	float: left;
@@ -70,7 +70,7 @@ html, body {
 	float: right;
 	width: 500px;
 	height: 90px;
-	font-family: TFBuild;
+	font-family: TFBuild, Verdana;
 	color: white;
 	margin-top: 10px;
 	margin-right: 10px;
@@ -80,7 +80,7 @@ html, body {
 }
 
 #current_user a {
-	font-family: TFBuild;
+	font-family: TFBuild, Verdana;
 	text-decoration: none;
 }
 
@@ -148,7 +148,7 @@ html, body {
 }
 
 #header_toolbar_table * {
-	font-family: TFBuild;
+	font-family: TFBuild, Verdana;
 	text-decoration: none;
 	font-size: 14px;
 }

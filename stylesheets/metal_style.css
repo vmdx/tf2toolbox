@@ -24,7 +24,7 @@
 
 .checkbox_title {
 	font-size: 14px;
-	font-family: TFBuild;
+	font-family: TFBuild, Verdana;
 	text-decoration: underline;
 	text-align:left;
 	color: #a6a9b8;
@@ -34,7 +34,7 @@
 }
 
 #lookup_submit {
-	font-family:TFBuild;
+	font-family:TFBuild, Verdana;
 	font-size:20px;
 	position: relative;
 	left: 300px;
@@ -60,7 +60,7 @@
 }
 
 #tool_name {
-	font-family: TFBuild;
+	font-family: TFBuild, Verdana;
 	font-size: 20px;
 	color: #a6a9b8;
 	text-shadow: black 0.2em 0.2em 0.2em;
@@ -92,7 +92,7 @@
 
 .stat_title {
 	font-size: 18px;
-	font-family: TFBuild;
+	font-family: TFBuild, Verdana;
 	text-decoration: underline;
 	text-align:center;
 	color: #ffefae;
@@ -102,7 +102,7 @@
 
 .stat {
 	font-size: 13px;
-	font-family: TFBuild;
+	font-family: TFBuild, Verdana;
 	text-align:center;
 	color: white;
 	text-shadow: black 0.1em 0.1em 0.2em;
@@ -136,7 +136,7 @@
 	float: left;
 	margin-left: 8px;
 	margin-right: 7px;
-	font-family: TFBuild;
+	font-family: TFBuild, Verdana;
 	font-size: 16px;
 	color: #ffefae;
 	text-shadow: black 0.1em 0.1em 0.2em, -0.1em -0.1em 0.2em black, -0.1em 0.1em 0.2em black, 0.1em -0.1em 0.2em black;
@@ -188,7 +188,7 @@
 .quantity {
 	display:block;
 	float:left;
-	font-family: TFBuild;
+	font-family: TFBuild, Verdana;
 	text-shadow: black 0.1em 0.1em 0.2em;
 }
 
@@ -225,13 +225,13 @@
 }
 
 .calc {
-	font-family: TFBuild;
+	font-family: TFBuild, Verdana;
 	font-size: 18px;
 	text-shadow: black 0.1em 0.1em 0.2em;
 }
 
 .calc_small {
-	font-family: TFBuild;
+	font-family: TFBuild, Verdana;
 	font-size: 12px;
 	text-shadow: black 0.1em 0.1em 0.2em;
 }
@@ -263,7 +263,7 @@
 }
 
 .cross_column_title * {
-	font-family: TFBuild;
+	font-family: TFBuild, Verdana;
 	font-size: 16px;
 	text-decoration: underline;
 	text-shadow: black 0.1em 0.1em 0.2em;

@@ -51,6 +51,11 @@ foreach ( $schema->{"result"}->{"items"}->{"item"} as $entry ) {
 /* TF2 Schema specific setup. Dictionaries, definition maps, etc. */
 $vintage_quality = $schema->{"result"}->{"qualities"}->{"vintage"};
 $normal_quality = $schema->{"result"}->{"qualities"}->{"unique"};
+$unusual_quality = $schema->{"result"}->{"qualities"}->{"rarity4"};
+$genuine_quality = $schema->{"result"}->{"qualities"}->{"rarity1"};
+$community_quality = $schema->{"result"}->{"qualities"}->{"community"};
+$selfmade_quality = $schema->{"result"}->{"qualities"}->{"selfmade"};
+$valve_quality = $schema->{"result"}->{"qualities"}->{"developer"};
 
 /* Inventory setup: special weapons contain all off-level, named, and described weapons */
 $all_weapons = array(
@@ -122,9 +127,6 @@ if(isset($steamID)) {
     
     /* Weapons - don't show custom-named stock weapons (defindex 0 through 30, 190 through 212) */
     if ($my_craft_class == "weapon" and $my_defindex > 30 and ($my_defindex < 190 or $my_defindex > 212)) {
-      if (in_array($my_item_name, $PROMO_WEAPONS_DICT) or ($my_quality != $vintage_quality and $my_quality != $normal_quality)) {
-        continue;
-      }
       
       /* Fill the image map. */
       if (!isset($weapon_to_image_map[$my_item_name])) {
@@ -162,7 +164,29 @@ if(isset($steamID)) {
       
       /* Array choice: which array in weapons to go to, SPECIAL_WEAPONS, VINTAGE_WEAPONS, or WEAPONS
          Display name: the display name of the weapon: Vintage if needed, custom if needed. */
-      if ($my_quality == $vintage_quality) {
+      if ($my_quality == $unusual_quality || $my_quality == $genuine_quality || $my_quality == $community_quality || $my_quality == $valve_quality ||
+        $my_quality == $selfmade_quality) {
+        $array_choice = "SPECIAL_WEAPONS";
+        $special = true;
+        
+        if ($my_quality == $unusual_quality) {
+          $display_name = "Unusual ".$my_item_name;
+        }
+        else if ($my_quality == $genuine_quality) {
+          $display_name = "Genuine ".$my_item_name;
+        }
+        else if ($my_quality == $valve_quality) {
+          $display_name = "Valve ".$my_item_name;
+        }
+        else if ($my_quality == $community_quality) {
+          $display_name = "Community ".$my_item_name;
+        }
+        else if ($my_quality == $selfmade_quality) {
+          $display_name = "Self-made ".$my_item_name;
+        }
+        
+      }
+      else if ($my_quality == $vintage_quality) {
         $array_choice = "VINTAGE_WEAPONS";
         $display_name = "Vintage ".$my_item_name;
       }
