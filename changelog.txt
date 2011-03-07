@@ -11,6 +11,7 @@
   - Added Dirty/Clean check for UHHH, Voodoo Juju, Spine-Chilling Skull.
   - Added Hero's Hachimaki and Genuine quality check for hats.
   - Gifted tag for UHHH, Skull, Juju.
+  - Crates now arranged alphabetically.
 
 3.3.2011
   - Fixed a bug with primary and secondary slot tokens being classified

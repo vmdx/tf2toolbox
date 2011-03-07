@@ -578,6 +578,7 @@ if ($show_tools == "True") {
 if ($show_crates == "True") {
   echo "[b][u]Crates For Trade[/b][/u][list]\n";
 
+  ksort($crates); // Sort crates array by keys.
   foreach ( array_keys($crates) as $crate ) {
     echo "[*][b]";    // No color for crates.
 
