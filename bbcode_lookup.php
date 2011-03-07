@@ -55,7 +55,7 @@
 
         <div class="checkbox_column checkbox_column_wide">
           <span class="checkbox_title">Options:</span>
-          <input type="checkbox" name="dup_weps_only" value="True" checked/>Only display duplicate weapons<br />
+          <input type="checkbox" name="dup_weps_only" value="True" />Only display duplicate weapons<br />
           <input type="checkbox" name="display_levels" value="True" disabled/><span style="color: #707070">Display item levels (in development)</span><br />
           <br />
           <!-- <span class="checkbox_title">Output:</span>

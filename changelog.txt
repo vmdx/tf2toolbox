@@ -1,3 +1,12 @@
+-- TODO --
+* Sort hats into classes within categories (all scout hats first, then solly
+  , etc.)
+* Sort crates by number, metal by use, etc.
+* Gifted tag for UHHH, Skull, Juju, maybe everything.
+* Odd level weapons on BBCode.
+
+-- CHANGELOG --
+
 3.7.2011
   - Added check for Genuine items (and Community and Valve and Self-Made)...
   - Added Dirty/Clean check for UHHH, Voodoo Juju, Spine-Chilling Skull.

@@ -126,8 +126,8 @@ if(isset($steamID)) {
     }
     
     /* Weapons - don't show custom-named stock weapons (defindex 0 through 30, 190 through 212) */
-    if ($my_craft_class == "weapon" and $my_defindex > 30 and ($my_defindex < 190 or $my_defindex > 212)) {
-      
+    //if ($my_craft_class == "weapon" and $my_defindex > 30 and ($my_defindex < 190 or $my_defindex > 212)) {
+    if (in_array($my_item_slot, $weapon_slots) and $my_item_class != "slot_token") {
       /* Fill the image map. */
       if (!isset($weapon_to_image_map[$my_item_name])) {
         $weapon_to_image_map[$my_item_name] = $my_image;
