@@ -137,6 +137,10 @@ if(isset($steamID)) {
         $promo_weapons = set_item_in_array($promo_weapons, "Genuine ".$my_item_name);
       }
       else if ($my_quality == $vintage_quality) {
+        /* Offlevel weapon check. */
+        if (!$WEAPON_LEVEL_MAP[$inv_entry->{"level"}] or !in_array($my_item_name, $WEAPON_LEVEL_MAP[$inv_entry->{"level"}])) {
+          $my_item_name = $my_item_name." (Level ".$inv_entry->{"level"}.")";
+        }
         $vintage_weapons = set_item_in_array($vintage_weapons, $my_item_name);
       }
       else if ($my_quality == $normal_quality) {
