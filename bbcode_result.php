@@ -32,6 +32,8 @@ $show_crates = $_POST['crates'];
 
 $dup_weps_only = $_POST['dup_weps_only'];
 
+$display_credit = $_POST['display_credit'];
+
 $valid_pages = $_POST['pages'];
 
 $steamID = $_SESSION['steamID'];
@@ -250,7 +252,7 @@ if(isset($steamID)) {
     }
 
     /* Tools - name/desc tags, slot/class tokens*/
-    else if ($my_item_class == "tool" or $my_item_name == "Duel MiniGame" or $my_item_class == "class_token" or $my_item_class == "slot_token") {
+    else if ($my_item_class == "tool" or $my_item_slot == "action" or $my_item_class == "class_token" or $my_item_class == "slot_token") {
       $tools = set_item_in_array($tools, $my_item_name);
     }
     
@@ -302,9 +304,16 @@ if(isset($steamID)) {
       <textarea id="bbcode_text" rows="22" cols="102">
 <?php
 
+$first_item = true;
+$credit = "[color=#cd5c5c] (List generated at [URL=http://tf2toolbox.com/bbcode_lookup.php]TF2Toolbox.com[/URL])[/color]";
 /* HATS - vintage and non vintage*/
 if ($show_v_hats == "True" or $show_hats == "True" or $show_u_hats == "True") {
-  echo "[b][u]Hats For Trade[/b][/u][list]\n";
+  echo "[b][u]Hats For Trade[/b][/u]";
+  if ($first_item) {
+    $first_item = false;
+    echo $credit;
+  }
+  echo "[list]";
 
   if ($show_u_hats == "True" and !empty($unusual_hats)) {
     echo "[b][u]Unusuals[/b][/u]\n";
@@ -439,13 +448,21 @@ if ($show_v_hats == "True" or $show_hats == "True" or $show_u_hats == "True") {
 }
 
 if ($show_v_hats == "True" or $show_hats == "True" or $show_u_hats == "True") {
+  if(empty($vintage_hats) and empty($hats) and empty($promo_hats)) {
+    echo "None\n";
+  }
   echo "[/list]\n";
 }
 
 /* WEAPONS - vintage and non-vintage */
 
 if ($show_v_weps == "True" or $show_weps == "True") {
-  echo "[b][u]Weapons For Trade[/b][/u][list]\n";
+  echo "[b][u]Weapons For Trade[/b][/u]";
+  if ($first_item) {
+    $first_item = false;
+    echo $credit;
+  }
+  echo "[list]";
   
   if ($show_v_weps == "True" and !empty($vintage_weapons)) {
     echo "[b][u]Vintage Weapons[/b][/u]\n";
@@ -553,12 +570,20 @@ if ($show_v_weps == "True" or $show_weps == "True") {
 }
 
 if ($show_v_weps == "True" or $show_weps == "True") {
+  if(empty($vintage_weapons) and empty($weapons) and empty($promo_weapons)) {
+    echo "None\n";
+  }
   echo "[/list]\n";
 }
 
 /* PAINT - all colors */
 if ($show_paints == "True") {
-  echo "[b][u]Paints For Trade[/b][/u][list]\n";
+  echo "[b][u]Paints For Trade[/b][/u]";
+  if ($first_item) {
+    $first_item = false;
+    echo $credit;
+  }
+  echo "[list]";
 
   foreach ( array_keys($paints) as $paint ) {
     echo "[*][b]";    // No color: paint translate will handle color.
@@ -572,6 +597,10 @@ if ($show_paints == "True") {
 
     echo "[/b][/color]\n";
   }
+  
+  if(empty($paints)) {
+    echo "None\n";
+  }
 
   echo "[/list]\n";
 }
@@ -579,7 +608,12 @@ if ($show_paints == "True") {
 
 /* Tools and Misc */
 if ($show_tools == "True") {
-  echo "[b][u]Tools/Misc. For Trade[/b][/u][list]\n";
+  echo "[b][u]Tools/Misc. For Trade[/b][/u]";
+  if ($first_item) {
+    $first_item = false;
+    echo $credit;
+  }
+  echo "[list]";
 
   foreach ( array_keys($tools) as $tool ) {
     echo "[*][b]";    // No color for tools.
@@ -593,13 +627,22 @@ if ($show_tools == "True") {
 
     echo "[/b]\n";
   }
+  
+  if(empty($tools)) {
+    echo "None\n";
+  }
 
   echo "[/list]\n";
 }
 
 /* Crates */
 if ($show_crates == "True") {
-  echo "[b][u]Crates For Trade[/b][/u][list]\n";
+  echo "[b][u]Crates For Trade[/b][/u]";
+  if ($first_item) {
+    $first_item = false;
+    echo $credit;
+  }
+  echo "[list]";
 
   ksort($crates); // Sort crates array by keys.
   foreach ( array_keys($crates) as $crate ) {
@@ -610,12 +653,21 @@ if ($show_crates == "True") {
     echo "[/b]\n";
   }
 
+  if(empty($crates)) {
+    echo "None\n";
+  }
+  
   echo "[/list]\n";
 }
 
 /* Metal */
 if ($show_metal == "True") {
-  echo "[b][u]Metal For Trade[/b][/u][list]\n";
+  echo "[b][u]Metal For Trade[/b][/u]";
+  if ($first_item) {
+    $first_item = false;
+    echo $credit;
+  }
+  echo "[list]";
 
   foreach ( array_keys($metals) as $metal ) {
     echo "[*][b]";    // No color for tools.
@@ -628,6 +680,9 @@ if ($show_metal == "True") {
     }
 
     echo "[/b]\n";
+  }
+  if(empty($metals)) {
+    echo "None\n";
   }
 
   echo "[/list]";

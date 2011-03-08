@@ -3,6 +3,8 @@
   , etc.)
 * Sort crates by number, metal by use, etc.
 * Odd level weapons on BBCode.
+* Duel mini games and noisemakers on tools - BBCode.
+* Offer options in Metal Maker for only showing NV, V, etc.
 
 -- CHANGELOG --
 

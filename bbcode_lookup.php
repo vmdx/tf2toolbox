@@ -57,6 +57,7 @@
           <span class="checkbox_title">Options:</span>
           <input type="checkbox" name="dup_weps_only" value="True" />Only display duplicate weapons<br />
           <input type="checkbox" name="display_levels" value="True" disabled/><span style="color: #707070">Display item levels (in development)</span><br />
+          <input type="checkbox" name="display_credit" value="True" checked/>Display TF2Toolbox credit - thanks! :)<br />
           <br />
           <!-- <span class="checkbox_title">Output:</span>
           <input type="radio" name="output" value="list">Bulleted List<br />
