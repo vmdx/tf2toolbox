@@ -124,7 +124,7 @@ if(isset($steamID)) {
     }
     
     /* Weapons - don't show custom-named stock weapons (defindex 0 through 30) */
-    if (in_array($my_item_slot, $weapon_slots) and $my_defindex > 30 and $my_item_class != "slot_token") {
+    if (in_array($my_item_slot, $weapon_slots) and $my_defindex > 30 and !($my_defindex > 189 and $my_defindex < 213) and $my_item_class != "slot_token") {
       if (in_array($my_item_name, $PROMO_WEAPONS_DICT)) {
         if ($my_quality == $vintage_quality) {
           $promo_weapons = set_item_in_array($promo_weapons, "Vintage ".$my_item_name);
@@ -511,23 +511,42 @@ if ($show_v_weps == "True" or $show_weps == "True") {
   if ($show_weps =="True" and !empty($promo_weapons)) {
     echo "[b][u]Promo Weapons[/b][/u]";
     foreach ( array_keys($promo_weapons) as $p_wep ) {
-      echo "[*][b]";
+
+      if ($dup_weps_only == "True") {
+        if ($promo_weapons[$p_wep] > 1) {
+          $tempnum = $promo_weapons[$p_wep] - 1;
+          echo "[*][b]";
+          if (substr($p_wep, 0, 7) == "Vintage") {
+            echo "[color=#476291]";
+          }
+          else {
+            echo "[color=#A59003]";
+          }
+          echo $p_wep;
+          if ($tempnum > 1) {
+            echo " (".$tempnum.")";
+          }
+          echo "[/b][/color]\n";
+        }
+      }
+      else {
+        echo "[*][b]";
+        if (substr($p_wep, 0, 7) == "Vintage") {
+          echo "[color=#476291]";
+        }
+        else {
+          echo "[color=#A59003]";
+        }
+        
+        if ($promo_weapons[$p_wep] > 1) {
+          echo $p_wep." (".$promo_weapons[$p_wep].")";
+        }
+        else {
+          echo $p_wep;
+        }
+        echo "[/b][/color]\n";
+      }
       
-      if (substr($p_wep, 0, 7) == "Vintage") {
-        echo "[color=#476291]";
-      }
-      else {
-        echo "[color=#A59003]";
-      }
-
-      if ($promo_weapons[$p_wep] > 1) {
-        echo $p_wep." (".$promo_weapons[$p_wep].")";
-      }
-      else {
-        echo $p_wep;
-      }
-
-      echo "[/b][/color]\n";
     }
     echo "\n";
   }
