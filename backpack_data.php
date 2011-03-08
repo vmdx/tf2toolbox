@@ -7,7 +7,7 @@ $PROMO_WEAPONS_DICT = array(
 $PROMO_HATS_DICT = array(
   "Alien Swarm Parasite", "Foster's Facade", "Stockbroker's Scarf", "Ellis' Cap", "The Athletic Supporter",
   "The Superfan", "The Essential Accessories", "Dealer's Visor", "License to Maim", "Dangeresque, Too?", "Companion Cube Pin",
-  "Bounty Hat", "Treasure Hat", "Lumbricus Lid", "Mann Co. Cap", "Ghastlier Gibus",
+  "Bounty Hat", "Treasure Hat", "Lumbricus Lid", "Mann Co. Cap", "Ghastlier Gibus", "Horseless Headless Horsemann's Head",
   "World Traveler's Hat", "Ghastly Gibus", "Mildly Disturbing Halloween Mask", "Saxton Hale Mask", 
   "Scout Mask", "Soldier Mask", "Pyro Mask", "Demoman Mask", "Heavy Mask", "Engineer Mask", "Medic Mask", "Sniper Mask", "Spy Mask"
 );

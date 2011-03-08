@@ -12,6 +12,7 @@
   - Added Hero's Hachimaki and Genuine quality check for hats.
   - Gifted tag for UHHH, Skull, Juju.
   - Crates now arranged alphabetically.
+  - Fix: promo weapons now caught by "only show dupes" option in BBCode.
 
 3.3.2011
   - Fixed a bug with primary and secondary slot tokens being classified
