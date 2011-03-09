@@ -213,3 +213,8 @@ html, body {
 a img {
 	border-style: none;
 }
+
+.info_tooltip {
+	position: relative;
+	top: 4px;
+}

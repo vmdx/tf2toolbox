@@ -1,16 +1,28 @@
 -- TODO --
-* Sort hats into classes within categories (all scout hats first, then solly
-  , etc.)
-* Sort crates by number, metal by use, etc.
-* Odd level weapons on BBCode.
+* Sort items into classes, item slot.
+* Sort metal by Ref/Rec/Scrap.
+* Painted tags on everything.
+* Separate halloween stuff into its own category.
+
 * Offer options in Metal Maker for only showing NV, V, etc.
+
 * Make a wiki page. Make a steam community group?
 
 -- CHANGELOG --
 
+3.9.2011
+  - Lots of code cleanup. Still needs work though :(
+  - Default alphabetical sorting.
+  - Gifted and untradable tags are now always on.
+  - Show hat levels option.
+  - Hide gifted/untradable item options.
+  - Tooltips to clarify some stuff on BBCode form.
+
 3.8.2011
   - Added dueling minigames and "action" items to BBCode tools/misc.
   - Added option to offer credits to BBCode list :)
+  - Made external links open in new windows (hopefully new tabs if your
+  browser is worth its salt)
   
 3.7.2011
   - Added check for Genuine items (and Community and Valve and Self-Made)...

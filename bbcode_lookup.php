@@ -39,13 +39,19 @@
       <div id="checkboxes">
         <div class="checkbox_column">
           <span class="checkbox_title">Display:</span>
-          <input type="checkbox" name="u_hats" value="True" checked>Unusual Hats<br />
-          <input type="checkbox" name="v_hats" value="True" checked>Vintage Hats<br />
-          <input type="checkbox" name="hats" value="True" checked>Normal Hats<br />
-          <input type="checkbox" name="v_weps" value="True" checked>Vintage Weapons<br />
-          <input type="checkbox" name="weps" value="True" checked>Normal Weapons<br />
+          <input type="checkbox" name="u_hats" value="True" checked>Hats - Unusual<br />
+          <input type="checkbox" name="hp_hats" value="True" checked>Hats - Rare Promos  <img id="rare_promos_tooltip" class="info_tooltip" src="media/info_tooltip.png"><br />
+          <input type="checkbox" name="v_hats" value="True" checked>Hats - Vintage<br />
+          <input type="checkbox" name="p_hats" value="True" checked>Hats - Promo<br />
+          <input type="checkbox" name="hats" value="True" checked>Hats - Normal<br />
         </div>
         <div class="checkbox_column">
+          <span class="checkbox_title"></span>
+          <input type="checkbox" name="v_weps" value="True" checked>Weapons - Vintage<br />
+          <input type="checkbox" name="p_weps" value="True" checked>Weapons - Promo<br />
+          <input type="checkbox" name="weps" value="True" checked>Weapons - Normal<br />
+        </div>
+        <div class="checkbox_column checkbox_column_bigright">
           <span class="checkbox_title"></span>
           <input type="checkbox" name="tools" value="True" checked>Tools<br />
           <input type="checkbox" name="paints" value="True" checked>Paints<br />
@@ -53,16 +59,25 @@
           <input type="checkbox" name="metal" value="True" checked>Metal<br />
         </div>
 
-        <div class="checkbox_column checkbox_column_wide">
+        <div class="checkbox_column checkbox_column_bigright">
           <span class="checkbox_title">Options:</span>
-          <input type="checkbox" name="dup_weps_only" value="True" />Only display duplicate weapons<br />
-          <input type="checkbox" name="display_levels" value="True" disabled/><span style="color: #707070">Display item levels (in development)</span><br />
+          <input type="checkbox" name="dup_weps_only" value="True" disabled/><span style="color: #707070">Only display duplicate weapons (in dev!)  </span><img id="dup_weps_tooltip" class="info_tooltip" src="media/info_tooltip.png"><br />
+          <input type="checkbox" name="display_hat_levels" value="True" />Display hat levels<br />
+          <input type="checkbox" name="hide_untradable" value="True" />Exclude all untradable items (dirty)<br />
+          <input type="checkbox" name="hide_gifted" value="True" />Exclude all gifted items (dirty)<br />
           <input type="checkbox" name="display_credit" value="True" checked/>Display TF2Toolbox credit - thanks! :)<br />
           <br />
+        </div>
+        <div class="checkbox_column checkbox_column_bigright">
+          <span class="checkbox_title">Sort Items By:</span>
+          <input type="radio" name="output_sort" value="alpha" checked>Alphabetical<br />
+          <input type="radio" name="output_sort" value="class" disabled><span style="color: #707070">Class (in dev!)</span><br />
+          <input type="radio" name="output_sort" value="item_slot" disabled><span style="color: #707070">Item Slot (in dev!)</span><br />
+        </div>
+
           <!-- <span class="checkbox_title">Output:</span>
           <input type="radio" name="output" value="list">Bulleted List<br />
           <input type="radio" name="output" value="have_want">Have / Want<br /> -->
-        </div>
         
         <div class="checkbox_column">
           <span class="checkbox_title">Pages to Search:</span>
@@ -97,6 +112,50 @@
   <?php
   require('footer.php');
   ?>
+  
+  <script type="text/javascript" src="javascript/jquery-1.4.4.min.js"></script>
+  <script type="text/javascript" src="javascript/jquery.qtip-1.0.0-rc3.js"></script>
+  <script>
+  $(document).ready(function() {
+
+      /* Create tooltips for every single item on mouseover. */
+      $("#dup_weps_tooltip").each( function(i) {
+        var data = "Keeps one of each unique weapon. Priority to off-level, then vintage, then normal quality weapons.";
+        if (data !== "") {
+          $(this).qtip({
+            content: data,
+            position: { target: 'mouse'},
+            show: { delay: 0, effect: {length: 0} },
+            hide: { delay: 0, effect: {length: 0} },
+            style: {
+              textAlign: 'center',
+              name: 'dark',
+              'font-size': 14,
+              'font-family': 'Verdana'
+            }
+          });
+        }
+      }); 
+      
+      $("#rare_promos_tooltip").each( function(i) {
+        var data = "Earbuds, Max's Heads";
+        if (data !== "") {
+          $(this).qtip({
+            content: data,
+            position: { target: 'mouse'},
+            show: { delay: 0, effect: {length: 0} },
+            hide: { delay: 0, effect: {length: 0} },
+            style: {
+              textAlign: 'center',
+              name: 'dark',
+              'font-size': 14,
+              'font-family': 'Verdana'
+            }
+          });
+        }
+      });
+  })
+  </script>
 
 <?php require("google_analytics.php") ?></body>
 </html>

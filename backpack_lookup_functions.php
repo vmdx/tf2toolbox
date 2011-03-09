@@ -10,4 +10,8 @@ function set_item_in_array($item_array, $item_name) {
     }
     return $item_array;
 }
+
+function quality_check() {
+  
+}
 ?>
