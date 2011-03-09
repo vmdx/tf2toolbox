@@ -48,7 +48,7 @@ if (isset($url_field)) {
   else {
     echo '<a href="http://steamcommunity.com/profiles/'.strval($_SESSION['steamID']).'">'.$_SESSION['username'].'</a>';
     echo '
-      <a href="http://steamcommunity.com/profiles/'.strval($_SESSION['steamID']).'"><img id="avatar" src="'.$_SESSION['avatar'].'" alt="avatar"></a>
+      <a href="http://steamcommunity.com/profiles/'.strval($_SESSION['steamID']).'" target="_blank"><img id="avatar" src="'.$_SESSION['avatar'].'" alt="avatar"></a>
     ';
   }
 ?>

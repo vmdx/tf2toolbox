@@ -4,6 +4,7 @@
 * Sort crates by number, metal by use, etc.
 * Odd level weapons on BBCode.
 * Offer options in Metal Maker for only showing NV, V, etc.
+* Make a wiki page. Make a steam community group?
 
 -- CHANGELOG --
 
