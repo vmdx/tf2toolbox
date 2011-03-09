@@ -284,6 +284,7 @@ switch($output_sort) {
     ksort($weapons);
     ksort($unusual_hats);
     ksort($vintage_hats);
+    ksort($high_promo_hats);
     ksort($promo_hats);
     ksort($polycount_set_hats);
     ksort($xmas2010_hats);
