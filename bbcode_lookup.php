@@ -138,8 +138,7 @@
       }); 
       
       $("#rare_promos_tooltip").each( function(i) {
-        var data = "Bill's Hat, Max's Severed Head, Hat of Undeniable Wealth And Respect, Earbuds, Voodoo Juju, Spine-Chilling Skull,
-        Gentle Manne's Service Medal, Hero's Hachimaki";
+        var data = "Bill's Hat, Max's Severed Head, Hat of Undeniable Wealth And Respect, Earbuds, Voodoo Juju, Spine-Chilling Skull, Gentle Manne's Service Medal, Hero's Hachimaki";
         if (data !== "") {
           $(this).qtip({
             content: data,
