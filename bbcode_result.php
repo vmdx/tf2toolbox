@@ -362,8 +362,14 @@ if ($show_v_hats == "True" or $show_hats == "True" or $show_u_hats == "True" or 
     foreach ( array_keys($high_promo_hats) as $hp_hat ) {
       echo "[*][b]";
       
-      if (substr($hp_hat, 0, 7) == "Vintage") {
+      if (strpos($hp_hat, "Vintage") !== false) {
         echo "[color=#476291]";
+      }
+      else if (strpos($hp_hat, "Genuine") !== false) {
+        echo "[color=#4D7455]";
+      }
+      else if (strpos($hp_hat, "Unusual") !== false) {
+        echo "[color=#8650AC]";
       }
       else {
         echo "[color=#A59003]";
@@ -456,8 +462,14 @@ if ($show_v_hats == "True" or $show_hats == "True" or $show_u_hats == "True" or 
     foreach ( array_keys($promo_hats) as $p_hat ) {
       echo "[*][b]";
       
-      if (substr($p_hat, 0, 7) == "Vintage") {
+      if (strpos($p_hat, "Vintage") !== false) {
         echo "[color=#476291]";
+      }
+      else if (strpos($p_hat, "Genuine") !== false) {
+        echo "[color=#4D7455]";
+      }
+      else if (strpos($p_hat, "Unusual") !== false) {
+        echo "[color=#8650AC]";
       }
       else {
         echo "[color=#A59003]";
@@ -531,8 +543,14 @@ if ($show_v_weps == "True" or $show_weps == "True" or $show_p_weps == "True") {
     foreach ( array_keys($promo_weapons) as $p_wep ) {
       
       echo "[*][b]";
-      if (substr($p_wep, 0, 7) == "Vintage") {
+      if (strpos($p_wep, "Vintage") !== false) {
         echo "[color=#476291]";
+      }
+      else if (strpos($p_wep, "Genuine") !== false) {
+        echo "[color=#4D7455]";
+      }
+      else if (strpos($p_wep, "Unusual") !== false) {
+        echo "[color=#8650AC]";
       }
       else {
         echo "[color=#A59003]";

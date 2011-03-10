@@ -19,6 +19,7 @@
   - Show hat levels option.
   - Hide gifted/untradable item options.
   - Tooltips to clarify some stuff on BBCode form.
+  - Added error message on invalid Steam Community URL signin.
 
 3.8.2011
   - Added dueling minigames and "action" items to BBCode tools/misc.
