@@ -3,6 +3,8 @@
 * Sort metal by Ref/Rec/Scrap.
 * Painted tags on everything.
 * Separate halloween stuff into its own category.
+* _GET parameter for bbcode.
+* URL shortening, get rid of .php
 
 * Offer options in Metal Maker for only showing NV, V, etc.
 

@@ -25,6 +25,14 @@
       </table>
     </div>
   </div>
+
+<?php
+  if ($error_msg != '') {
+    echo '  <div id="error_bar">'."\n";
+    echo '    <span id="error_msg">'.$error_msg."</span>\n";
+    echo "  </div>\n";
+  }
+?>
   
   <div id="content">
     <form id="lookup_field_form" action="bbcode_result.php" method="post">

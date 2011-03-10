@@ -25,7 +25,14 @@
       </table>
     </div>
   </div>
-  
+
+<?php
+  if ($error_msg != '') {
+    echo '  <div id="error_bar">'."\n";
+    echo '    <span id="error_msg">'.$error_msg."</span>\n";
+    echo "  </div>\n";
+  }
+?>
   <div id="content">
     <div id="released_tools" class="toolbox">
       <span class="tools_title">Released Tools</span>

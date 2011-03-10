@@ -26,7 +26,7 @@ if (isset($url_field)) {
   $_SESSION['username'] = sprintf($username); /* Awful hack to fix some weird deal with simpleXML */
   $_SESSION['avatar'] = sprintf($avatar);
 
-  if ($xml && (empty($steamID) || empty($username))) {
+  if ($xml && (empty($sID) || empty($username))) {
     $error_msg = "We were unable to retrieve the SteamID from that URL. Please try again!\n";
   }
 
