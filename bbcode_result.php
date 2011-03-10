@@ -176,10 +176,20 @@ if(isset($steamID)) {
             array_unshift($suffix_tags, "Level ".$inv_entry->{"level"});
             $suffix = " (".implode(", ", $suffix_tags).")";
           }
-          $vintage_weapons = set_item_in_array($vintage_weapons, "Vintage ".$my_item_name.$suffix);
+          if (in_array($my_item_name, $PROMO_WEAPONS_DICT)) {
+            $promo_weapons = set_item_in_array($promo_weapons, "Vintage ".$my_item_name.$suffix);
+          }
+          else {
+            $vintage_weapons = set_item_in_array($vintage_weapons, "Vintage ".$my_item_name.$suffix);
+          }        
           break;
         case "Unique":  /* Default quality */
-          $weapons = set_item_in_array($weapons, $my_item_name.$suffix);
+          if (in_array($my_item_name, $PROMO_WEAPONS_DICT)) {
+            $promo_weapons = set_item_in_array($promo_weapons, $my_item_name.$suffix);
+          }
+          else {
+            $weapons = set_item_in_array($weapons, $my_item_name.$suffix);
+          }
           break;
         default:
           break;
@@ -275,8 +285,20 @@ if(isset($steamID)) {
 
 /* Sort the arrays according to our sort option. */
 function cmpWithLevels($a, $b) {
-  $a_strip = substr($a, 0, strpos($a, "("));
-  $b_strip = substr($b, 0, strpos($b, "("));
+  $a_position = strpos($a, "(");
+  $b_position = strpos($b, "(");
+  $a_strip = $a;
+  $b_strip = $b;
+  if ($a_position === false and $b_position === false) {
+    return strcmp($a, $b);
+  }
+  if ($a_position !== false) {
+    $a_strip = substr($a, 0, strpos($a, "("));
+  }
+  if ($b_position !== false) {
+    $b_strip = substr($b, 0, strpos($b, "("));
+  }
+
   if ($a_strip == $b_strip) {
     if (strlen($a) == strlen($b)) {
       return strcmp($a, $b);
@@ -289,27 +311,20 @@ function cmpWithLevels($a, $b) {
     return strcmp($a, $b);
   }
 }
-switch($output_sort) {
-  case "item_slot":
-  case "class":
-  case "alpha":
-  default:
-    uksort($promo_weapons, "cmpWithLevels");
-    uksort($vintage_weapons, "cmpWithLevels");
-    uksort($weapons, "cmpWithLevels");
-    usort($unusual_hats, "cmpWithLevels");   /* Note, unusual hats are just strings. No associative array. */
-    uksort($vintage_hats, "cmpWithLevels");
-    uksort($high_promo_hats, "cmpWithLevels");
-    uksort($promo_hats, "cmpWithLevels");
-    uksort($polycount_set_hats, "cmpWithLevels");
-    uksort($xmas2010_hats, "cmpWithLevels");
-    uksort($hats, "cmpWithLevels");
-    
-    ksort($metals);
-    
-
-    break;
+if($output_sort == "alpha") {
+  uksort($promo_weapons, "cmpWithLevels");
+  uksort($vintage_weapons, "cmpWithLevels");
+  uksort($weapons, "cmpWithLevels");
+  usort($unusual_hats, "cmpWithLevels");   /* Note, unusual hats are just strings. No associative array. */
+  uksort($vintage_hats, "cmpWithLevels");
+  uksort($high_promo_hats, "cmpWithLevels");
+  uksort($promo_hats, "cmpWithLevels");
+  uksort($polycount_set_hats, "cmpWithLevels");
+  uksort($xmas2010_hats, "cmpWithLevels");
+  uksort($hats, "cmpWithLevels");
 }
+    
+ksort($metals); // Metals should be sorted Ref/Rec/Scrap/Others. TODO.
 ksort($crates); // Tools, crates, paints ALWAYS sorted alphabetically.
 ksort($tools);  
 ksort($paints);
