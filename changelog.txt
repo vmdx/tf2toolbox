@@ -8,9 +8,13 @@
 
 * Offer options in Metal Maker for only showing NV, V, etc.
 
-* Make a wiki page. Make a steam community group?
+* Make a steam community group?
 
 -- CHANGELOG --
+
+3.10.2011
+  - Fixed alphabetization to compare levels correctly (Level 100 >
+  Level 20). Fixed Unusual alphabetization.
 
 3.9.2011
   - Lots of code cleanup. Still needs work though :(
@@ -20,6 +24,7 @@
   - Hide gifted/untradable item options.
   - Tooltips to clarify some stuff on BBCode form.
   - Added error message on invalid Steam Community URL signin.
+  - TF2 Wiki page created.
 
 3.8.2011
   - Added dueling minigames and "action" items to BBCode tools/misc.

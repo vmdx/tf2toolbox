@@ -274,21 +274,36 @@ if(isset($steamID)) {
 }
 
 /* Sort the arrays according to our sort option. */
+function cmpWithLevels($a, $b) {
+  $a_strip = substr($a, 0, strpos($a, "("));
+  $b_strip = substr($b, 0, strpos($b, "("));
+  if ($a_strip == $b_strip) {
+    if (strlen($a) == strlen($b)) {
+      return strcmp($a, $b);
+    }
+    else {
+      return strlen($a) - strlen($b);
+    }
+  }
+  else {
+    return strcmp($a, $b);
+  }
+}
 switch($output_sort) {
   case "item_slot":
   case "class":
   case "alpha":
   default:
-    ksort($promo_weapons);
-    ksort($vintage_weapons);
-    ksort($weapons);
-    ksort($unusual_hats);
-    ksort($vintage_hats);
-    ksort($high_promo_hats);
-    ksort($promo_hats);
-    ksort($polycount_set_hats);
-    ksort($xmas2010_hats);
-    ksort($hats);
+    uksort($promo_weapons, "cmpWithLevels");
+    uksort($vintage_weapons, "cmpWithLevels");
+    uksort($weapons, "cmpWithLevels");
+    usort($unusual_hats, "cmpWithLevels");   /* Note, unusual hats are just strings. No associative array. */
+    uksort($vintage_hats, "cmpWithLevels");
+    uksort($high_promo_hats, "cmpWithLevels");
+    uksort($promo_hats, "cmpWithLevels");
+    uksort($polycount_set_hats, "cmpWithLevels");
+    uksort($xmas2010_hats, "cmpWithLevels");
+    uksort($hats, "cmpWithLevels");
     
     ksort($metals);
     
