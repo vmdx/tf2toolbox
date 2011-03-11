@@ -32,7 +32,7 @@
     echo "  </div>\n";
   }
 ?>  
-  <div id="content">
+  <div id="content" class="ad_padding">
     <form id="lookup_field_form" action="metal_result.php" method="post">
       <div id="tool_title">
         <img id="tool_img" src="media/metal_tool_80.png" alt="metal_tool">

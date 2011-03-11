@@ -76,6 +76,11 @@
 #content {
 	padding-bottom:0px;
 }
+
+.ad_padding {
+	padding-bottom:50px !important;
+}
+
 #metal_output {
 	padding-top: 5px;
 	width: 1400px;
