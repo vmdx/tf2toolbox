@@ -13,6 +13,9 @@
 
 -- CHANGELOG --
 
+3.11.2011
+  - Added notification for private backpacks.
+  
 3.10.2011
   - Fixed alphabetization to compare levels correctly (Level 100 >
   Level 20). Fixed Unusual alphabetization.
