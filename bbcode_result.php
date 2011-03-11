@@ -52,7 +52,7 @@ $username = $_SESSION['username'];
 // Call Steam API
 $backpack_url = "http://api.steampowered.com/ITFItems_440/GetPlayerItems/v0001/?SteamID=".$steamID."&key=74EA34072E00ED29B92691B6F929F590";
 //$backpack_url = "http://api.steampowered.com/ITFItems_440/GetPlayerItems/v0001/?SteamID=76561197961814215&key=74EA34072E00ED29B92691B6F929F590";
-
+//$backpack_url = "http://api.steampowered.com/ITFItems_440/GetPlayerItems/v0001/?SteamID=76561198004501856&key=74EA34072E00ED29B92691B6F929F590";
 $schema_url = "http://api.steampowered.com/ITFItems_440/GetSchema/v0001/?key=74EA34072E00ED29B92691B6F929F590&language=en";
 
 $backpack_json = file_get_contents($backpack_url);
@@ -103,8 +103,12 @@ $weapon_slots = array("primary", "secondary", "melee", "pda", "pda2");
 
 $mask = 0xFFFF;   // Get the first word in the inventory token -> corresponds to inventory slot.
 
+$backpack_error = "";
+if($backpack->{"result"}->{"status"} == 15) {
+  $backpack_error = "Sorry, this backpack is private. :(";
+}
 
-if(isset($steamID)) {
+else if(isset($steamID)) {
   foreach ( $backpack->{"result"}->{"items"}->{"item"} as $inv_entry ) {
     $my_defindex = $inv_entry->{"defindex"};
 
@@ -345,6 +349,9 @@ ksort($paints);
     
   <?php
   require('header.php');
+  if (!empty($backpack_error)) {
+    $error_msg = $backpack_error;
+  }
   ?>
   
     <div id="header_toolbar">
@@ -357,7 +364,15 @@ ksort($paints);
       </table>
     </div>
   </div>
-  
+
+<?php
+  if ($error_msg != '') {
+    echo '  <div id="error_bar">'."\n";
+    echo '    <span id="error_msg">'.$error_msg."</span>\n";
+    echo "  </div>\n";
+  }
+?>
+
   <div id="content">
    
     <div id="bbcode_output">

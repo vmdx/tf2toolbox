@@ -104,7 +104,12 @@ $nv_swep_count = 0;
 $unique_primaries = array();
 $unique_secondaries = array();
 
-if(isset($steamID)) {
+$backpack_error = "";
+if($backpack->{"result"}->{"status"} == 15) {
+  $backpack_error = "Sorry, this backpack is private. :(";
+}
+
+else if(isset($steamID)) {
   foreach ( $backpack->{"result"}->{"items"}->{"item"} as $inv_entry ) {
     $my_defindex = $inv_entry->{"defindex"};
     $my_quality = $inv_entry->{"quality"};
@@ -294,6 +299,9 @@ if(isset($steamID)) {
     
   <?php
   require('header.php');
+  if (!empty($backpack_error)) {
+    $error_msg = $backpack_error;
+  }
   ?>
   
     <div id="header_toolbar">
@@ -306,6 +314,14 @@ if(isset($steamID)) {
       </table>
     </div>
   </div>
+  
+<?php
+  if ($error_msg != '') {
+    echo '  <div id="error_bar">'."\n";
+    echo '    <span id="error_msg">'.$error_msg."</span>\n";
+    echo "  </div>\n";
+  }
+?>
   
   <div id="content">
    

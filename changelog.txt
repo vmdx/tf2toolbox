@@ -5,6 +5,7 @@
 * Separate halloween stuff into its own category.
 * _GET parameter for bbcode.
 * URL shortening, get rid of .php
+* Backpack page detection.
 
 * Offer options in Metal Maker for only showing NV, V, etc.
 

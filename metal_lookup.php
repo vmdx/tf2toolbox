@@ -82,7 +82,7 @@
         echo '<input type="submit" id="lookup_submit" value="Go!"/>'; 
       }
       else {
-        echo '<input type="submit" style="color:#bbbbbb" id="lookup_submit" value="Please lookup an user first." disabled/>';
+        echo '<input type="submit" style="color:#bbbbbb; left:200px" id="lookup_submit" value="Please lookup an user first." disabled/>';
       }
       
       ?>
