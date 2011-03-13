@@ -221,21 +221,23 @@ else if(isset($steamID)) {
       }
       
       else if (in_array($my_item_name, $HIGH_PROMO_HATS_DICT)) {
+        $fullname = $my_item_name.$suffix;
+        
         if ($my_item_name == "Gentle Manne's Service Medal") {
           $high_promo_hats = set_item_in_array($high_promo_hats, $my_item_name." (#".$inv_entry->{"attributes"}->{"attribute"}[0]->{"value"}.")".$suffix);
         }
-
-        else if (in_array($my_item_name, $CLEAN_DIRTY_ITEMS)) {
-          $high_promo_hats = set_item_in_array($high_promo_hats, $prefix.$my_item_name.$suffix);
-        }
-        
-        else if ($quality_map[$inv_entry->{"quality"}] == "Unique") {
-          $high_promo_hats = set_item_in_array($high_promo_hats, $my_item_name.$suffix);
-        }
         
         else {
-          $high_promo_hats = set_item_in_array($high_promo_hats, $quality_map[$inv_entry->{"quality"}]." ".$my_item_name.$suffix);
-        }
+          if ($quality_map[$inv_entry->{"quality"}] != "Unique") {
+            $fullname = $quality_map[$inv_entry->{"quality"}]." ".$fullname;
+          }
+          
+          if (in_array($my_item_name, $CLEAN_DIRTY_ITEMS)) {
+            $high_promo_hats = set_item_in_array($high_promo_hats, $prefix.$fullname);
+          }
+          else {
+            $high_promo_hats = set_item_in_array($high_promo_hats, $fullname);
+          }
                
       }
       
