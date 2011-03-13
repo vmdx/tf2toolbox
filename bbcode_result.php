@@ -238,6 +238,7 @@ else if(isset($steamID)) {
           else {
             $high_promo_hats = set_item_in_array($high_promo_hats, $fullname);
           }
+        }
                
       }
       
