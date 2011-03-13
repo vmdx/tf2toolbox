@@ -221,6 +221,10 @@ else if(isset($steamID)) {
       }
       
       else if (in_array($my_item_name, $HIGH_PROMO_HATS_DICT)) {
+        if ($quality_map[$inv_entry{"quality"}] == "Genuine") {
+          $my_item_name = "Genuine ".$my_item_name;
+        }
+        
         if ($my_item_name == "Gentle Manne's Service Medal") {
           $high_promo_hats = set_item_in_array($high_promo_hats, $my_item_name." (#".$inv_entry->{"attributes"}->{"attribute"}[0]->{"value"}.")".$suffix);
         }

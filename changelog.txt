@@ -6,6 +6,8 @@
 * _GET parameter for bbcode.
 * URL shortening, get rid of .php
 * Backpack page detection.
+* Would be nice to have a "Copy BBCode Contents" button rather than 
+  only having to highlight and then right-click-and-copy. 
 
 * Offer options in Metal Maker for only showing NV, V, etc.
 

@@ -1,6 +1,7 @@
 <?php
 $CLEAN_DIRTY_ITEMS = array(
-  "Voodoo Juju", "Spine-Chilling Skull", "Hero's Hachimaki", "Horseless Headless Horsemann's Headtaker", "Sharpened Volcano Fragment", "Sun-on-a-Stick"
+  "Voodoo Juju", "Spine-Chilling Skull", "Hero's Hachimaki", "Horseless Headless Horsemann's Headtaker", "Sharpened Volcano Fragment", "Sun-on-a-Stick",
+  "Samur-Eye", "Dread Knot", "Geisha Boy", "Noh Mercy"
 );
 
 $PROMO_WEAPONS_DICT = array(
@@ -17,7 +18,7 @@ $PROMO_HATS_DICT = array(
 
 $HIGH_PROMO_HATS_DICT = array(
   "Bill's Hat", "Max's Severed Head", "Hat of Undeniable Wealth And Respect", "Earbuds", "Voodoo Juju", "Spine-Chilling Skull",
-  "Gentle Manne's Service Medal", "Hero's Hachimaki"
+  "Gentle Manne's Service Medal", "Hero's Hachimaki", "Samur-Eye", "Dread Knot", "Geisha Boy", "Noh Mercy"
 );
 
 $POLYCOUNT_SET_HATS_DICT = array(
