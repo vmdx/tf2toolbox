@@ -221,7 +221,7 @@ else if(isset($steamID)) {
       }
       
       else if (in_array($my_item_name, $HIGH_PROMO_HATS_DICT)) {
-        if ($quality_map[$inv_entry{"quality"}] == "Genuine") {
+        if ($quality_map[$inv_entry->{"quality"}] == "Genuine") {
           $my_item_name = "Genuine ".$my_item_name;
         }
         
