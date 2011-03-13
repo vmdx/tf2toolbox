@@ -15,6 +15,9 @@
 
 -- CHANGELOG --
 
+3.12.2011
+  - Added Shogun Pack hats.
+
 3.11.2011
   - Added notification for private backpacks.
   
