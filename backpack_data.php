@@ -1,7 +1,6 @@
 <?php
 $CLEAN_DIRTY_ITEMS = array(
-  "Voodoo Juju", "Spine-Chilling Skull", "Hero's Hachimaki", "Horseless Headless Horsemann's Headtaker", "Sharpened Volcano Fragment", "Sun-on-a-Stick",
-  "Samur-Eye", "Dread Knot", "Geisha Boy", "Noh Mercy"
+  "Voodoo Juju", "Spine-Chilling Skull", "Hero's Hachimaki", "Horseless Headless Horsemann's Headtaker", "Sharpened Volcano Fragment", "Sun-on-a-Stick"
 );
 
 $PROMO_WEAPONS_DICT = array(
