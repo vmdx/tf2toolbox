@@ -89,18 +89,22 @@
         
         <div class="checkbox_column">
           <span class="checkbox_title">Pages to Search:</span>
-          <input type="checkbox" name="pages[]" value="all" checked>All Backpack Pages<br />
+          <input type="checkbox" name="pages[]" value="all" checked>All Backpack Pages <img id="pages_tooltip" class="info_tooltip" src="media/info_tooltip.png"><br />
           <input type="checkbox" name="pages[]" value="1">1<br />
           <input type="checkbox" name="pages[]" value="2">2<br />
           <input type="checkbox" name="pages[]" value="3">3<br />
+          <input type="checkbox" name="pages[]" value="4">4<br />
+          <input type="checkbox" name="pages[]" value="5">5<br />
 
         </div>
         
         <div class="checkbox_column">
           <span class="checkbox_title"></span>
-          <input type="checkbox" name="pages[]" value="4">4<br />
-          <input type="checkbox" name="pages[]" value="5">5<br />
           <input type="checkbox" name="pages[]" value="6">6<br />
+          <input type="checkbox" name="pages[]" value="7">7<br />
+          <input type="checkbox" name="pages[]" value="8">8<br />
+          <input type="checkbox" name="pages[]" value="9">9<br />
+          <input type="checkbox" name="pages[]" value="10">10<br />
         </div>
         
       </div>
@@ -162,7 +166,25 @@
       }); 
       
       $("#rare_promos_tooltip").each( function(i) {
-        var data = "Bill's Hat, Max's Severed Head, Hat of Undeniable Wealth And Respect, Earbuds, Voodoo Juju, Spine-Chilling Skull, Gentle Manne's Service Medal, Hero's Hachimaki";
+        var data = "Bill's Hat, Max's Severed Head, Hat of Undeniable Wealth And Respect, Earbuds, Voodoo Juju, Spine-Chilling Skull, Gentle Manne's Service Medal, Hero's Hachimaki, All Shogun Pack Hats";
+        if (data !== "") {
+          $(this).qtip({
+            content: data,
+            position: { target: 'mouse'},
+            show: { delay: 0, effect: {length: 0} },
+            hide: { delay: 0, effect: {length: 0} },
+            style: {
+              textAlign: 'center',
+              name: 'dark',
+              'font-size': 14,
+              'font-family': 'Verdana'
+            }
+          });
+        }
+      });
+      
+      $("#pages_tooltip").each( function(i) {
+        var data = "Includes all pages from Backpack Expanders";
         if (data !== "") {
           $(this).qtip({
             content: data,

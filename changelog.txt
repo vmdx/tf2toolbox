@@ -8,6 +8,7 @@
 * Backpack page detection.
 * Would be nice to have a "Copy BBCode Contents" button rather than 
   only having to highlight and then right-click-and-copy. 
+  <a href="javascript:return false;" onclick="javascript:document.getElementById('[I]ELEMENT NAME[/I]').focus();document.getElementById('[I]ELEMENT NAME[/I]').select()">Select All</a>)
 
 * Offer options in Metal Maker for only showing NV, V, etc.
 
@@ -15,6 +16,10 @@
 
 -- CHANGELOG --
 
+3.14.2011
+  - Added explanatory tooltip for page lookup, added pages 7-10 manual.
+  Still need to add a scalable way to choose any page.
+  
 3.12.2011
   - Added Shogun Pack hats.
 
