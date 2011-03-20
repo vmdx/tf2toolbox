@@ -1,4 +1,4 @@
-<?php session_start() ?>
+<?php session_start(); ?>
 <!DOCTYPE html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
@@ -86,27 +86,39 @@
           <!-- <span class="checkbox_title">Output:</span>
           <input type="radio" name="output" value="list">Bulleted List<br />
           <input type="radio" name="output" value="have_want">Have / Want<br /> -->
-        
-        <div class="checkbox_column">
-          <span class="checkbox_title">Pages to Search:</span>
-          <input type="checkbox" name="pages[]" value="all" checked>All Backpack Pages <img id="pages_tooltip" class="info_tooltip" src="media/info_tooltip.png"><br />
-          <input type="checkbox" name="pages[]" value="1">1<br />
-          <input type="checkbox" name="pages[]" value="2">2<br />
-          <input type="checkbox" name="pages[]" value="3">3<br />
-          <input type="checkbox" name="pages[]" value="4">4<br />
-          <input type="checkbox" name="pages[]" value="5">5<br />
-
-        </div>
-        
+<?php
+  $user_backpack_url = "http://api.steampowered.com/ITFItems_440/GetPlayerItems/v0001/?SteamID=".$_SESSION['steamID']."&key=74EA34072E00ED29B92691B6F929F590";
+  $user_backpack_json = file_get_contents($user_backpack_url);
+  $user_backpack = json_decode($user_backpack_json);
+  $num_backpack_slots = $user_backpack->{"result"}->{"num_backpack_slots"};
+  if (isset($num_backpack_slots)) {
+    echo '        <div class="checkbox_column">
+';
+    echo '          <span class="checkbox_title">Pages to Search:</span>
+          <input type="checkbox" name="pages[]" value="all" checked>All Backpack Pages <img id="pages_tooltip" class="info_tooltip" src="media/info_tooltip.png"><br />'
+          ;
+    $pages = $num_backpack_slots/50;
+    $current_page = 1;
+    $current_page_in_col = 2;
+    while($pages > 0) {
+      echo '          <input type="checkbox" name="pages[]" value="'.$current_page.'">'.$current_page.'<br />
+';
+      $current_page_in_col += 1;
+      if ($current_page_in_col == 8) {
+        $current_page_in_col = 1;
+        echo '        </div>
         <div class="checkbox_column">
           <span class="checkbox_title"></span>
-          <input type="checkbox" name="pages[]" value="6">6<br />
-          <input type="checkbox" name="pages[]" value="7">7<br />
-          <input type="checkbox" name="pages[]" value="8">8<br />
-          <input type="checkbox" name="pages[]" value="9">9<br />
-          <input type="checkbox" name="pages[]" value="10">10<br />
-        </div>
-        
+';
+      }
+      $pages -= 1;
+      $current_page += 1;
+    }
+    echo '        </div>
+    ';
+  }
+?>        
+
       </div>
       
       <?php

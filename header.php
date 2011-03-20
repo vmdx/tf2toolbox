@@ -30,6 +30,23 @@ if (isset($url_field)) {
     $error_msg = "We were unable to retrieve the SteamID from that URL. Please try again!\n";
   }
 
+  else {
+    $user_backpack_url = "http://api.steampowered.com/ITFItems_440/GetPlayerItems/v0001/?SteamID=".$_SESSION['steamID']."&key=74EA34072E00ED29B92691B6F929F590";
+
+    $user_backpack_json = file_get_contents($user_backpack_url);
+    $user_backpack = json_decode($user_backpack_json);
+    if($user_backpack->{"result"}->{"status"} == 15) {
+      $error_msg = "Note: This backpack is private and cannot be looked up.";
+    }
+    else if ($user_backpack->{"result"}->{"status"} == 8) {
+      $error_msg = "This backpack has an invalid Steam ID.";
+    }
+    else if ($user_backpack->{"result"}->{"status"} != 1) {
+      $error_msg = "Unknown backpack error.";
+    }
+  }
+
+
 }
 
 ?>
