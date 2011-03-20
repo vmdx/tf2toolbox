@@ -5,19 +5,19 @@
 	padding-top: 20px;
 	padding-left: 10px;
 	color: #f2f2f2;
-	width: 900px;
 }
 
 .checkbox_column {
 	text-align:left;
 	font-family: TFSec;
 	font-size:13px;
-	width: 150px;
 	height: 130px;
 	float:left;
+	margin-right:10px;
 }
 
 .checkbox_column_extra_wide {
+	margin-left:10px;
 	width: 500px;
 }
 

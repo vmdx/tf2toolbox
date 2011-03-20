@@ -52,20 +52,38 @@
           <br />
         </div> -->
         
-        <div class="checkbox_column">
-          <span class="checkbox_title">Pages to Search:</span>
-          <input type="checkbox" name="pages[]" value="all" checked>All Backpack Pages<br />
-          <input type="checkbox" name="pages[]" value="1">1<br />
-          <input type="checkbox" name="pages[]" value="2">2<br />
-          <input type="checkbox" name="pages[]" value="3">3<br />
-        </div>
-        
-        <div class="checkbox_column">
-          <span class="checkbox_title"></span>
-          <input type="checkbox" name="pages[]" value="4">4<br />
-          <input type="checkbox" name="pages[]" value="5">5<br />
-          <input type="checkbox" name="pages[]" value="6">6<br />
-        </div>
+        <?php
+          $user_backpack_url = "http://api.steampowered.com/ITFItems_440/GetPlayerItems/v0001/?SteamID=".$_SESSION['steamID']."&key=74EA34072E00ED29B92691B6F929F590";
+          $user_backpack_json = file_get_contents($user_backpack_url);
+          $user_backpack = json_decode($user_backpack_json);
+          $num_backpack_slots = $user_backpack->{"result"}->{"num_backpack_slots"};
+          if (isset($num_backpack_slots)) {
+            echo '        <div class="checkbox_column">
+        ';
+            echo '          <span class="checkbox_title">Pages to Search:</span>
+                  <input type="checkbox" name="pages[]" value="all" checked>All Backpack Pages <img id="pages_tooltip" class="info_tooltip" src="media/info_tooltip.png"><br />'
+                  ;
+            $pages = $num_backpack_slots/50;
+            $current_page = 1;
+            $current_page_in_col = 2;
+            while($pages > 0) {
+              echo '          <input type="checkbox" name="pages[]" value="'.$current_page.'">'.$current_page.'<br />
+        ';
+              $current_page_in_col += 1;
+              if ($current_page_in_col == 5) { // 5 is number of boxes allowed plus 1.
+                $current_page_in_col = 1;
+                echo '        </div>
+                <div class="checkbox_column">
+                  <span class="checkbox_title"></span>
+        ';
+              }
+              $pages -= 1;
+              $current_page += 1;
+            }
+            echo '        </div>
+            ';
+          }
+        ?>
         
         <div class="checkbox_column checkbox_column_extra_wide">
           <span class="checkbox_title">Notes:</span>
@@ -109,6 +127,32 @@
   require('footer.php');
   ?>
   
+  
+  <script type="text/javascript" src="javascript/jquery-1.4.4.min.js"></script>
+  <script type="text/javascript" src="javascript/jquery.qtip-1.0.0-rc3.js"></script>
+  <script>
+  $(document).ready(function() {
+
+      /* Create tooltips for every single item on mouseover. */
+      $("#pages_tooltip").each( function(i) {
+        var data = "Includes all pages from Backpack Expanders";
+        if (data !== "") {
+          $(this).qtip({
+            content: data,
+            position: { target: 'mouse'},
+            show: { delay: 0, effect: {length: 0} },
+            hide: { delay: 0, effect: {length: 0} },
+            style: {
+              textAlign: 'center',
+              name: 'dark',
+              'font-size': 14,
+              'font-family': 'Verdana'
+            }
+          });
+        }
+      });
+  })
+  </script>
   
 <?php require("google_analytics.php") ?></body>
 </html>
