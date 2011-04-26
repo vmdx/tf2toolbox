@@ -8,7 +8,15 @@ if (isset($url_field)) {
 
   // Figure out the SteamID from the XML
   error_reporting(0); // Suppress errors for XML loading.
-  $xml = simplexml_load_file($steamID_url);
+  //$xml = utf8_encode(simplexml_load_file($steamID_url));
+  $xml_string = file_get_contents($steamID_url);
+  /* Need to take it in as a string and utf8 encode it. Thanks to Ath and Lenzi:
+  http://steamcommunity.com/id/leitnerlorenz
+  http://forums.steampowered.com/forums/showthread.php?p=22077632
+  */
+  $xml_string = utf8_encode($xml_string);
+  //$xml = simplexml_load_file($steamID_url);
+  $xml = simplexml_load_string($xml_string);
   error_reporting(E_ALL ^ E_NOTICE); // Reset errors
   $error_msg = '';
   $error = 0;
@@ -39,7 +47,7 @@ if (isset($url_field)) {
       $error_msg = "Note: This backpack is private and cannot be looked up.";
     }
     else if ($user_backpack->{"result"}->{"status"} == 8) {
-      $error_msg = "This backpack has an invalid Steam ID.";
+      $error_msg = "This backpack has an invalid Steam ID";
     }
     else if ($user_backpack->{"result"}->{"status"} != 1) {
       $error_msg = "Unknown backpack error.";
