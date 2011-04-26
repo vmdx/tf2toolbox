@@ -15,6 +15,11 @@
 
 -- CHANGELOG --
 
+4.25.2011
+  - Fixed XML bug. Now parsing as a UTF8 encoded string. Thanks to Ath
+  for the key to the fix and Lenzi for letting me know.
+  - Removed all ads.
+  
 3.20.2011
   - BBCode+MetalMaker lookup automatically checks how many pages you
   have in your backpack and creates checkboxes accordingly!! Sorry 

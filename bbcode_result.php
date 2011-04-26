@@ -838,7 +838,7 @@ else {
     
   </div>
 
-  <div id="adstrip">
+  <!-- <div id="adstrip">
     <div id="adbox" style="width:468px; margin:auto;">
       <script type="text/javascript"><!--
       google_ad_client = "ca-pub-2260733802952622";
@@ -846,13 +846,12 @@ else {
       google_ad_slot = "1084975241";
       google_ad_width = 468;
       google_ad_height = 60;
-      //-->
       </script>
       <script type="text/javascript"
       src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
       </script>
     </div>
-  </div>
+  </div> -->
     
   <?php
   require('footer.php');
