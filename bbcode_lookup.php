@@ -32,6 +32,11 @@
     echo '    <span id="error_msg">'.$error_msg."</span>\n";
     echo "  </div>\n";
   }
+  else {
+    echo '  <div id="error_bar">'."\n";
+    echo '    <span id="error_msg">'."6.18.2011 - Update! Painted item info, genuine and new hat categories."."</span>\n";
+    echo "  </div>\n";
+  }
 ?>
   
   <div id="content">

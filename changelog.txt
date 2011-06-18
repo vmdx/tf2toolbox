@@ -1,4 +1,5 @@
 -- TODO --
+* "Uncheck all" button for Display on form. 
 * Sort items into classes, item slot.
 * Sort metal by Ref/Rec/Scrap.
 * Edition numbers. 
