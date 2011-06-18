@@ -1,20 +1,34 @@
 -- TODO --
 * Sort items into classes, item slot.
 * Sort metal by Ref/Rec/Scrap.
-* Painted tags on everything.
-* Separate halloween stuff into its own category.
+* Edition numbers. 
+
+* Fix Clean/Dirty prefixes (?)
 * _GET parameter for bbcode.
 * URL shortening, get rid of .php
+
 * Would be nice to have a "Copy BBCode Contents" button rather than 
-  only having to highlight and then right-click-and-copy. 
-  <a href="javascript:return false;" onclick="javascript:document.getElementById('[I]ELEMENT NAME[/I]').focus();document.getElementById('[I]ELEMENT NAME[/I]').select()">Select All</a>)
+  only having to highlight and then right-click-and-copy.
+  // I TRIED THIS but most browsers don't allow JS to access the clipboard now
+  // due to security reasons. You can do it in Flash but it seems like overhead
+  // I don't want to try dealing with yet...
+  
+* If you're just using the XML to retrieve the SteamID64, you might want to consider just snipping out the ID with something like preg_match(), it'll save you having to pass the XML through utf8_encode() and assumingly SimpleXML too. 
 
 * Offer options in Metal Maker for only showing NV, V, etc.
-
 * Make a steam community group?
 
 -- CHANGELOG --
 
+6.17.2011
+  - Option to show paint on hats.
+  - Fixed the hat blacklist: no untradeable & ungiftable hats are allowed.
+  - Changed Australian Xmas Hat category to "New Hats" category.
+  "New Hats" are currently set to Apr 7th + Replay Update hats.
+  - Created category for Genuine Hats.
+  - Updated all promotional items.
+  - Colored the text on the bbcode lookup page.
+  
 4.25.2011
   - Fixed XML bug. Now parsing as a UTF8 encoded string. Thanks to Ath
   for the key to the fix and Lenzi for letting me know.

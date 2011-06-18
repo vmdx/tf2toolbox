@@ -20,14 +20,18 @@ foreach($_POST as $key => $value) {
 
 ?>*/
 
+/* TODO: Get rid of all this POST crap. Use the vars directly. */
 $show_u_hats = $_POST['u_hats'];
 $show_hp_hats = $_POST['hp_hats'];
+$show_g_hats = $_POST['g_hats'];
 $show_p_hats = $_POST['p_hats'];
 $show_v_hats = $_POST['v_hats'];
 $show_hats = $_POST['hats'];
+
 $show_v_weps = $_POST['v_weps'];
 $show_p_weps = $_POST['p_weps'];
 $show_weps = $_POST['weps'];
+
 $show_tools = $_POST['tools'];
 $show_metal = $_POST['metal'];
 $show_paints = $_POST['paints'];
@@ -35,6 +39,7 @@ $show_crates = $_POST['crates'];
 
 $dup_weps_only = $_POST['dup_weps_only'];
 $display_hat_levels = $_POST['display_hat_levels'];
+$display_paint = $_POST['display_paint'];
 $hide_untradable = $_POST['hide_untradable'];
 $hide_gifted = $_POST['hide_gifted'];
 $display_credit = $_POST['display_credit'];
@@ -42,10 +47,8 @@ $display_credit = $_POST['display_credit'];
 $output_sort = $_POST['output_sort'];
 
 $valid_pages = $_POST['pages'];
-//$valid_pages = array("all");
 
 $steamID = $_SESSION['steamID'];
-//$steamID = 76561197961814215;
 $avatar = $_SESSION['avatar'];
 $username = $_SESSION['username'];
 
@@ -55,11 +58,20 @@ $backpack_url = "http://api.steampowered.com/ITFItems_440/GetPlayerItems/v0001/?
 //$backpack_url = "http://api.steampowered.com/ITFItems_440/GetPlayerItems/v0001/?SteamID=76561198004501856&key=74EA34072E00ED29B92691B6F929F590";
 $schema_url = "http://api.steampowered.com/ITFItems_440/GetSchema/v0001/?key=74EA34072E00ED29B92691B6F929F590&language=en";
 
+
+/* OFFLINE TESTING: To do offline testing, uncomment the following block. */
+
+// $valid_pages = array("all");
+// $steamID = 76561197961814215;
+// $backpack_url = "http://api.steampowered.com/ITFItems_440/GetPlayerItems/v0001/?SteamID=76561198004501856&key=74EA34072E00ED29B92691B6F929F590";
+
+/* Retrieve the backpack and schema*/
 $backpack_json = file_get_contents($backpack_url);
 $backpack = json_decode($backpack_json);
 
 $schema_json = file_get_contents($schema_url);
 $schema = json_decode($schema_json);
+
 
 /* Schema setup */
 // Create associative arrays mapping item defindexes to their names and their image URLs.
@@ -80,17 +92,18 @@ foreach($schema->{"result"}->{"qualities"} as $key=>$value) {
 }
 
 /* Inventory setup */
-$promo_weapons = array();
 $vintage_weapons = array();
 $weapons = array();
+$promo_weapons = array();
 
 $unusual_hats = array();
-$vintage_hats = array();
 $high_promo_hats = array();
-$promo_hats = array();
-$polycount_set_hats = array();
-$xmas2010_hats = array();
+$genuine_hats = array();
+$new_hats = array();
+$vintage_hats = array();
+$set_hats = array();
 $hats = array();
+$promo_hats = array();
 
 $paints = array();
 $tools = array();
@@ -156,6 +169,17 @@ else if(isset($steamID)) {
       array_push($suffix_tags, "Gifted");
     }
     
+    /* If there are attributes to check and we want to display paint...*/
+    if ($display_paint and $inv_entry->{"attributes"}->{"attribute"}) {
+      /* Check for paint attribute. */
+      foreach($inv_entry->{"attributes"}->{"attribute"} as $attr) {
+        if ($attr->{"defindex"} == 142) { // set item tint
+          array_push($suffix_tags, $PAINT_NUMBER_MAP[intval($attr->{"float_value"})]);
+          break;
+        } 
+      }
+    }
+    
     $suffix = "";
     if (!empty($suffix_tags)) {
       $suffix = " (".implode(", ", $suffix_tags).")";
@@ -163,7 +187,7 @@ else if(isset($steamID)) {
     
     
     /* Weapons - don't show custom-named stock weapons (defindex 0 through 30) */
-    if (in_array($my_item_slot, $weapon_slots) and $my_defindex > 30 and !($my_defindex > 189 and $my_defindex < 213) and $my_item_class != "slot_token") {
+    if (in_array($my_item_slot, $weapon_slots) and $my_defindex > 30 and !($my_defindex > 189 and $my_defindex < 213) and $my_item_class != "slot_token" and !in_array($my_item_name, $ITEM_BLACKLIST)) {
       
       switch($quality_map[$inv_entry->{"quality"}]) {
         case "Unusual":
@@ -201,7 +225,7 @@ else if(isset($steamID)) {
     }
 
     /* Hats */ 
-    else if (($my_item_slot == "head") or ($my_item_slot == "misc")) {
+    else if ((($my_item_slot == "head") or ($my_item_slot == "misc")) and !in_array($my_item_name, $HAT_BLACKLIST)) {
       if ($display_hat_levels) {
         array_unshift($suffix_tags, "Level ".$inv_entry->{"level"});
         $suffix = " (".implode(", ", $suffix_tags).")";
@@ -218,6 +242,17 @@ else if(isset($steamID)) {
           }
         }
         array_push($unusual_hats, "Unusual ".$my_item_name." (".$effect.")".$suffix);
+      }
+      
+      /* Genuine Hats*/
+      else if ($quality_map[$inv_entry->{"quality"}] == "Genuine") {
+        
+        if (in_array($my_item_name, $CLEAN_DIRTY_ITEMS)) {
+          $genuine_hats = set_item_in_array($genuine_hats, $prefix."Genuine ".$my_item_name.$suffix);
+        }
+        else {
+          $genuine_hats = set_item_in_array($genuine_hats, "Genuine ".$my_item_name.$suffix);
+        }
       }
       
       else if (in_array($my_item_name, $HIGH_PROMO_HATS_DICT)) {
@@ -251,16 +286,16 @@ else if(isset($steamID)) {
           $promo_hats = set_item_in_array($promo_hats, $quality_map[$inv_entry->{"quality"}]." ".$my_item_name.$suffix);
         }
       }
-      else if (in_array($my_item_name, $POLYCOUNT_SET_HATS_DICT)) {
-        $polycount_set_hats = set_item_in_array($polycount_set_hats, $my_item_name.$suffix);
+      else if (in_array($my_item_name, $SET_HATS_DICT)) {
+        $set_hats = set_item_in_array($set_hats, $my_item_name.$suffix);
       }
-      else if (in_array($my_item_name, $XMAS2010_HATS_DICT)) {
-        $xmas2010_hats = set_item_in_array($xmas2010_hats, $my_item_name.$suffix);
+      else if (in_array($my_item_name, $NEW_HATS_DICT)) {
+        $new_hats = set_item_in_array($new_hats, $my_item_name.$suffix);
       }
       else if ($quality_map[$inv_entry->{"quality"}] == "Vintage") {
         $vintage_hats = set_item_in_array($vintage_hats, "Vintage ".$my_item_name.$suffix);
       }
-      else if ($quality_map[$inv_entry->{"quality"}] == "Unique" and !in_array($my_item_name, $HAT_BLACKLIST)) {
+      else if ($quality_map[$inv_entry->{"quality"}] == "Unique") {
         $hats = set_item_in_array($hats, $my_item_name.$suffix);
       }
 
@@ -272,7 +307,7 @@ else if(isset($steamID)) {
     }
 
     /* Tools - name/desc tags, slot/class tokens*/
-    else if ($my_item_class == "tool" or $my_item_slot == "action" or $my_item_class == "class_token" or $my_item_class == "slot_token") {
+    else if (($my_item_class == "tool" or $my_item_slot == "action" or $my_item_class == "class_token" or $my_item_class == "slot_token") and !in_array($my_item_name, $ITEM_BLACKLIST)) {
       $tools = set_item_in_array($tools, $my_item_name);
     }
     
@@ -324,10 +359,11 @@ if($output_sort == "alpha") {
   uksort($weapons, "cmpWithLevels");
   usort($unusual_hats, "cmpWithLevels");   /* Note, unusual hats are just strings. No associative array. */
   uksort($vintage_hats, "cmpWithLevels");
+  uksort($genuine_hats, "cmpWithLevels");
   uksort($high_promo_hats, "cmpWithLevels");
   uksort($promo_hats, "cmpWithLevels");
-  uksort($polycount_set_hats, "cmpWithLevels");
-  uksort($xmas2010_hats, "cmpWithLevels");
+  uksort($set_hats, "cmpWithLevels");
+  uksort($new_hats, "cmpWithLevels");
   uksort($hats, "cmpWithLevels");
 }
     
@@ -413,9 +449,6 @@ if ($show_v_hats == "True" or $show_hats == "True" or $show_u_hats == "True" or 
       if (strpos($hp_hat, "Vintage") !== false) {
         echo "[color=#476291]";
       }
-      else if (strpos($hp_hat, "Genuine") !== false) {
-        echo "[color=#4D7455]";
-      }
       else if (strpos($hp_hat, "Unusual") !== false) {
         echo "[color=#8650AC]";
       }
@@ -431,6 +464,42 @@ if ($show_v_hats == "True" or $show_hats == "True" or $show_u_hats == "True" or 
       }
 
       echo "[/b][/color]\n";
+    }
+    echo "\n";
+  }
+  
+  if ($show_g_hats == "True" and !empty($genuine_hats)) {
+    echo "[b][u]Genuine Hats[/b][/u]\n";
+    foreach ( array_keys($genuine_hats) as $g_hat ) {
+      echo "[*][b][color=#4D7455]";
+
+      if ($genuine_hats[$g_hat] > 1) {
+        echo $g_hat." (".$genuine_hats[$g_hat].")";
+      }
+      else {
+        echo $g_hat;
+      }
+
+      echo "[/b][/color]\n";
+
+    }
+    echo "\n";
+  }
+  
+  if ($show_hats == "True" and !empty($new_hats)) {
+    echo "[b][u]April 7th + Replay Update Hats[/b][/u]\n";
+    foreach ( array_keys($new_hats) as $hat ) {
+      echo "[*][b][color=#A59003]";
+
+      if ($new_hats[$hat] > 1) {
+        echo $hat." (".$new_hats[$hat].")";
+      }
+      else {
+        echo $hat;
+      }
+
+      echo "[/b][/color]\n";
+
     }
     echo "\n";
   }
@@ -453,37 +522,19 @@ if ($show_v_hats == "True" or $show_hats == "True" or $show_u_hats == "True" or 
     echo "\n";
   }
   
-  if ($show_hats == "True" and !empty($polycount_set_hats)) {
+  if ($show_hats == "True" and !empty($set_hats)) {
     echo "[b][u]Polycount Set Hats[/b][/u]\n";
-    foreach ( array_keys($polycount_set_hats) as $hat ) {
+    foreach ( array_keys($set_hats) as $hat ) {
       echo "[*][b][color=#A59003]";
 
-      if ($polycount_set_hats[$hat] > 1) {
-        echo $hat." (".$polycount_set_hats[$hat].")";
+      if ($set_hats[$hat] > 1) {
+        echo $hat." (".$set_hats[$hat].")";
       }
       else {
         echo $hat;
       }
 
       echo "[/b][/color]\n";
-    }
-    echo "\n";
-  }
-  
-  if ($show_hats == "True" and !empty($xmas2010_hats)) {
-    echo "[b][u]Australian Christmas Hats[/b][/u]\n";
-    foreach ( array_keys($xmas2010_hats) as $hat ) {
-      echo "[*][b][color=#A59003]";
-
-      if ($xmas2010_hats[$hat] > 1) {
-        echo $hat." (".$xmas2010_hats[$hat].")";
-      }
-      else {
-        echo $hat;
-      }
-
-      echo "[/b][/color]\n";
-
     }
     echo "\n";
   }
@@ -513,9 +564,6 @@ if ($show_v_hats == "True" or $show_hats == "True" or $show_u_hats == "True" or 
       if (strpos($p_hat, "Vintage") !== false) {
         echo "[color=#476291]";
       }
-      else if (strpos($p_hat, "Genuine") !== false) {
-        echo "[color=#4D7455]";
-      }
       else if (strpos($p_hat, "Unusual") !== false) {
         echo "[color=#8650AC]";
       }
@@ -537,8 +585,8 @@ if ($show_v_hats == "True" or $show_hats == "True" or $show_u_hats == "True" or 
 
 }
 
-if ($show_v_hats == "True" or $show_hats == "True" or $show_u_hats == "True" or $show_hp_hats == "True" or $show_p_hats == "True") {
-  if(empty($vintage_hats) and empty($hats) and empty($promo_hats) and empty($high_promo_hats) and empty($unusual_hats) and empty($xmas2010_hats) and empty($polycount_set_hats)) {
+if ($show_v_hats == "True" or $show_hats == "True" or $show_u_hats == "True" or $show_hp_hats == "True" or $show_p_hats == "True" or $show_g_hats == "True") {
+  if(empty($vintage_hats) and empty($hats) and empty($promo_hats) and empty($high_promo_hats) and empty($unusual_hats) and empty($new_hats) and empty($set_hats) and empty($genuine_hats)) {
     echo "None\n";
   }
   echo "[/list]\n";
@@ -750,6 +798,9 @@ $items_to_display_str = "Displaying ";
 if ($show_u_hats == "True") {
   $items_to_display_str = $items_to_display_str."unusual hats, ";
 }
+if ($show_g_hats == "True") {
+  $items_to_display_str = $items_to_display_str."genuine hats, ";
+}
 if ($show_v_hats == "True") {
   $items_to_display_str = $items_to_display_str."vintage hats, ";
 }
@@ -831,6 +882,15 @@ else {
 ?>
       </ul>
       
+      <!-- <script type="text/javascript">
+      function copyToClipboard() {
+        window.clipboardData.setData("text", "test");
+        alert("BBCode copied to clipboard!");
+      }
+      </script>
+
+      <button type="button" onclick="copyToClipboard()">Copy to Clipboard</button> -->
+
       <form action="bbcode_lookup.php" method="get">
         <input type="submit" id="retry_button" value="Try Again" />
       </form>

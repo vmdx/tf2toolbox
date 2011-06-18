@@ -47,17 +47,18 @@
       <div id="checkboxes">
         <div class="checkbox_column">
           <span class="checkbox_title">Display:</span>
-          <input type="checkbox" name="u_hats" value="True" checked>Hats - Unusual<br />
+          <input type="checkbox" name="u_hats" value="True" checked>Hats - <span style="color: #8650AC">Unusual</span><br />
           <input type="checkbox" name="hp_hats" value="True" checked>Hats - Rare Promos  <img id="rare_promos_tooltip" class="info_tooltip" src="media/info_tooltip.png"><br />
-          <input type="checkbox" name="v_hats" value="True" checked>Hats - Vintage<br />
+          <input type="checkbox" name="g_hats" value="True" checked>Hats - <span style="color: #4D7455">Genuine</span><br />
+          <input type="checkbox" name="v_hats" value="True" checked>Hats - <span style="color: #476291">Vintage</span><br />
+          <input type="checkbox" name="hats" value="True" checked>Hats - <span style="color: #A59003">Normal</span><br />
           <input type="checkbox" name="p_hats" value="True" checked>Hats - Promo<br />
-          <input type="checkbox" name="hats" value="True" checked>Hats - Normal<br />
         </div>
         <div class="checkbox_column">
           <span class="checkbox_title"></span>
-          <input type="checkbox" name="v_weps" value="True" checked>Weapons - Vintage<br />
+          <input type="checkbox" name="v_weps" value="True" checked>Weapons - <span style="color: #476291">Vintage</span><br />
+          <input type="checkbox" name="weps" value="True" checked>Weapons - <span style="color: #A59003">Normal</span><br />
           <input type="checkbox" name="p_weps" value="True" checked>Weapons - Promo<br />
-          <input type="checkbox" name="weps" value="True" checked>Weapons - Normal<br />
         </div>
         <div class="checkbox_column checkbox_column_bigright">
           <span class="checkbox_title"></span>
@@ -69,8 +70,9 @@
 
         <div class="checkbox_column checkbox_column_bigright">
           <span class="checkbox_title">Options:</span>
-          <input type="checkbox" name="dup_weps_only" value="True" disabled/><span style="color: #707070">Only display duplicate weapons (in dev!)  </span><img id="dup_weps_tooltip" class="info_tooltip" src="media/info_tooltip.png"><br />
+          <!-- <input type="checkbox" name="dup_weps_only" value="True" disabled/><span style="color: #707070">Only display duplicate weapons (in dev!)  </span><img id="dup_weps_tooltip" class="info_tooltip" src="media/info_tooltip.png"><br /> -->
           <input type="checkbox" name="display_hat_levels" value="True" />Display hat levels<br />
+          <input type="checkbox" name="display_paint" value="True" checked/>Display paint on items<br />
           <input type="checkbox" name="hide_untradable" value="True" />Exclude all untradable items (dirty)<br />
           <input type="checkbox" name="hide_gifted" value="True" />Exclude all gifted items (dirty)<br />
           <input type="checkbox" name="display_credit" value="True" checked/>Display TF2Toolbox credit - thanks! :)<br />
@@ -79,8 +81,8 @@
         <div class="checkbox_column checkbox_column_bigright">
           <span class="checkbox_title">Sort Items By:</span>
           <input type="radio" name="output_sort" value="alpha" checked>Alphabetical<br />
-          <input type="radio" name="output_sort" value="class" disabled><span style="color: #707070">Class (in dev!)</span><br />
-          <input type="radio" name="output_sort" value="item_slot" disabled><span style="color: #707070">Item Slot (in dev!)</span><br />
+          <input type="radio" name="output_sort" value="class" disabled><span style="color: #707070">Class (in dev)</span><br />
+          <!-- <input type="radio" name="output_sort" value="item_slot" disabled><span style="color: #707070">Item Slot (in dev!)</span><br /> -->
         </div>
 
           <!-- <span class="checkbox_title">Output:</span>
@@ -177,7 +179,7 @@
       }); 
       
       $("#rare_promos_tooltip").each( function(i) {
-        var data = "Bill's Hat, Max's Severed Head, Hat of Undeniable Wealth And Respect, Earbuds, Voodoo Juju, Spine-Chilling Skull, Gentle Manne's Service Medal, Hero's Hachimaki, All Shogun Pack Hats";
+        var data = "Bill's Hat, Max's Severed Head, Hat of Undeniable Wealth And Respect, Earbuds, Voodoo Juju, Spine-Chilling Skull, Gentle Manne's Service Medal";
         if (data !== "") {
           $(this).qtip({
             content: data,

@@ -1,40 +1,100 @@
 <?php
+/* These items will be prefixed with a Clean or Dirty if untradeable or gifted. */
 $CLEAN_DIRTY_ITEMS = array(
   "Voodoo Juju", "Spine-Chilling Skull", "Hero's Hachimaki", "Horseless Headless Horsemann's Headtaker", "Sharpened Volcano Fragment", "Sun-on-a-Stick"
 );
 
+/* Promotional weapons that are NOT craftable through normal TF2-only means. */
 $PROMO_WEAPONS_DICT = array(
-  "Lugermorph", "Frying Pan", "Iron Curtain", "Golden Wrench", "Big Kill", "Enthusiast's Timepiece"
+  "Lugermorph", "Frying Pan", "Iron Curtain", "Big Kill", "Enthusiast's Timepiece", "Fishcake"
 );
 
+/* Promotional hats that are NOT craftable through normal TF2-only means. */
 $PROMO_HATS_DICT = array(
-  "Alien Swarm Parasite", "Foster's Facade", "Stockbroker's Scarf", "Ellis' Cap", "The Athletic Supporter",
-  "The Superfan", "The Essential Accessories", "Dealer's Visor", "License to Maim", "Dangeresque, Too?", "Companion Cube Pin",
-  "Bounty Hat", "Treasure Hat", "Lumbricus Lid", "Mann Co. Cap", "Ghastlier Gibus", "Horseless Headless Horsemann's Head",
-  "World Traveler's Hat", "Ghastly Gibus", "Mildly Disturbing Halloween Mask", "Saxton Hale Mask", 
-  "Scout Mask", "Soldier Mask", "Pyro Mask", "Demoman Mask", "Heavy Mask", "Engineer Mask", "Medic Mask", "Sniper Mask", "Spy Mask"
+  // Alien Swarm
+  "Alien Swarm Parasite",
+  // Killing Floor
+  "Foster's Facade", "Stockbroker's Scarf",
+  // Left 4 Dead 2 [bill's - HP]
+  "Ellis' Cap", 
+  // Monday Night Combat
+  "The Athletic Supporter", "The Superfan", "The Essential Accessories", 
+  // Poker Night at the Inventory
+  "Dealer's Visor", "License to Maim", "Dangeresque, Too?", 
+  // Portal 2
+  "Companion Cube Pin",
+  // Potato Sack
+  "Aperture Labs Hard Hat", "Resurrection Associate Pin",
+  // SpaceChem
+  "SpaceChem Pin",
+  // Spiral Knights
+  "Spiral Sallet",
+  // The Great Steam Treasure Hunt [HOUWAR - HP]
+  "Bounty Hat", "Treasure Hat", 
+  // Worms
+  "Lumbricus Lid",
+  // Other
+  "Mann Co. Cap", "World Traveler's Hat", 
+  // Halloween 2009
+  "Ghastly Gibus", "Mildly Disturbing Halloween Mask",
+  // Halloween 2010
+  "Ghastlier Gibus", "Horseless Headless Horsemann's Head", "Saxton Hale Mask", 
+  "Scout Mask", "Soldier Mask", "Pyro Mask", "Demoman Mask", "Heavy Mask", "Engineer Mask", "Medic Mask", "Sniper Mask", "Spy Mask",
+  // Magic: The Gathering
+  "Planeswalker Helm", "Planeswalker Goggles"
 );
 
+/* Special, high value promo hats. */
 $HIGH_PROMO_HATS_DICT = array(
-  "Bill's Hat", "Max's Severed Head", "Hat of Undeniable Wealth And Respect", "Earbuds", "Voodoo Juju", "Spine-Chilling Skull",
-  "Gentle Manne's Service Medal", "Hero's Hachimaki", "Samur-Eye", "Dread Knot", "Geisha Boy", "Noh Mercy"
+  // Left 4 Dead 2
+  "Bill's Hat", 
+  // Sam & Max: The Devil's Playhouse
+  "Max's Severed Head",
+  // The Great Steam Treasure Hunt
+  "Hat of Undeniable Wealth And Respect", 
+  // Halloween 2010
+  "Voodoo Juju", "Spine-Chilling Skull",
+  // Other
+  "Earbuds", "Gentle Manne's Service Medal" 
 );
 
-$POLYCOUNT_SET_HATS_DICT = array(
-  "Milkman", "Familiar Fez", "Attendant", "Grenadier's Softcap", "Ol' Snaggletooth"
+/* Hats with set hat properties. */
+$SET_HATS_DICT = array(
+  // Polycount
+  "Milkman", "Familiar Fez", "Attendant", "Grenadier's Softcap", "Ol' Snaggletooth",
 );
 
-$XMAS2010_HATS_DICT = array(
-  "Flipped Trilby", "Defiant Spartan", "Exquisite Rack", "Madame Dixie", "Prancer's Pride", "Pyromancer's Mask", "Prince Tavish's Crown",
-  "Scotch Bonnet", "Big Chief", "Coupe D'isaster", "Magnificent Mongolian", "Buckaroos Hat", "Industrial Festivizer", "Berliner's Bucket Helm",
-  "Blighted Beak", "German Gonzila", "Larrikin Robin", "Détective Noir", "Le Party Phantom", "A Rather Festive Tree"
+/* Set to the latest hat set to come out.
+   CURRENT: April 7th + Replay Update Hats */
+$NEW_HATS_DICT = array(
+  // April 7th
+  "Reggaelator", "Honcho's Headgear", "Big Country", "Professor's Peculiarity", "Medic's Mountain Cap", "Grimm Hatte", "Private Eye", "Charmer's Chapeau", "Sight for Sore Eyes", "Teddy Roosebelt",
+  // Replay Update
+  "Ol' Geezer", "Team Captain", "Hottie's Hoodie", "Connoisseur's Cap", "Furious Fukaamigasa", "Large Luchadore", "Western Wear", "Doctor's Sack", "Crocleather Slouch", "Villain's Veil"
 );
 
+/* Hats that will never appear in the lists (never tradeable, not giftable). */
 $HAT_BLACKLIST = array(
-  "Cheater's Lament", "Primeval Warrior", "Grizzled Veteran", "Soldier of Fortune", "Mercenary", "Bronze Dueling Badge", "Silver Dueling Badge",
-  "Gold Dueling Badge", "Platinum Dueling Badge"
+  "Cheater's Lament", "Ghastly Gibus", "Mann Co. Cap", "Wiki Cap", "Polycount Pin", "World Traveler's Hat",
+  // Employee Badges
+  "Primeval Warrior", "Grizzled Veteran", "Soldier of Fortune", "Mercenary", 
+  // Dueling Badges
+  "Bronze Dueling Badge", "Silver Dueling Badge", "Gold Dueling Badge", "Platinum Dueling Badge",
+  // Japan Charity
+  "Humanitarian's Hachimaki", "Benefactor's Kanmuri", "Magnanimous Monarch", 
+  // Replay Update
+  "Frontline Field Recorder", 
+  // Kritzkast
+  "Lo-Fi Longwave"
 );
 
+/* Other items that cannot be traded or gifted */
+$ITEM_BLACKLIST = array(
+  "Golden Wrench", "Saxxy",
+  "RIFT Well Spun Hat Claim Code", "Taunt: Director's Vision"
+);
+
+/* Paint to hex color mapping */
 $PAINT_MAP = array(
   "Paint Can" => "[color=#000000]Error - no color paint!",
   "Indubitably Green" => "[color=#729e42]Indubitably Green",
@@ -57,9 +117,37 @@ $PAINT_MAP = array(
   "The Bitter Taste of Defeat and Lime" => "[color=#32cd32]The Bitter Taste of Defeat and Lime",
   "The Color of a Gentlemann's Business Pants" => "[color=#f0e68c]The Color of a Gentlemann's Business Pants",
   "Dark Salmon Injustice" => "[color=#e9967a]Dark Salmon Injustice",
-  "Team Spirit" => "[color=#6885a2]Team [/color][color=#b8383b]Spirit"
+  "Team Spirit" => "[color=#5885a2]Team [/color][color=#b8383b]Spirit"
 );
 
+/* Integer value to paint suffix tag mapping */
+$PAINT_NUMBER_MAP = array(
+  3100495 => "[color=#2f4f4f]Slate[/color]",
+  8208497 => "[color=#7d4071]Purple[/color]",
+  1315860 => "[color=#141414]Black[/color]",
+  8289918 => "[color=#7e7e7e]Grey[/color]",
+  15132390 => "[color=#e6e6e6]White[/color]",
+  15185211 => "[color=#e7b53b]Gold[/color]",
+  14204632 => "[color=#d8bed8]Pink - 216[/color]",
+  15308410 => "[color=#e9967a]Salmon[/color]",
+  8421376 => "[color=#808000]Olive[/color]",
+  7511618 => "[color=#729e42]Green[/color]",
+  5801378 => "[color=#5885a2]Team [/color][color=#b8383b]Spirit[/color]",
+  12073019 => "[color=#5885a2]Team [/color][color=#b8383b]Spirit[/color]",
+  13595446 => "[color=#cf7336]Orange[/color]",
+  10843461 => "[color=#a57545]Muskelmannbraun[/color]",
+  5322826 => "[color=#51384a]Violet[/color]",
+  12955537 => "[color=#c5af91]Drab[/color]",
+  16738740 => "[color=#ff69b4]Pink - Hell[/color]",
+  6901050 => "[color=#694d3a]Brown[/color]",
+  3329330 => "[color=#32cd32]Lime[/color]",
+  15787660 => "[color=#f0e68c]Business Pants[/color]",
+  8154199 => "[color=#7c6c57]Rustic[/color]",
+  4345659 => "[color=#424f3b]Greed[/color]"
+);
+
+
+/* Effect integer to name map. */
 $EFFECT_MAP = array(
   6 => "Green Confetti",
   7 => "Purple Confetti",
@@ -76,6 +164,8 @@ $EFFECT_MAP = array(
   18 => "Peace Sign",
   19 => "Hearts"
 );
+
+/* Holds default levels for each weapon. */
 
 $WEAPON_LEVEL_MAP = array(
   
