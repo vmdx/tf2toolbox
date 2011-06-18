@@ -173,7 +173,7 @@ else if(isset($steamID)) {
     if ($display_paint and $inv_entry->{"attributes"}->{"attribute"}) {
       /* Check for paint attribute. */
       foreach($inv_entry->{"attributes"}->{"attribute"} as $attr) {
-        if ($attr->{"defindex"} == 142) { // set item tint
+        if ($attr->{"defindex"} == 142 and $PAINT_NUMBER_MAP[intval($attr->{"float_value"})]) { // set item tint
           array_push($suffix_tags, $PAINT_NUMBER_MAP[intval($attr->{"float_value"})]);
           break;
         } 
