@@ -190,6 +190,23 @@ html, body {
 	
 }
 
+#error_msg a {
+	font-family: TFBuild, Verdana;
+/*	text-decoration: none;*/
+}
+
+#error_msg a:link {
+	color: #e6e6e6;
+}
+
+#error_msg a:visited {
+	color: #e6e6e6;
+}
+
+#error_msg a:hover {
+	color: #e6e6e6;
+}
+
 #content {
 	min-width: 850px;
 	padding-bottom: 50px;
