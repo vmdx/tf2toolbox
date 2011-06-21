@@ -32,11 +32,12 @@
     echo '    <span id="error_msg">'.$error_msg."</span>\n";
     echo "  </div>\n";
   }
-  else {
-    echo '  <div id="error_bar">'."\n";
-    echo '    <span id="error_msg">'."6.18.2011 - Update! Painted item info, genuine and new hat categories. Discuss <a href='http://forums.steampowered.com/forums/showthread.php?p=22978662#post22978662'>HERE!</a>"."</span>\n";
-    echo "  </div>\n";
-  }
+  /* UNCOMMENT FOR A NEWSBAR */
+  // else {
+  //  echo '  <div id="error_bar">'."\n";
+  //  echo '    <span id="error_msg">'."6.18.2011 - Update! Painted item info, genuine and new hat categories. Discuss <a href='http://forums.steampowered.com/forums/showthread.php?p=22978662#post22978662'>HERE!</a>"."</span>\n";
+  //  echo "  </div>\n";
+  // }
 ?>
   
   <div id="content">
