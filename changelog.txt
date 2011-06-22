@@ -2,7 +2,6 @@
 * "Uncheck all" button for Display on form. 
 * Sort items into classes, item slot.
 * Sort metal by Ref/Rec/Scrap.
-* Edition numbers. 
 
 * Fix Clean/Dirty prefixes (?)
 * _GET parameter for bbcode.
@@ -21,6 +20,10 @@
 
 -- CHANGELOG --
 
+6.21.2011
+  - Added craft numbers on items. Will always show if <= 100. Can
+  be shown always via option.
+  
 6.17.2011
   - Option to show paint on hats.
   - Fixed the hat blacklist: no untradeable & ungiftable hats are allowed.

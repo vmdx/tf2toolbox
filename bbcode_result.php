@@ -39,6 +39,7 @@ $show_crates = $_POST['crates'];
 
 $dup_weps_only = $_POST['dup_weps_only'];
 $display_hat_levels = $_POST['display_hat_levels'];
+$display_craft_num = $_POST['display_craft_num'];
 $display_paint = $_POST['display_paint'];
 $hide_untradable = $_POST['hide_untradable'];
 $hide_gifted = $_POST['hide_gifted'];
@@ -128,6 +129,7 @@ else if(isset($steamID)) {
     $my_item_name = $item_names[$my_defindex];
     $my_item_slot = $item_slots[$my_defindex];
     $my_item_class = $item_classes[$my_defindex];
+    $craftnum = -1;
     
     $inventory_token = $inv_entry->{"inventory"};
     $my_inventory_slot = (int)$inventory_token & $mask;
@@ -142,13 +144,23 @@ else if(isset($steamID)) {
       continue;
     }
     
+    /* Prefix and suffixes for strings such as "Dirty/Clean", "(Level 66, Gifted, Untradable)"*/
+    $prefix = "Clean ";
+    $suffix_tags = array();
+    
+    /* Check attributes for gifted status, painted status, and unique craft index. */
     $is_gifted = false;
     if ($inv_entry->{"attributes"}->{"attribute"}) {
       foreach($inv_entry->{"attributes"}->{"attribute"} as $attr) {
         if ($attr->{"defindex"} == 186) { //gifted
           $is_gifted = true;
-          break;
         } 
+        else if ($display_paint and $attr->{"defindex"} == 142 and $PAINT_NUMBER_MAP[intval($attr->{"float_value"})]) { // 142 == paint tint
+          array_push($suffix_tags, $PAINT_NUMBER_MAP[intval($attr->{"float_value"})]);
+        }
+        else if ($attr->{"defindex"} == 229) { // 229 = unique craft index
+          $craftnum = $attr->{"value"};
+        }
       }
     }
 
@@ -156,9 +168,6 @@ else if(isset($steamID)) {
       continue;
     }
     
-    /* Prefix and suffixes for strings such as "Dirty/Clean", "(Level 66, Gifted, Untradable)"*/
-    $prefix = "Clean ";
-    $suffix_tags = array();
     if ($inv_entry->{"flag_cannot_trade"} or $is_gifted) {
       $prefix = "Dirty ";
     }
@@ -169,16 +178,6 @@ else if(isset($steamID)) {
       array_push($suffix_tags, "Gifted");
     }
     
-    /* If there are attributes to check and we want to display paint...*/
-    if ($display_paint and $inv_entry->{"attributes"}->{"attribute"}) {
-      /* Check for paint attribute. */
-      foreach($inv_entry->{"attributes"}->{"attribute"} as $attr) {
-        if ($attr->{"defindex"} == 142 and $PAINT_NUMBER_MAP[intval($attr->{"float_value"})]) { // set item tint
-          array_push($suffix_tags, $PAINT_NUMBER_MAP[intval($attr->{"float_value"})]);
-          break;
-        } 
-      }
-    }
     
     $suffix = "";
     if (!empty($suffix_tags)) {
@@ -226,6 +225,12 @@ else if(isset($steamID)) {
 
     /* Hats */ 
     else if ((($my_item_slot == "head") or ($my_item_slot == "misc")) and !in_array($my_item_name, $HAT_BLACKLIST)) {
+      /* Add craft # immediately to item name if it has been set and is requested. */
+      $my_item_name_with_craft = $my_item_name;
+      if ($craftnum > 0 and ($craftnum < 101 or $display_craft_num)) {
+        $my_item_name_with_craft = $my_item_name." #".$craftnum;
+      }
+      
       if ($display_hat_levels) {
         array_unshift($suffix_tags, "Level ".$inv_entry->{"level"});
         $suffix = " (".implode(", ", $suffix_tags).")";
@@ -241,25 +246,25 @@ else if(isset($steamID)) {
             break;
           }
         }
-        array_push($unusual_hats, "Unusual ".$my_item_name." (".$effect.")".$suffix);
+        array_push($unusual_hats, "Unusual ".$my_item_name_with_craft." (".$effect.")".$suffix);
       }
       
       /* Genuine Hats*/
       else if ($quality_map[$inv_entry->{"quality"}] == "Genuine") {
         
         if (in_array($my_item_name, $CLEAN_DIRTY_ITEMS)) {
-          $genuine_hats = set_item_in_array($genuine_hats, $prefix."Genuine ".$my_item_name.$suffix);
+          $genuine_hats = set_item_in_array($genuine_hats, $prefix."Genuine ".$my_item_name_with_craft.$suffix);
         }
         else {
-          $genuine_hats = set_item_in_array($genuine_hats, "Genuine ".$my_item_name.$suffix);
+          $genuine_hats = set_item_in_array($genuine_hats, "Genuine ".$my_item_name_with_craft.$suffix);
         }
       }
       
       else if (in_array($my_item_name, $HIGH_PROMO_HATS_DICT)) {
-        $fullname = $my_item_name.$suffix;
+        $fullname = $my_item_name_with_craft.$suffix;
         
         if ($my_item_name == "Gentle Manne's Service Medal") {
-          $high_promo_hats = set_item_in_array($high_promo_hats, $my_item_name." (#".$inv_entry->{"attributes"}->{"attribute"}[0]->{"value"}.")".$suffix);
+          $high_promo_hats = set_item_in_array($high_promo_hats, $my_item_name_with_craft." (#".$inv_entry->{"attributes"}->{"attribute"}[0]->{"value"}.")".$suffix);
         }
         
         else {
@@ -279,24 +284,24 @@ else if(isset($steamID)) {
       
       else if (in_array($my_item_name, $PROMO_HATS_DICT)) {
         if ($quality_map[$inv_entry->{"quality"}] == "Unique") {
-          $promo_hats = set_item_in_array($promo_hats, $my_item_name.$suffix);
+          $promo_hats = set_item_in_array($promo_hats, $my_item_name_with_craft.$suffix);
         }
         
         else {
-          $promo_hats = set_item_in_array($promo_hats, $quality_map[$inv_entry->{"quality"}]." ".$my_item_name.$suffix);
+          $promo_hats = set_item_in_array($promo_hats, $quality_map[$inv_entry->{"quality"}]." ".$my_item_name_with_craft.$suffix);
         }
       }
       else if (in_array($my_item_name, $SET_HATS_DICT)) {
-        $set_hats = set_item_in_array($set_hats, $my_item_name.$suffix);
+        $set_hats = set_item_in_array($set_hats, $my_item_name_with_craft.$suffix);
       }
       else if (in_array($my_item_name, $NEW_HATS_DICT)) {
-        $new_hats = set_item_in_array($new_hats, $my_item_name.$suffix);
+        $new_hats = set_item_in_array($new_hats, $my_item_name_with_craft.$suffix);
       }
       else if ($quality_map[$inv_entry->{"quality"}] == "Vintage") {
-        $vintage_hats = set_item_in_array($vintage_hats, "Vintage ".$my_item_name.$suffix);
+        $vintage_hats = set_item_in_array($vintage_hats, "Vintage ".$my_item_name_with_craft.$suffix);
       }
       else if ($quality_map[$inv_entry->{"quality"}] == "Unique") {
-        $hats = set_item_in_array($hats, $my_item_name.$suffix);
+        $hats = set_item_in_array($hats, $my_item_name_with_craft.$suffix);
       }
 
     }

@@ -33,11 +33,11 @@
     echo "  </div>\n";
   }
   /* UNCOMMENT FOR A NEWSBAR */
-  // else {
-  //  echo '  <div id="error_bar">'."\n";
-  //  echo '    <span id="error_msg">'."6.18.2011 - Update! Painted item info, genuine and new hat categories. Discuss <a href='http://forums.steampowered.com/forums/showthread.php?p=22978662#post22978662'>HERE!</a>"."</span>\n";
-  //  echo "  </div>\n";
-  // }
+  else {
+   echo '  <div id="error_bar">'."\n";
+   echo '    <span id="error_msg">'."6.21.2011 - Update! Craft numbers on items w/option. Discuss <a href='http://forums.steampowered.com/forums/showthread.php?p=23042751#post23042751'>HERE!</a>"."</span>\n";
+   echo "  </div>\n";
+  }
 ?>
   
   <div id="content">
@@ -79,6 +79,7 @@
           <!-- <input type="checkbox" name="dup_weps_only" value="True" disabled/><span style="color: #707070">Only display duplicate weapons (in dev!)  </span><img id="dup_weps_tooltip" class="info_tooltip" src="media/info_tooltip.png"><br /> -->
           <input type="checkbox" name="display_hat_levels" value="True" />Display hat levels<br />
           <input type="checkbox" name="display_paint" value="True" checked/>Display paint on items<br />
+          <input type="checkbox" name="display_craft_num" value="True">Display craft numbers over 100<br />
           <input type="checkbox" name="hide_untradable" value="True" />Exclude all untradable items (dirty)<br />
           <input type="checkbox" name="hide_gifted" value="True" />Exclude all gifted items (dirty)<br />
           <input type="checkbox" name="display_credit" value="True" checked/>Display TF2Toolbox credit - thanks! :)<br />
