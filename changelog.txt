@@ -1,9 +1,10 @@
 -- TODO --
-* "Uncheck all" button for Display on form. 
 * Sort items into classes, item slot.
 * Sort metal by Ref/Rec/Scrap.
+* User backpack option after the lookup list. (TF2B, OPTF2, TF2items)
+* What weapons am I missing? Tool.
 
-* Fix Clean/Dirty prefixes (?)
+* Fix the CSS spaghetti :(
 * _GET parameter for bbcode.
 * URL shortening, get rid of .php
 
@@ -19,6 +20,13 @@
 * Make a steam community group?
 
 -- CHANGELOG --
+
+6.30.2011
+	- Strange weapon support.
+  - Added Clear Buttons for BBCode form.
+  - New Hat category is now Uber Update hats.
+  - Added new dual-color paints from Uber Update.
+	- Removed some funky residual text from ads.
 
 6.21.2011
   - Added craft numbers on items. Will always show if <= 100. Can

@@ -39,9 +39,7 @@ $PROMO_HATS_DICT = array(
   "Ghastly Gibus", "Mildly Disturbing Halloween Mask",
   // Halloween 2010
   "Ghastlier Gibus", "Horseless Headless Horsemann's Head", "Saxton Hale Mask", 
-  "Scout Mask", "Soldier Mask", "Pyro Mask", "Demoman Mask", "Heavy Mask", "Engineer Mask", "Medic Mask", "Sniper Mask", "Spy Mask",
-  // Magic: The Gathering
-  "Planeswalker Helm", "Planeswalker Goggles"
+  "Scout Mask", "Soldier Mask", "Pyro Mask", "Demoman Mask", "Heavy Mask", "Engineer Mask", "Medic Mask", "Sniper Mask", "Spy Mask"
 );
 
 /* Special, high value promo hats. */
@@ -61,16 +59,15 @@ $HIGH_PROMO_HATS_DICT = array(
 /* Hats with set hat properties. */
 $SET_HATS_DICT = array(
   // Polycount
-  "Milkman", "Familiar Fez", "Attendant", "Grenadier's Softcap", "Ol' Snaggletooth",
+  "Milkman", "Familiar Fez", "Attendant", "Grenadier's Softcap", "Ol' Snaggletooth"
 );
 
 /* Set to the latest hat set to come out.
-   CURRENT: April 7th + Replay Update Hats */
+   CURRENT: Uber Update Hats */
 $NEW_HATS_DICT = array(
-  // April 7th
-  "Reggaelator", "Honcho's Headgear", "Big Country", "Professor's Peculiarity", "Medic's Mountain Cap", "Grimm Hatte", "Private Eye", "Charmer's Chapeau", "Sight for Sore Eyes", "Teddy Roosebelt",
-  // Replay Update
-  "Ol' Geezer", "Team Captain", "Hottie's Hoodie", "Connoisseur's Cap", "Furious Fukaamigasa", "Large Luchadore", "Western Wear", "Doctor's Sack", "Crocleather Slouch", "Villain's Veil"
+  // Uber Update
+	"Capo's Capper", "Made Man", "Cosa Nostra Cap", "Desert Marauder", "Sultan's Ceremonial", "Bonk Boy",
+	"Jumper's Jeepcap", "Armored Authority", "Fancy Dress Uniform", "Pocket Medic", "Professor Speks"
 );
 
 /* Hats that will never appear in the lists (never tradeable, not giftable). */
@@ -85,7 +82,9 @@ $HAT_BLACKLIST = array(
   // Replay Update
   "Frontline Field Recorder", 
   // Kritzkast
-  "Lo-Fi Longwave"
+  "Lo-Fi Longwave",
+	// Uber Update
+	"Proof of Purchase"
 );
 
 /* Other items that cannot be traded or gifted */
@@ -117,7 +116,14 @@ $PAINT_MAP = array(
   "The Bitter Taste of Defeat and Lime" => "[color=#32cd32]The Bitter Taste of Defeat and Lime",
   "The Color of a Gentlemann's Business Pants" => "[color=#f0e68c]The Color of a Gentlemann's Business Pants",
   "Dark Salmon Injustice" => "[color=#e9967a]Dark Salmon Injustice",
-  "Team Spirit" => "[color=#5885a2]Team [/color][color=#b8383b]Spirit"
+  "Team Spirit" => "[color=#5885a2]Team [/color][color=#b8383b]Spirit",
+	// New dual color paints from Uber Update
+	"An Air of Debonair" => "[color=#654740]An Air [/color][color=#28394d]of Debonair",
+	"Balaclavas are Forever" => "[color=#3b1f23]Balaclavas [/color][color=#18233d]are Forever",
+	"Cream Spirit" => "[color=#c36c2d]Cream [/color][color=#b88035]Spirit",
+	"Operator's Overalls" => "[color=#483838]Operator's [/color][color=#384248]Overalls",
+	"The Value of Teamwork" => "[color=#803020]The Value [/color][color=#256d8d]of Teamwork",
+	"Waterlogged Lab Coat" => "[color=#a89a8c]Waterlogged [/color][color=#839fa3]Lab Coat"
 );
 
 /* Integer value to paint suffix tag mapping */
@@ -143,7 +149,20 @@ $PAINT_NUMBER_MAP = array(
   3329330 => "[color=#32cd32]Lime[/color]",
   15787660 => "[color=#f0e68c]Business Pants[/color]",
   8154199 => "[color=#7c6c57]Rustic[/color]",
-  4345659 => "[color=#424f3b]Greed[/color]"
+  4345659 => "[color=#424f3b]Greed[/color]",
+	// New dual color paints from Uber Update
+	6637376 => "[color=#654740]Air [/color][color=#28394d]Debonair[/color]",
+	2634909 => "[color=#654740]Air [/color][color=#28394d]Debonair[/color]",
+	3874595 => "[color=#3b1f23]Balaclavas [/color][color=#18233d]Forever[/color]",
+	1581885 => "[color=#3b1f23]Balaclavas [/color][color=#18233d]Forever[/color]",
+	12807213 => "[color=#c36c2d]Cream [/color][color=#b88035]Spirit[/color]",
+	12091445 => "[color=#c36c2d]Cream [/color][color=#b88035]Spirit[/color]",
+	4732984 => "[color=#483838]Operator's [/color][color=#384248]Overalls[/color]",
+	3686984 => "[color=#483838]Operator's [/color][color=#384248]Overalls[/color]",
+	8400928 => "[color=#803020]Value of [/color][color=#256d8d]Teamwork[/color]",
+	2452877 => "[color=#803020]Value of [/color][color=#256d8d]Teamwork[/color]",
+	11049612 => "[color=#a89a8c]Lab [/color][color=#839fa3]Coat[/color]",
+	8626083 => "[color=#a89a8c]Lab [/color][color=#839fa3]Coat[/color]"
 );
 
 

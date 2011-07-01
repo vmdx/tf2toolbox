@@ -109,7 +109,7 @@
   
   <!-- <div id="adstrip">
     <div id="adbox" style="width:468px; margin:auto;">
-      <script type="text/javascript"><!--
+      <script type="text/javascript">
       google_ad_client = "ca-pub-2260733802952622";
       /* Standard Banner */
       google_ad_slot = "1084975241";

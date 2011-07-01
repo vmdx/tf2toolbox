@@ -1,7 +1,7 @@
 /* BBCode lookup */
 #checkboxes {
 	clear:both;
-	height: 150px;
+	height: 170px;
 	padding-top: 20px;
 	padding-left: 10px;
 	color: #f2f2f2;
@@ -10,13 +10,21 @@
 	text-align:left;
 	font-family: TFSec;
 	font-size:13px;
-	height: 130px;
+	height: 170px;
 	float:left;
 	margin-right: 10px;
+	position: relative;
 }
 
 .checkbox_column_bigright {
 	margin-right: 30px;
+	position: relative;
+}
+
+.uncheck_button {
+  font-size: 13px;
+  position: absolute;
+  bottom: 0;
 }
 
 .checkbox_title {

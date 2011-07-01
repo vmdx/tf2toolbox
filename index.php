@@ -40,13 +40,13 @@
         <a href="bbcode_lookup.php"><img class="tool_img" src="media/bbcode_tool_spotlight.png" alt="bbcode_spotlight"></a>
         <a href="bbcode_lookup.php"><span class="tool_title" id="bbcode_tool">BBCode Translator</span></a>
         <span class="tool_desc">Converts backpack contents to eye-catching BBCode for trading on forums</span>
-        <span class="tool_news">updated 3.9.2011</span>
+        <!-- <span class="tool_news">updated 3.9.2011</span> -->
       </div>
       <div class="tool">
         <a href="metal_lookup.php"><img class="tool_img" src="media/metal_tool_spotlight.png" alt="bbcode_spotlight"></a>
         <a href="metal_lookup.php"><span class="tool_title" id="metal_tool">Metal Maker</span></a>
         <span class="tool_desc">Organizes backpack weapons into scrap metal and token combinations</span>
-        <span class="tool_news">updated 3.7.2011</span>
+        <!-- <span class="tool_news">updated 3.7.2011</span> -->
       </div>
 
     </div>
@@ -55,9 +55,9 @@
       <span class="tools_title">Tools In Development</span>
       <div class="tool">
         <img class="tool_img" src="media/dictionary_tool_spotlight.png" alt="bbcode_spotlight">
-        <span class="tool_title" id="dict_tool">TF2 Item Dictionary</span>
-        <span class="tool_desc">Fetches current TF2 item schema with pictures and descriptions</span>
-        <span class="tool_news">not started</span>
+        <span class="tool_title" id="dict_tool">Weapon Inventory</span>
+        <span class="tool_desc">There are so many weapons nowadays! See which ones you are missing</span>
+        <!-- <span class="tool_news">not started</span> -->
       </div>
     </div>
     
@@ -65,7 +65,7 @@
   
   <!-- <div id="adstrip">
     <div id="adbox" style="width:468px; margin:auto;">
-      <script type="text/javascript"><!--
+      <script type="text/javascript">
       google_ad_client = "ca-pub-2260733802952622";
       /* Standard Banner */
       google_ad_slot = "1084975241";

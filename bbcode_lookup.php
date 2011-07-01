@@ -7,6 +7,8 @@
 	<link href="stylesheets/bbcode_style.css" media="screen" rel="stylesheet" type="text/css" />
 	<link rel="shortcut icon" href="media/favicon.ico" />
 	<link rel="icon" type="image/png" href="media/engie_toolbox_32.png" />
+	<script type="text/javascript" src="javascript/jquery-1.4.4.min.js"></script>
+  <script type="text/javascript" src="javascript/jquery.qtip-1.0.0-rc3.js"></script>
 </head>
 <body>
   <div id="header">
@@ -35,7 +37,7 @@
   /* UNCOMMENT FOR A NEWSBAR */
   else {
    echo '  <div id="error_bar">'."\n";
-   echo '    <span id="error_msg">'."6.21.2011 - Update! Craft numbers on items w/option. Discuss <a href='http://forums.steampowered.com/forums/showthread.php?p=23042751#post23042751'>HERE!</a>"."</span>\n";
+   echo '    <span id="error_msg">'."6.30.2011 - Update! Strange weapons, Uber update, uncheck all box. Discuss <a href='http://forums.steampowered.com/forums/showthread.php?p=23042751#post23042751'>HERE!</a>"."</span>\n";
    echo "  </div>\n";
   }
 ?>
@@ -53,25 +55,29 @@
       <div id="checkboxes">
         <div class="checkbox_column">
           <span class="checkbox_title">Display:</span>
-          <input type="checkbox" name="u_hats" value="True" checked>Hats - <span style="color: #8650AC">Unusual</span><br />
-          <input type="checkbox" name="hp_hats" value="True" checked>Hats - Rare Promos  <img id="rare_promos_tooltip" class="info_tooltip" src="media/info_tooltip.png"><br />
-          <input type="checkbox" name="g_hats" value="True" checked>Hats - <span style="color: #4D7455">Genuine</span><br />
-          <input type="checkbox" name="v_hats" value="True" checked>Hats - <span style="color: #476291">Vintage</span><br />
-          <input type="checkbox" name="hats" value="True" checked>Hats - <span style="color: #A59003">Normal</span><br />
-          <input type="checkbox" name="p_hats" value="True" checked>Hats - Promo<br />
+          <input type="checkbox" name="u_hats" value="True" class="hat_box" checked>Hats - <span style="color: #8650AC">Unusual</span><br />
+          <input type="checkbox" name="hp_hats" value="True" class="hat_box" checked>Hats - Rare Promos  <img id="rare_promos_tooltip" class="info_tooltip" src="media/info_tooltip.png"><br />
+          <input type="checkbox" name="g_hats" value="True" class="hat_box" checked>Hats - <span style="color: #4D7455">Genuine</span><br />
+          <input type="checkbox" name="v_hats" value="True" class="hat_box" checked>Hats - <span style="color: #476291">Vintage</span><br />
+          <input type="checkbox" name="hats" value="True" class="hat_box" checked>Hats - <span style="color: #A59003">Normal</span><br />
+          <input type="checkbox" name="p_hats" value="True" class="hat_box" checked>Hats - Promo<br />
+					<button type="button" class="uncheck_button" onclick="uncheckAll('hat_box')">Clear Hats</button>
         </div>
         <div class="checkbox_column">
           <span class="checkbox_title"></span>
-          <input type="checkbox" name="v_weps" value="True" checked>Weapons - <span style="color: #476291">Vintage</span><br />
-          <input type="checkbox" name="weps" value="True" checked>Weapons - <span style="color: #A59003">Normal</span><br />
-          <input type="checkbox" name="p_weps" value="True" checked>Weapons - Promo<br />
+          <input type="checkbox" name="s_weps" value="True" class="wp_box" checked>Weapons - <span style="color: #CD9B1D">Strange</span><br />
+          <input type="checkbox" name="v_weps" value="True" class="wp_box" checked>Weapons - <span style="color: #476291">Vintage</span><br />
+          <input type="checkbox" name="weps" value="True" class="wp_box" checked>Weapons - <span style="color: #A59003">Normal</span><br />
+          <input type="checkbox" name="p_weps" value="True" class="wp_box" checked>Weapons - Promo<br />
+					<button type="button" class="uncheck_button" onclick="uncheckAll('wp_box')">Clear Weapons</button>
         </div>
-        <div class="checkbox_column checkbox_column_bigright">
+        <div class="checkbox_column" style="width:90px;">
           <span class="checkbox_title"></span>
-          <input type="checkbox" name="tools" value="True" checked>Tools<br />
-          <input type="checkbox" name="paints" value="True" checked>Paints<br />
-          <input type="checkbox" name="crates" value="True" checked>Crates<br />
-          <input type="checkbox" name="metal" value="True" checked>Metal<br />
+          <input type="checkbox" name="tools" value="True" class="misc_box" checked>Tools<br />
+          <input type="checkbox" name="paints" value="True" class="misc_box" checked>Paints<br />
+          <input type="checkbox" name="crates" value="True" class="misc_box" checked>Crates<br />
+          <input type="checkbox" name="metal" value="True" class="misc_box" checked>Metal<br />
+					<button type="button" class="uncheck_button" onclick="uncheckAll('misc_box')">Clear Misc</button>
         </div>
 
         <div class="checkbox_column checkbox_column_bigright">
@@ -90,6 +96,12 @@
           <input type="radio" name="output_sort" value="alpha" checked>Alphabetical<br />
           <input type="radio" name="output_sort" value="class" disabled><span style="color: #707070">Class (in dev)</span><br />
           <!-- <input type="radio" name="output_sort" value="item_slot" disabled><span style="color: #707070">Item Slot (in dev!)</span><br /> -->
+					<!-- <br />
+					<span class="checkbox_title">Backpack Link:</span>
+					<input type="radio" name="inc_bp_link" value="none" checked>None<br />
+          <input type="radio" name="inc_bp_link" value="tf2b">TF2B<br />
+          <input type="radio" name="inc_bp_link" value="tf2items">TF2Items<br />
+          <input type="radio" name="inc_bp_link" value="optf2">OPTF2<br /> -->
         </div>
 
           <!-- <span class="checkbox_title">Output:</span>
@@ -129,6 +141,15 @@
 ?>        
 
       </div>
+
+			<script>
+			function uncheckAll(class_str) {
+				var class_sel = '.' + class_str;
+				$(class_sel).each(function(index) {
+					this.checked = false;
+				});
+			}
+			</script>
       
       <?php
       if(!empty($_SESSION['steamID'])) {
@@ -144,7 +165,7 @@
   
   <!-- <div id="adstrip">
     <div id="adbox" style="width:468px; margin:auto;">
-      <script type="text/javascript"><!--
+      <script type="text/javascript">
       google_ad_client = "ca-pub-2260733802952622";
       /* Standard Banner */
       google_ad_slot = "1084975241";
@@ -161,8 +182,6 @@
   require('footer.php');
   ?>
   
-  <script type="text/javascript" src="javascript/jquery-1.4.4.min.js"></script>
-  <script type="text/javascript" src="javascript/jquery.qtip-1.0.0-rc3.js"></script>
   <script>
   $(document).ready(function() {
 

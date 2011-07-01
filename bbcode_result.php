@@ -28,6 +28,7 @@ $show_p_hats = $_POST['p_hats'];
 $show_v_hats = $_POST['v_hats'];
 $show_hats = $_POST['hats'];
 
+$show_s_weps = $_POST['s_weps'];
 $show_v_weps = $_POST['v_weps'];
 $show_p_weps = $_POST['p_weps'];
 $show_weps = $_POST['weps'];
@@ -96,6 +97,7 @@ foreach($schema->{"result"}->{"qualities"} as $key=>$value) {
 $vintage_weapons = array();
 $weapons = array();
 $promo_weapons = array();
+$strange_weapons = array();
 
 $unusual_hats = array();
 $high_promo_hats = array();
@@ -185,8 +187,8 @@ else if(isset($steamID)) {
     }
     
     
-    /* Weapons - don't show custom-named stock weapons (defindex 0 through 30) */
-    if (in_array($my_item_slot, $weapon_slots) and $my_defindex > 30 and !($my_defindex > 189 and $my_defindex < 213) and $my_item_class != "slot_token" and !in_array($my_item_name, $ITEM_BLACKLIST)) {
+    /* Weapons */
+    if (in_array($my_item_slot, $weapon_slots) and $my_item_class != "slot_token" and !in_array($my_item_name, $ITEM_BLACKLIST)) {
       
       switch($quality_map[$inv_entry->{"quality"}]) {
         case "Unusual":
@@ -198,6 +200,9 @@ else if(isset($steamID)) {
             $promo_weapons = set_item_in_array($promo_weapons, $quality_map[$inv_entry->{"quality"}]." ".$my_item_name.$suffix);
           }
           break;
+				case "Strange":
+					$strange_weapons = set_item_in_array($strange_weapons, "Strange ".$my_item_name.$suffix);
+					break;
         case "Vintage":
           if (!$WEAPON_LEVEL_MAP[$inv_entry->{"level"}] or !in_array($my_item_name, $WEAPON_LEVEL_MAP[$inv_entry->{"level"}])) {
             array_unshift($suffix_tags, "Level ".$inv_entry->{"level"});
@@ -214,7 +219,8 @@ else if(isset($steamID)) {
           if (in_array($my_item_name, $PROMO_WEAPONS_DICT)) {
             $promo_weapons = set_item_in_array($promo_weapons, $my_item_name.$suffix);
           }
-          else {
+					/* Don't show custom named stock weapons? (defindex < 30, > 189 and < 213) */
+          else if ($my_defindex > 30 and !($my_defindex > 189 and $my_defindex < 213)) {
             $weapons = set_item_in_array($weapons, $my_item_name.$suffix);
           }
           break;
@@ -359,6 +365,7 @@ function cmpWithLevels($a, $b) {
   }
 }
 if($output_sort == "alpha") {
+	uksort($strange_weapons);
   uksort($promo_weapons, "cmpWithLevels");
   uksort($vintage_weapons, "cmpWithLevels");
   uksort($weapons, "cmpWithLevels");
@@ -492,7 +499,7 @@ if ($show_v_hats == "True" or $show_hats == "True" or $show_u_hats == "True" or 
   }
   
   if ($show_hats == "True" and !empty($new_hats)) {
-    echo "[b][u]April 7th + Replay Update Hats[/b][/u]\n";
+    echo "[b][u]Uber Update Hats[/b][/u]\n";
     foreach ( array_keys($new_hats) as $hat ) {
       echo "[*][b][color=#A59003]";
 
@@ -597,7 +604,7 @@ if ($show_v_hats == "True" or $show_hats == "True" or $show_u_hats == "True" or 
   echo "[/list]\n";
 }
 
-/* WEAPONS - vintage and non-vintage */
+/* WEAPONS - strange, vintage and non-vintage */
 
 if ($show_v_weps == "True" or $show_weps == "True" or $show_p_weps == "True") {
   echo "[b][u]Weapons For Trade[/b][/u]";
@@ -607,6 +614,21 @@ if ($show_v_weps == "True" or $show_weps == "True" or $show_p_weps == "True") {
   }
   echo "[list]";
   
+  if ($show_s_weps == "True" and !empty($strange_weapons)) {
+    echo "[b][u]Strange Weapons[/b][/u]\n";
+    foreach ( array_keys($strange_weapons) as $s_weapon ) {
+
+      echo "[*][b][color=#CD9B1D]";
+      echo $s_weapon;
+      if ($strange_weapons[$s_weapon] > 1) {
+        echo " (".$strange_weapons[$s_weapon].")";
+      }
+      echo "[/b][/color]\n";   // Close the tag.
+
+    }
+    echo "\n";
+  }
+
   if ($show_v_weps == "True" and !empty($vintage_weapons)) {
     echo "[b][u]Vintage Weapons[/b][/u]\n";
     foreach ( array_keys($vintage_weapons) as $v_weapon ) {
@@ -670,8 +692,8 @@ if ($show_v_weps == "True" or $show_weps == "True" or $show_p_weps == "True") {
   }
 }
 
-if ($show_v_weps == "True" or $show_weps == "True" or $show_p_weps == "True") {
-  if(empty($vintage_weapons) and empty($weapons) and empty($promo_weapons)) {
+if ($show_v_weps == "True" or $show_weps == "True" or $show_p_weps == "True" or $show_s_weps == "True") {
+  if(empty($vintage_weapons) and empty($weapons) and empty($promo_weapons) and empty($strange_weapons)) {
     echo "None\n";
   }
   echo "[/list]\n";
@@ -812,6 +834,9 @@ if ($show_v_hats == "True") {
 if ($show_hats == "True") {
   $items_to_display_str = $items_to_display_str."normal hats, ";
 }
+if ($show_s_weps == "True") {
+	$items_to_display_str = $items_to_display_str."strange weapons, ";
+}
 if ($show_v_weps == "True") {
   $items_to_display_str = $items_to_display_str."vintage weapons, ";
 }
@@ -905,7 +930,7 @@ else {
 
   <!-- <div id="adstrip">
     <div id="adbox" style="width:468px; margin:auto;">
-      <script type="text/javascript"><!--
+      <script type="text/javascript">
       google_ad_client = "ca-pub-2260733802952622";
       /* Standard Banner */
       google_ad_slot = "1084975241";
