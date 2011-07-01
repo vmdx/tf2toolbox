@@ -365,7 +365,7 @@ function cmpWithLevels($a, $b) {
   }
 }
 if($output_sort == "alpha") {
-	uksort($strange_weapons);
+	uksort($strange_weapons, "cmpWithLevels");
   uksort($promo_weapons, "cmpWithLevels");
   uksort($vintage_weapons, "cmpWithLevels");
   uksort($weapons, "cmpWithLevels");
