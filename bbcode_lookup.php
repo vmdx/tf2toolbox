@@ -37,7 +37,7 @@
   /* UNCOMMENT FOR A NEWSBAR */
   else {
    echo '  <div id="error_bar">'."\n";
-   echo '    <span id="error_msg">'."6.30.2011 - Update! Strange weapons, Uber update, uncheck all box. Discuss <a href='http://forums.steampowered.com/forums/showthread.php?p=23042751#post23042751'>HERE!</a>"."</span>\n";
+   echo '    <span id="error_msg">'."6.30.2011 - Update! Strange weapons, Uber update, uncheck all box. Discuss <a href='http://forums.steampowered.com/forums/showthread.php?p=23281534#post23281534'>HERE!</a>"."</span>\n";
    echo "  </div>\n";
   }
 ?>
