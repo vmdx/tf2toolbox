@@ -98,6 +98,8 @@ $PAINT_MAP = array(
   "Paint Can" => "[color=#000000]Error - no color paint!",
   "Indubitably Green" => "[color=#729e42]Indubitably Green",
   "Zephaniah's Greed" => "[color=#424f3b]Zephaniah's Greed",
+	# double entry: not sure why the spelling is inconsistent
+	"Zepheniah's Greed" => "[color=#424f3b]Zepheniah's Greed",
   "Noble Hatter's Violet" => "[color=#51384a]Noble Hatter's Violet",
   "Color No. 216-190-216" => "[color=#d8bed8]Color No. 216-190-216",
   "A Deep Commitment to Purple" => "[color=#7d4071]A Deep Commitment to Purple",

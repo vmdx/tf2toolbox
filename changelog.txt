@@ -8,6 +8,8 @@
 * _GET parameter for bbcode.
 * URL shortening, get rid of .php
 
+*the some of the results are not properly nested and cause issues on some forum software this site: [b][color][/b][/color] Proper: [color][b][/b][/color] or [b][color][/color][/b] 
+
 * Would be nice to have a "Copy BBCode Contents" button rather than 
   only having to highlight and then right-click-and-copy.
   // I TRIED THIS but most browsers don't allow JS to access the clipboard now
