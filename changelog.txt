@@ -8,6 +8,14 @@
 * _GET parameter for bbcode.
 * URL shortening, get rid of .php
 
+* Just a suggestion, wouldn't it be better to put the number of items like for example: Sandman (2) and make the "(2)" white colored for easy showing against the dark gray backround. You can also distinguish it from the same colored weapon name.
+    - do this with just closing the [/color] tags.
+
+* btw I have a unpainted as well as a TS Bills, you might want to see if there's anyway you can have them displayed separately lol 
+		- lordfa9
+		
+* include link to steamcommunity profile! duh.
+
 *the some of the results are not properly nested and cause issues on some forum software this site: [b][color][/b][/color] Proper: [color][b][/b][/color] or [b][color][/color][/b] 
 
 * Would be nice to have a "Copy BBCode Contents" button rather than 
@@ -22,6 +30,9 @@
 * Make a steam community group?
 
 -- CHANGELOG --
+
+7.6.2011
+  - Fixed Zepheniah's Greed spelling
 
 6.30.2011
 	- Strange weapon support.
