@@ -1,7 +1,7 @@
 <?php session_start();
 
-require_once('backpack_lookup_functions.php');
-require_once('backpack_data.php');
+require_once('php/backpack_lookup_functions.php');
+require_once('php/backpack_data.php');
 
 // Retrieve POST and SESSION variables.
 $valid_pages = $_POST['pages'];
@@ -298,7 +298,7 @@ else if(isset($steamID)) {
   <div id="header">
     
   <?php
-  require('header.php');
+  require('php/header.php');
   if (!empty($backpack_error)) {
     $error_msg = $backpack_error;
   }
@@ -310,6 +310,7 @@ else if(isset($steamID)) {
           <td><a href="index.php">Home</a></td>
           <td><a href="bbcode_lookup.php">BBCode Translator</a></td>
           <td id="active_tool_cell"><a href="metal_lookup.php">Metal Maker</a></td>
+          <td><a href="weapon_inventory.php">Weapon Inventory</a></td>
         </tr>
       </table>
     </div>
@@ -487,7 +488,7 @@ else {
   </div>
   
   <?php
-  require('footer.php');
+  require('php/footer.php');
   ?>
 
 <script type="text/javascript" src="javascript/jquery-1.4.4.min.js"></script>
@@ -516,7 +517,7 @@ $(document).ready(function() {
 })
 </script>
 
-<?php require("google_analytics.php") ?></body>
+<?php require("php/google_analytics.php") ?></body>
 </html>
 
 

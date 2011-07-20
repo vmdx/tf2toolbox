@@ -12,7 +12,7 @@
   <div id="header">
     
   <?php
-  require('header.php');
+  require('php/header.php');
   ?>
   
     <div id="header_toolbar">
@@ -21,6 +21,7 @@
           <td><a href="index.php">Home</a></td>
           <td><a href="bbcode_lookup.php">BBCode Translator</a></td>
           <td id="active_tool_cell"><a href="metal_lookup.php">Metal Maker</a></td>
+          <td><a href="weapon_inventory.php">Weapon Inventory</a></td>
         </tr>
       </table>
     </div>
@@ -123,7 +124,7 @@
   </div> -->
   
   <?php
-  require('footer.php');
+  require('php/footer.php');
   ?>
   
   
@@ -153,5 +154,5 @@
   })
   </script>
   
-<?php require("google_analytics.php") ?></body>
+<?php require("php/google_analytics.php") ?></body>
 </html>
