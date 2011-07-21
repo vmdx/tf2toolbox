@@ -31,6 +31,10 @@
 
 -- CHANGELOG --
 
+7.21.2011
+  - Huge refactoring, reorganization of php.
+  - Fixed all BBCode tags; they all close correctly now. Including nested colors.
+
 7.6.2011
   - Fixed Zepheniah's Greed spelling
 
