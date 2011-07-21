@@ -7,9 +7,8 @@
 	<link href="stylesheets/bbcode_style.css" media="screen" rel="stylesheet" type="text/css" />
 	<link rel="shortcut icon" href="media/favicon.ico" />
 	<link rel="icon" type="image/png" href="media/engie_toolbox_32.png" />
-	<script type="text/javascript" src="javascript/jquery-1.4.4.min.js"></script>
-  <script type="text/javascript" src="javascript/jquery.qtip-1.0.0-rc3.js"></script>
 </head>
+<?php flush(); ?>
 <body>
   <div id="header">
     
@@ -142,6 +141,9 @@
 ?>        
 
       </div>
+      
+      <script type="text/javascript" src="javascript/jquery-1.4.4.min.js"></script>
+      <script type="text/javascript" src="javascript/jquery.qtip-1.0.0-rc3.js"></script>
 
 			<script>
 			function uncheckAll(class_str) {

@@ -1,4 +1,4 @@
-<?php session_start() ?>
+<?php session_start(); ?>
 <!DOCTYPE html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
@@ -8,6 +8,7 @@
 	<link rel="shortcut icon" href="media/favicon.ico" />
 	<link rel="icon" type="image/png" href="media/engie_toolbox_32.png" />
 </head>
+<?php flush(); ?>
 <body>
   <div id="header">
     

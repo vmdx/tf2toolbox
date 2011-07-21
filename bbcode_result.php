@@ -1,4 +1,14 @@
-<?php session_start();
+<?php session_start(); ?>
+<!DOCTYPE html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+	<title>TF2Toolbox: Backpack Tools for Team Fortress 2</title>
+	<link href="stylesheets/style.css" media="screen" rel="stylesheet" type="text/css" />
+	<link href="stylesheets/bbcode_style.css" media="screen" rel="stylesheet" type="text/css" />
+	<link rel="shortcut icon" href="media/favicon.ico" />
+	<link rel="icon" type="image/png" href="media/engie_toolbox_32.png" />
+</head>
+<?php flush();
 
 require_once('php/backpack_lookup_functions.php');
 require_once('php/backpack_data.php');
@@ -313,15 +323,6 @@ ksort($paints);
 
 ?>
 
-<!DOCTYPE html>
-<head>
-	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-	<title>TF2Toolbox: Backpack Tools for Team Fortress 2</title>
-	<link href="stylesheets/style.css" media="screen" rel="stylesheet" type="text/css" />
-	<link href="stylesheets/bbcode_style.css" media="screen" rel="stylesheet" type="text/css" />
-	<link rel="shortcut icon" href="media/favicon.ico" />
-	<link rel="icon" type="image/png" href="media/engie_toolbox_32.png" />
-</head>
 <body>
   <div id="header">
     
@@ -409,12 +410,12 @@ if ($_POST['paints']) {
 foreach ( array_keys($paints) as $paint ) {
   echo "[*][b]";    // No color: paint translate will handle color.
   if ($paints[$paint] > 1) {
-    echo $PAINT_MAP[$paint]." (".$paints[$paint].")";
+    echo $PAINT_MAP[$paint]."[/color] x ".$paints[$paint];
   }
   else {
-    echo $PAINT_MAP[$paint];
+    echo $PAINT_MAP[$paint]."[/color]";
   }
-  echo "[/color][/b]\n";
+  echo "[/b]\n";
 }
 
   if(empty($paints)) {
@@ -445,7 +446,7 @@ if ($_POST['crates']) {
   foreach ( array_keys($crates) as $crate ) {
     echo "[*][b]";    // No color for crates.
 
-    echo "Series ".$crate." Crate (".$crates[$crate].")";
+    echo "Series ".$crate." Crate x ".$crates[$crate];
 
     echo "[/b]\n";
   }
