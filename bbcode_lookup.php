@@ -38,7 +38,7 @@
   /* UNCOMMENT FOR A NEWSBAR */
   else {
    echo '  <div id="error_bar">'."\n";
-   echo '    <span id="error_msg">'."6.30.2011 - Update! Strange weapons, Uber update, uncheck all box. Discuss <a href='http://forums.steampowered.com/forums/showthread.php?p=23281534#post23281534'>HERE!</a>"."</span>\n";
+   echo '    <span id="error_msg">'."7.21.2011 - New color scheme for item properties. Discuss <a href='http://forums.steampowered.com/forums/showthread.php?p=23786389#post23786389'>HERE!</a>"."</span>\n";
    echo "  </div>\n";
   }
 ?>
