@@ -310,7 +310,6 @@ else if(isset($steamID)) {
           <td><a href="index.php">Home</a></td>
           <td><a href="bbcode_lookup.php">BBCode Translator</a></td>
           <td id="active_tool_cell"><a href="metal_lookup.php">Metal Maker</a></td>
-          <td><a href="weapon_inventory.php">Weapon Inventory</a></td>
         </tr>
       </table>
     </div>
