@@ -5,12 +5,12 @@ $CLEAN_DIRTY_ITEMS = array(
 );
 
 /* Promotional weapons that are NOT craftable through normal TF2-only means. */
-$PROMO_WEAPONS_DICT = array(
+$PROMO_WEAPONS_LIST = array(
   "Lugermorph", "Frying Pan", "Iron Curtain", "Big Kill", "Enthusiast's Timepiece", "Fishcake"
 );
 
 /* Promotional hats that are NOT craftable through normal TF2-only means. */
-$PROMO_HATS_DICT = array(
+$PROMO_HATS_LIST = array(
   // Alien Swarm
   "Alien Swarm Parasite",
   // Killing Floor
@@ -43,7 +43,7 @@ $PROMO_HATS_DICT = array(
 );
 
 /* Special, high value promo hats. */
-$HIGH_PROMO_HATS_DICT = array(
+$HIGH_PROMO_HATS_LIST = array(
   // Left 4 Dead 2
   "Bill's Hat", 
   // Sam & Max: The Devil's Playhouse
@@ -57,14 +57,14 @@ $HIGH_PROMO_HATS_DICT = array(
 );
 
 /* Hats with set hat properties. */
-$SET_HATS_DICT = array(
+$SET_HATS_LIST = array(
   // Polycount
   "Milkman", "Familiar Fez", "Attendant", "Grenadier's Softcap", "Ol' Snaggletooth"
 );
 
 /* Set to the latest hat set to come out.
    CURRENT: Uber Update Hats */
-$NEW_HATS_DICT = array(
+$NEW_HATS_LIST = array(
   // Uber Update
 	"Capo's Capper", "Made Man", "Cosa Nostra Cap", "Desert Marauder", "Sultan's Ceremonial", "Bonk Boy",
 	"Jumper's Jeepcap", "Armored Authority", "Fancy Dress Uniform", "Pocket Medic", "Professor Speks"

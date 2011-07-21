@@ -71,8 +71,6 @@ $metals = array();
 
 $crates = array();
 
-$weapon_slots = array("primary", "secondary", "melee", "pda", "pda2");
-
 $mask = 0xFFFF;   // Get the first word in the inventory token -> corresponds to inventory slot.
 
 $backpack_error = "";
@@ -82,37 +80,50 @@ if($backpack->{"result"}->{"status"} == 15) {
 
 else if(isset($steamID)) {
   foreach ( $backpack->{"result"}->{"items"}->{"item"} as $inv_entry ) {
-    $my_defindex = $inv_entry->{"defindex"};
-
-    $my_item_name = $item_names[$my_defindex];
-    $my_item_slot = $item_slots[$my_defindex];
-    $my_item_class = $item_classes[$my_defindex];
-    $craftnum = -1;
-    
-    $inventory_token = $inv_entry->{"inventory"};
-    $my_inventory_slot = (int)$inventory_token & $mask;
-    $my_inventory_page = floor(($my_inventory_slot - 1) / 50) + 1;
     
     /* Skip invalid pages */
-    if (!in_array("all", $_POST['pages']) and !in_array($my_inventory_page, $_POST['pages'])) {
+    $inv_token = $inv_entry->{"inventory"};
+    $inv_slot = (int)$inv_token & $mask;
+    $inv_page = floor(($inv_slot - 1) / 50) + 1;
+
+    if (!in_array("all", $_POST['pages']) and !in_array($inv_page, $_POST['pages'])) {
       continue;
     }
-    /* Skip untradables if marked. Skip gifted if marked. */
+    
+    /* Skip untradables if marked.*/
     if($_POST['hide_untradable'] and $inv_entry->{"flag_cannot_trade"}) {
       continue;
     }
     
-    /* Prefix and suffixes for strings such as "Dirty/Clean", "(Level 66, Gifted, Untradable)"*/
-    $prefix = "Clean ";
+  
+    $defindex = $inv_entry->{"defindex"};
+
+    $item_name = $item_names[$defindex];
+    $item_slot = $item_slots[$defindex];
+    $item_class = $item_classes[$defindex];
+    $craftnum = -1;
+    
+    /* Skip blacklisted items */
+    if(in_array($item_name, $HAT_BLACKLIST) or in_array($item_name, $ITEM_BLACKLIST)) {
+      continue;
+    }
+    
+    /* Suffixes for strings such as "(Level 66, Gifted, Untradable)"*/
     $suffix_tags = array();
+    
+    if ($inv_entry->{"flag_cannot_trade"}) {
+      array_push($suffix_tags, "Untradable");
+    }
     
     /* Check attributes for gifted status, painted status, and unique craft index. */
     $is_gifted = false;
+    
     if ($inv_entry->{"attributes"}->{"attribute"}) {
       foreach($inv_entry->{"attributes"}->{"attribute"} as $attr) {
-        if ($attr->{"defindex"} == 186) { //gifted
+        if ($attr->{"defindex"} == 186) { // gifted
           $is_gifted = true;
-        } 
+          array_push($suffix_tags, "Gifted");
+        }
         else if ($_POST['display_paint'] and $attr->{"defindex"} == 142 and $PAINT_NUMBER_MAP[intval($attr->{"float_value"})]) { // 142 == paint tint
           array_push($suffix_tags, $PAINT_NUMBER_MAP[intval($attr->{"float_value"})]);
         }
@@ -122,85 +133,61 @@ else if(isset($steamID)) {
       }
     }
 
+    /* Skip gifted if marked. */
     if($_POST['hide_gifted'] and $is_gifted) {
       continue;
     }
     
-    if ($inv_entry->{"flag_cannot_trade"} or $is_gifted) {
-      $prefix = "Dirty ";
+    /* Display hat levels in suffix if needed. */
+    if (($item_slot == "head" or $item_slot == "misc") and $_POST['display_hat_levels']) {
+      array_unshift($suffix_tags, "Level ".$inv_entry->{"level"});
     }
-    if ($inv_entry->{"flag_cannot_trade"}) {
-      array_push($suffix_tags, "Untradable");
+
+    /* Prefix for dirty/clean items. */
+    $prefix = "";
+    if(in_array($item_name, $CLEAN_DIRTY_ITEMS)) {
+      $prefix = "Clean ";
+      if ($inv_entry->{"flag_cannot_trade"} or $is_gifted) {
+        $prefix = "Dirty ";
+      }
     }
-    if ($is_gifted) {
-      array_push($suffix_tags, "Gifted");
-    }
-    
     
     $suffix = "";
     if (!empty($suffix_tags)) {
       $suffix = " (".implode(", ", $suffix_tags).")";
     }
     
-    
-    /* Weapons */
-    if (in_array($my_item_slot, $weapon_slots) and $my_item_class != "slot_token" and !in_array($my_item_name, $ITEM_BLACKLIST)) {
-      
-      switch($quality_map[$inv_entry->{"quality"}]) {
-        case "Unusual":
-        case "Genuine":
-          if (in_array($my_item_name, $CLEAN_DIRTY_ITEMS)) {
-            $promo_weapons = set_item_in_array($promo_weapons, $prefix.$quality_map[$inv_entry->{"quality"}]." ".$my_item_name.$suffix);
-          }
-          else {
-            $promo_weapons = set_item_in_array($promo_weapons, $quality_map[$inv_entry->{"quality"}]." ".$my_item_name.$suffix);
-          }
-          break;
-				case "Strange":
-					$strange_weapons = set_item_in_array($strange_weapons, "Strange ".$my_item_name.$suffix);
-					break;
-        case "Vintage":
-          if (!$WEAPON_LEVEL_MAP[$inv_entry->{"level"}] or !in_array($my_item_name, $WEAPON_LEVEL_MAP[$inv_entry->{"level"}])) {
-            array_unshift($suffix_tags, "Level ".$inv_entry->{"level"});
-            $suffix = " (".implode(", ", $suffix_tags).")";
-          }
-          if (in_array($my_item_name, $PROMO_WEAPONS_DICT)) {
-            $promo_weapons = set_item_in_array($promo_weapons, "Vintage ".$my_item_name.$suffix);
-          }
-          else {
-            $vintage_weapons = set_item_in_array($vintage_weapons, "Vintage ".$my_item_name.$suffix);
-          }        
-          break;
-        case "Unique":  /* Default quality */
-          if (in_array($my_item_name, $PROMO_WEAPONS_DICT)) {
-            $promo_weapons = set_item_in_array($promo_weapons, $my_item_name.$suffix);
-          }
-					/* Don't show custom named stock weapons? (defindex < 30, > 189 and < 213) */
-          else if ($my_defindex > 30 and !($my_defindex > 189 and $my_defindex < 213)) {
-            $weapons = set_item_in_array($weapons, $my_item_name.$suffix);
-          }
-          break;
-        default:
-          break;
-      }
+    /* BBCode color now goes in prefix and suffix. */
+    switch($quality_map[$inv_entry->{"quality"}]) {
+      case "Unusual":
+        $prefix = "[color=#8650AC]Unusual ".$prefix;
+        $suffix = "[/color]".$suffix;
+        break;
+      case "Genuine":
+        $prefix = "[color=#4D7455]Genuine ".$prefix;
+        $suffix = "[/color]".$suffix;
+        break;
+      case "Strange":
+        $prefix = "[color=#CD9B1D]Strange ".$prefix;
+        $suffix = "[/color]".$suffix;
+        break;
+      case "Vintage":
+        $prefix = "[color=#476291]Vintage ".$prefix;
+        $suffix = "[/color]".$suffix;
+        break;
+      case "Unique":
+        $prefix = "[color=#A59003]".$prefix;
+        $suffix = "[/color]".$suffix;
+        break;
     }
-
-    /* Hats */ 
-    else if ((($my_item_slot == "head") or ($my_item_slot == "misc")) and !in_array($my_item_name, $HAT_BLACKLIST)) {
-      /* Add craft # immediately to item name if it has been set and is requested. */
-      $my_item_name_with_craft = $my_item_name;
-      if ($craftnum > 0 and ($craftnum < 101 or $_POST['display_craft_num'])) {
-        $my_item_name_with_craft = $my_item_name." #".$craftnum;
-      }
-      
-      if ($_POST['display_hat_levels']) {
-        array_unshift($suffix_tags, "Level ".$inv_entry->{"level"});
-        $suffix = " (".implode(", ", $suffix_tags).")";
-      }
-      
-      /* We save Unusuals as strings right from the start. */
-      if ($quality_map[$inv_entry->{"quality"}] == "Unusual") {
-        $attrs = $inv_entry->{"attributes"}->{"attribute"};
+    
+    /* Craft number goes directly in the item name. */
+    if ($craftnum > 0 and ($craftnum < 101 or $_POST['display_craft_num'])) {
+      $item_name .= " #".$craftnum;
+    }
+    
+    switch(get_category($item_slot, $item_class, $item_name, $quality_map[$inv_entry->{"quality"}])) {
+      case "Unusual Hats":
         $effect = "";
         foreach ( $inv_entry->{"attributes"}->{"attribute"} as $attr ) {
           if ($attr->{"defindex"} == 134) {   // 134 is the unusual particle effect attr
@@ -208,85 +195,69 @@ else if(isset($steamID)) {
             break;
           }
         }
-        $unusual_hats = set_item_in_array($unusual_hats, "Unusual ".$my_item_name_with_craft." (".$effect.")".$suffix);
-      }
-      
-      /* Genuine Hats*/
-      else if ($quality_map[$inv_entry->{"quality"}] == "Genuine") {
-        
-        if (in_array($my_item_name, $CLEAN_DIRTY_ITEMS)) {
-          $genuine_hats = set_item_in_array($genuine_hats, $prefix."Genuine ".$my_item_name_with_craft.$suffix);
+        $unusual_hats = set_item_in_array($unusual_hats, $prefix.$item_name." (".$effect.")".$suffix);
+        break;
+      case "High Promo Hats":
+        if ($item_name == "Gentle Manne's Service Medal") {
+          $high_promo_hats = set_item_in_array($high_promo_hats, $prefix.$item_name." (#".$inv_entry->{"attributes"}->{"attribute"}[0]->{"value"}.")".$suffix);
         }
         else {
-          $genuine_hats = set_item_in_array($genuine_hats, "Genuine ".$my_item_name_with_craft.$suffix);
+          $high_promo_hats = set_item_in_array($high_promo_hats, $prefix.$item_name.$suffix);
         }
-      }
-      
-      else if (in_array($my_item_name, $HIGH_PROMO_HATS_DICT)) {
-        $fullname = $my_item_name_with_craft.$suffix;
+        break;
+      case "Genuine Hats":
+        $genuine_hats = set_item_in_array($genuine_hats, $prefix.$item_name.$suffix);
+        break;
+      case "Vintage Hats":
+        $vintage_hats = set_item_in_array($vintage_hats, $prefix.$item_name.$suffix);
+        break;
+      case "Set Hats":
+        $set_hats = set_item_in_array($set_hats, $prefix.$item_name.$suffix);
+        break;
+      case "New Hats":
+        $new_hats = set_item_in_array($new_hats, $prefix.$item_name.$suffix);
+        break;
+      case "Promo Hats":
+        $promo_hats = set_item_in_array($promo_hats, $prefix.$item_name.$suffix);
+        break;
+      case "Normal Hats":
+        $hats = set_item_in_array($hats, $prefix.$item_name.$suffix);
+        break;
         
-        if ($my_item_name == "Gentle Manne's Service Medal") {
-          $high_promo_hats = set_item_in_array($high_promo_hats, $my_item_name_with_craft." (#".$inv_entry->{"attributes"}->{"attribute"}[0]->{"value"}.")".$suffix);
+      case "Strange Weapons":
+        $strange_weapons = set_item_in_array($strange_weapons, $prefix.$item_name.$suffix);
+				break;
+      case "Vintage Weapons":
+        /* Display any off level weapons. */
+        if (!$WEAPON_LEVEL_MAP[$inv_entry->{"level"}] or !in_array($item_name, $WEAPON_LEVEL_MAP[$inv_entry->{"level"}])) {
+          array_unshift($suffix_tags, "Level ".$inv_entry->{"level"});
+          $suffix = "[/color] (".implode(", ", $suffix_tags).")";
         }
+        $vintage_weapons = set_item_in_array($vintage_weapons, $prefix.$item_name.$suffix);     
+        break;
+      case "Normal Weapons":
+        /* Don't show custom named stock weapons - (defindex < 30, > 189 and < 213) */
+        if ($defindex > 30 and !($defindex > 189 and $defindex < 213)) {
+          $weapons = set_item_in_array($weapons, $prefix.$item_name.$suffix);
+        }
+        break;
+      case "Promo Weapons":
+        $promo_weapons = set_item_in_array($promo_weapons, $prefix.$item_name.$suffix);
+        break;
         
-        else {
-          if ($quality_map[$inv_entry->{"quality"}] != "Unique") {
-            $fullname = $quality_map[$inv_entry->{"quality"}]." ".$fullname;
-          }
-          
-          if (in_array($my_item_name, $CLEAN_DIRTY_ITEMS)) {
-            $high_promo_hats = set_item_in_array($high_promo_hats, $prefix.$fullname);
-          }
-          else {
-            $high_promo_hats = set_item_in_array($high_promo_hats, $fullname);
-          }
-        }
-               
-      }
-      
-      else if (in_array($my_item_name, $PROMO_HATS_DICT)) {
-        if ($quality_map[$inv_entry->{"quality"}] == "Unique") {
-          $promo_hats = set_item_in_array($promo_hats, $my_item_name_with_craft.$suffix);
-        }
-        
-        else {
-          $promo_hats = set_item_in_array($promo_hats, $quality_map[$inv_entry->{"quality"}]." ".$my_item_name_with_craft.$suffix);
-        }
-      }
-      else if (in_array($my_item_name, $SET_HATS_DICT)) {
-        $set_hats = set_item_in_array($set_hats, $my_item_name_with_craft.$suffix);
-      }
-      else if (in_array($my_item_name, $NEW_HATS_DICT)) {
-        $new_hats = set_item_in_array($new_hats, $my_item_name_with_craft.$suffix);
-      }
-      else if ($quality_map[$inv_entry->{"quality"}] == "Vintage") {
-        $vintage_hats = set_item_in_array($vintage_hats, "Vintage ".$my_item_name_with_craft.$suffix);
-      }
-      else if ($quality_map[$inv_entry->{"quality"}] == "Unique") {
-        $hats = set_item_in_array($hats, $my_item_name_with_craft.$suffix);
-      }
-
-    }
-
-    /* Paints */
-    else if (($my_item_class == "tool") and (isset($PAINT_MAP[$my_item_name]))) {
-      $paints = set_item_in_array($paints, $my_item_name);
-    }
-
-    /* Tools - name/desc tags, slot/class tokens*/
-    else if (($my_item_class == "tool" or $my_item_slot == "action" or $my_item_class == "class_token" or $my_item_class == "slot_token") and !in_array($my_item_name, $ITEM_BLACKLIST)) {
-      $tools = set_item_in_array($tools, $my_item_name);
-    }
-    
-    /* Metal */
-    else if ($my_item_class == "craft_item") {
-      $metals = set_item_in_array($metals, $my_item_name);
-    }
-    
-    /* Crates (item_class == supply_crate)*/
-    else if ($my_item_class == "supply_crate") {
-      $series_number = $inv_entry->{"attributes"}->{"attribute"}[0]->{"float_value"};
-      $crates = set_item_in_array($crates, $series_number);
+      case "Paints":
+        $paints = set_item_in_array($paints, $item_name);
+        break;
+      case "Tools":
+        $tools = set_item_in_array($tools, $item_name);
+        break;
+      case "Metal":
+        $metals = set_item_in_array($metals, $item_name);
+        break;
+      case "Crates":
+        $series_number = $inv_entry->{"attributes"}->{"attribute"}[0]->{"float_value"};
+        $crates = set_item_in_array($crates, $series_number);
+        break;
     }
 
   }
@@ -400,14 +371,14 @@ if ($_POST['display_credit']) {
 if ($_POST['v_hats'] or $_POST['hats'] or $_POST['u_hats'] or $_POST['hp_hats'] or $_POST['p_hats'] or $_POST['g_hats']) {
   open_header("Hats For Trade", $credit, &$first_item);
 
-  output_section($unusual_hats, $_POST['u_hats'], "Unusuals", "#8650AC");
-  output_section($high_promo_hats, $_POST['hp_hats'], "Rare Promos", "infer");
-  output_section($genuine_hats, $_POST['g_hats'], "Genuine Hats", "#4D7455");
-  output_section($new_hats, $_POST['hats'], "Uber Update Hats", "#A59003");
-  output_section($vintage_hats, $_POST['v_hats'], "Vintage Hats", "#476291");
-  output_section($set_hats, $_POST['hats'], "Polycount Set Hats", "#A59003");
-  output_section($hats, $_POST['hats'], "Regular Hats", "#A59003");
-  output_section($promo_hats, $_POST['p_hats'], "Promo Hats", "infer");
+  output_section($unusual_hats, $_POST['u_hats'], "Unusuals");
+  output_section($high_promo_hats, $_POST['hp_hats'], "Rare Promos");
+  output_section($genuine_hats, $_POST['g_hats'], "Genuine Hats");
+  output_section($new_hats, $_POST['hats'], "Uber Update Hats");
+  output_section($vintage_hats, $_POST['v_hats'], "Vintage Hats");
+  output_section($set_hats, $_POST['hats'], "Polycount Set Hats");
+  output_section($hats, $_POST['hats'], "Regular Hats");
+  output_section($promo_hats, $_POST['p_hats'], "Promo Hats");
 
   if(empty($vintage_hats) and empty($hats) and empty($promo_hats) and empty($high_promo_hats) and empty($unusual_hats) and empty($new_hats) and empty($set_hats) and empty($genuine_hats)) {
     echo "None\n";
@@ -420,10 +391,10 @@ if ($_POST['v_hats'] or $_POST['hats'] or $_POST['u_hats'] or $_POST['hp_hats'] 
 if ($_POST['v_weps'] or $_POST['weps'] or $_POST['p_weps'] or $_POST['s_weps']) {
   open_header("Weapons For Trade", $credit, &$first_item);
   
-  output_section($strange_weapons, $_POST['s_weps'], "Strange Weapons", "#CD9B1D");
-  output_section($vintage_weapons, $_POST['v_weps'], "Vintage Weapons", "#476291");
-  output_section($weapons, $_POST['weps'], "Normal Weapons", "#A59003");
-  output_section($promo_weapons, $_POST['p_weps'], "Promo Weapons", "infer");
+  output_section($strange_weapons, $_POST['s_weps'], "Strange Weapons");
+  output_section($vintage_weapons, $_POST['v_weps'], "Vintage Weapons");
+  output_section($weapons, $_POST['weps'], "Normal Weapons");
+  output_section($promo_weapons, $_POST['p_weps'], "Promo Weapons");
   
   if(empty($vintage_weapons) and empty($weapons) and empty($promo_weapons) and empty($strange_weapons)) {
     echo "None\n";
