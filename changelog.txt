@@ -16,6 +16,12 @@
 		
 * include link to steamcommunity profile! duh.
 
+* option for simple text, not bbcode
+* update promo weapons From Dust, Red Orchestra 2
+* fix metal maker uber weapons in special.
+* categorize bbcode weapons by update
+
+
 *the some of the results are not properly nested and cause issues on some forum software this site: [b][color][/b][/color] Proper: [color][b][/b][/color] or [b][color][/color][/b] 
 
 * Would be nice to have a "Copy BBCode Contents" button rather than 
