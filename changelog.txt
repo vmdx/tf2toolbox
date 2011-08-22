@@ -1,38 +1,41 @@
 -- TODO --
-* Sort items into classes, item slot.
-* Sort metal by Ref/Rec/Scrap.
+
+--------
+FEATURES
+--------
+* Sort items by Classes, Release.
+
 * User backpack option after the lookup list. (TF2B, OPTF2, TF2items)
+* Include link to SteamCommunity profile!
+
+* Option for simple text backpack without BBCode.
+* Convert Metal Maker to simple text too/make it more robust against new weapon additions.
+* Metal Maker Vintage option.
+
 * What weapons am I missing? Tool.
-
-* Fix the CSS spaghetti :(
-* _GET parameter for bbcode.
-* URL shortening, get rid of .php
-
-* Just a suggestion, wouldn't it be better to put the number of items like for example: Sandman (2) and make the "(2)" white colored for easy showing against the dark gray backround. You can also distinguish it from the same colored weapon name.
-    - do this with just closing the [/color] tags.
-
-* btw I have a unpainted as well as a TS Bills, you might want to see if there's anyway you can have them displayed separately lol 
-		- lordfa9
-		
-* include link to steamcommunity profile! duh.
-
-* option for simple text, not bbcode
-* update promo weapons From Dust, Red Orchestra 2
-* fix metal maker uber weapons in special.
-* categorize bbcode weapons by update
-
-
-*the some of the results are not properly nested and cause issues on some forum software this site: [b][color][/b][/color] Proper: [color][b][/b][/color] or [b][color][/color][/b] 
 
 * Would be nice to have a "Copy BBCode Contents" button rather than 
   only having to highlight and then right-click-and-copy.
   // I TRIED THIS but most browsers don't allow JS to access the clipboard now
   // due to security reasons. You can do it in Flash but it seems like overhead
   // I don't want to try dealing with yet...
-  
+
+---------
+BUG FIXES
+---------
+* Team Spirit/Unpainted Bills showing up together. ID: lordfa9
+
+------------
+OPTIMIZATION
+------------
+* Fix the CSS spaghetti :(
+* _GET parameter for bbcode.
+* URL shortening, get rid of .php
+
+* Figure out a better way to update promo weapons.
+
 * If you're just using the XML to retrieve the SteamID64, you might want to consider just snipping out the ID with something like preg_match(), it'll save you having to pass the XML through utf8_encode() and assumingly SimpleXML too. 
 
-* Offer options in Metal Maker for only showing NV, V, etc.
 * Make a steam community group?
 
 -- CHANGELOG --
