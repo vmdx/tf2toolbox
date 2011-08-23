@@ -28,6 +28,10 @@ BUG FIXES
 ------------
 OPTIMIZATION
 ------------
+
+* SCHEMA RETRIEVAL: keep a local copy on the web server!!! Send HTTP Request with If-Modified-Since header. Saves 600kB for a standard request!!!
+  * Implemented as of PHP 4.0.2. Linode has PHP 5.something.
+
 * Fix the CSS spaghetti :(
 * _GET parameter for bbcode.
 * URL shortening, get rid of .php
