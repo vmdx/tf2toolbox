@@ -205,6 +205,10 @@ def bp_weapons(template_info, bp, session_info):
   for entry in schema['result']['items']:
     # Load the weapon list.
     if entry.get('item_slot', None) in ['primary', 'secondary', 'melee', 'pda', 'pda2'] and entry['item_class'] != 'slot_token':
+
+      # Skip multiclass stock upgradeables.
+      if entry.get('defindex') >= 190 and entry.get('defindex') <= 212:
+        continue
       used_by = entry.get('used_by_classes', None)
       item_name = entry['item_name']
 
@@ -225,11 +229,6 @@ def bp_weapons(template_info, bp, session_info):
           result[cls][category][item_name] = [True, entry.get('image_url')]
         else:
           result[cls][category][item_name] = [False, entry.get('image_url')]
-      else:
-        if entry.get('defindex') <= 30:
-          result[cls][category][item_name] = [True, entry.get('image_url')]
-
-
 
       s[entry['defindex']] = {'name': entry['item_name'],
                               'used_by': cls,
