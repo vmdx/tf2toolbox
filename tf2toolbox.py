@@ -3,7 +3,6 @@ This is TF2Toolbox in Flask Python!
 """
 
 from __future__ import with_statement
-from __future__ import as_statement
 
 from collections import defaultdict
 import contextlib
