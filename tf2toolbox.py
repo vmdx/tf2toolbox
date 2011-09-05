@@ -615,7 +615,7 @@ def get_schema():
   schema_req = urllib2.Request(schema_url)
   schema_req.add_header('If-Modified-Since', dt.strftime('%a, %d %b %Y %X GMT'))
 
-  print '[SCHEMA] Checking schema for mtime: %s' % dt.strftime('%a, %d %b %Y %X GMT')
+  print '[SCHEMA] Checking schema at %s for mtime: %s' % (schema_cache, dt.strftime('%a, %d %b %Y %X GMT'))
 
   try:
     schema = urllib2.urlopen(schema_req)
