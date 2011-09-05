@@ -225,6 +225,10 @@ def bp_weapons(template_info, bp, session_info):
           result[cls][category][item_name] = [True, entry.get('image_url')]
         else:
           result[cls][category][item_name] = [False, entry.get('image_url')]
+      else:
+        if entry.get('defindex') <= 30:
+          result[cls][category][item_name] = [True, entry.get('image_url')]
+
 
 
       s[entry['defindex']] = {'name': entry['item_name'],
