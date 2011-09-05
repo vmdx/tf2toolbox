@@ -1,0 +1,138 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <form id="lookup_field_form" action="bptext" method="post">
+      <input type="hidden" name="form_id" value="bptext" />
+      <input type="hidden" name="output_sort" value="default">
+      <div id="tool_title">
+        <img id="tool_img" src="static/media/bbcode_tool_80.png" alt="bbcode_tool">
+        <div id="tool_text">
+          <span id="tool_name">Backpack to Text Translator</span><br/>
+          <span id="tool_desc">Converts backpack contents to eye-catching BBCode for trading on forums, or plaintext!</span>
+        </div>
+
+      </div>
+      <div id="checkboxes">
+        <div class="checkbox_column">
+          <span class="checkbox_title">Display:</span>
+          <input type="checkbox" name="Unusual Hats" value="True" class="hat_box" checked>Hats - <span style="color: #8650AC">Unusual</span><br />
+          <input type="checkbox" name="Rare Promos" value="True" class="hat_box" checked>Hats - Rare Promos  <img id="rare_promos_tooltip" class="info_tooltip" src="static/media/info_tooltip.png"><br />
+          <input type="checkbox" name="Genuine Hats" value="True" class="hat_box" checked>Hats - <span style="color: #4D7455">Genuine</span><br />
+          <input type="checkbox" name="Vintage Hats" value="True" class="hat_box" checked>Hats - <span style="color: #476291">Vintage</span><br />
+          <input type="checkbox" name="Normal Hats" value="True" class="hat_box" checked>Hats - <span style="color: #A59003">Normal</span><br />
+          <input type="checkbox" name="Promo Hats" value="True" class="hat_box" checked>Hats - Promo<br />
+	  <button type="button" class="uncheck_button" onclick="uncheckAll('hat_box')">Clear Hats</button>
+        </div>
+        <div class="checkbox_column">
+          <span class="checkbox_title"></span>
+          <input type="checkbox" name="Genuine Weapons" value="True" class="wp_box" checked>Weapons - <span style="color: #4D7455">Genuine</span><br />
+          <input type="checkbox" name="Strange Weapons" value="True" class="wp_box" checked>Weapons - <span style="color: #CD9B1D">Strange</span><br />
+          <input type="checkbox" name="Vintage Weapons" value="True" class="wp_box" checked>Weapons - <span style="color: #476291">Vintage</span><br />
+          <input type="checkbox" name="Normal Weapons" value="True" class="wp_box" checked>Weapons - <span style="color: #A59003">Normal</span><br />
+	  <button type="button" class="uncheck_button" onclick="uncheckAll('wp_box')">Clear Weapons</button>
+        </div>
+        <div class="checkbox_column" style="width:90px;">
+          <span class="checkbox_title"></span>
+          <input type="checkbox" name="Paint" value="True" class="misc_box" checked>Paint<br />
+          <input type="checkbox" name="Tools" value="True" class="misc_box" checked>Tools<br />
+          <input type="checkbox" name="Crates" value="True" class="misc_box" checked>Crates<br />
+          <input type="checkbox" name="Metal" value="True" class="misc_box" checked>Metal<br />
+	  <button type="button" class="uncheck_button" onclick="uncheckAll('misc_box')">Clear Misc</button>
+        </div>
+
+        <div class="checkbox_column checkbox_column_bigright">
+          <span class="checkbox_title">Options:</span>
+          <input type="checkbox" name="display_hat_levels" value="True" />Display hat levels<br />
+          <input type="checkbox" name="display_paint" value="True" checked/>Display paint on items<br />
+          <input type="checkbox" name="display_craft_num" value="True">Display craft numbers over 100<br />
+          <input type="checkbox" name="hide_untradeable" value="True" />Exclude all untradable items (dirty)<br />
+          <input type="checkbox" name="hide_gifted" value="True" />Exclude all gifted items (dirty)<br />
+          <input type="checkbox" name="display_sc_url" value="True" checked/>Add SteamCommunity URL link to output<br />
+          <input type="checkbox" name="display_credit" value="True" checked/>Display TF2Toolbox credit - thanks! :)<br />
+          <br />
+        </div>
+        <div class="checkbox_column checkbox_column_bigright">
+          <span class="checkbox_title">Show BP Link?</span>
+          <input type="radio" name="inc_bp_link" value="none" checked>None<br />
+          <input type="radio" name="inc_bp_link" value="tf2b">TF2B<br />
+          <input type="radio" name="inc_bp_link" value="tf2items">TF2Items<br />
+          <input type="radio" name="inc_bp_link" value="optf2">OPTF2<br /><br />
+          <span class="checkbox_title">Output Type</span>
+          <input type="radio" name="output_type" value="bbcode" checked>BBCode<br />
+          <input type="radio" name="output_type" value="plaintext">Plaintext<br />
+        </div>
+
+          <!-- <span class="checkbox_title">Output:</span>
+          <input type="radio" name="output" value="list">Bulleted List<br />
+          <input type="radio" name="output" value="have_want">Have / Want<br /> -->
+
+{% if "num_bp_slots" in session %}
+{% set pages = session["num_bp_slots"] / 50 %}
+        <div class="checkbox_column">
+          <span class="checkbox_title">Pages:</span>
+          <input type="checkbox" name="pages[]" value="all" checked>All<br />
+{% set current_page_in_col = 2 %}
+{% for page in range(1, pages+1) %}
+          <input type="checkbox" name="pages[]" value="{{ page }}">{{ page }}<br />
+{% set current_page_in_col = current_page_in_col + 1 %}
+{% if current_page_in_col == 8 %}
+{% set current_page_in_col = 1 %}
+        </div>
+        <div class="checkbox_column">
+          <span class="checkbox_title"></span>
+{% endif %}
+{% endfor %}
+        </div>
+{% endif %}
+      </div>
+
+      <div id="input_button">
+{% if "steamID" in session %}
+        <input type="submit" id="lookup_submit" value="Go!" />
+{% else %}
+        <input type="submit" style="color:#bbbbbb;" id="lookup_submit" value="Please lookup a user first." disabled/>'
+{% endif %}
+      </div>
+    </form>
+
+{% endblock content %}
+
+{% block css %}
+  <link href="static/css/bbcode_style.css" media="screen" rel="stylesheet" type="text/css" />
+{% endblock css %}
+
+{% block javascript %}
+  <script type="text/javascript" src="static/js/jquery-1.4.4.min.js"></script>
+  <script type="text/javascript" src="static/js/jquery.qtip-1.0.0-rc3.js"></script>
+  <script>
+    function uncheckAll(class_str) {
+      var class_sel = '.' + class_str;
+      $(class_sel).each(function(index) {
+        this.checked = false;
+      });
+    }
+  </script>
+  <script>
+  $(document).ready(function() {
+
+      /* Create tooltips for every single item on mouseover. */
+      $("#rare_promos_tooltip").each( function(i) {
+        var data = "Bill's Hat, Max's Severed Head, Hat of Undeniable Wealth And Respect, Earbuds, Voodoo Juju, Spine-Chilling Skull, Gentle Manne's Service Medal";
+        if (data !== "") {
+          $(this).qtip({
+            content: data,
+            position: { target: 'mouse'},
+            show: { delay: 0, effect: {length: 0} },
+            hide: { delay: 0, effect: {length: 0} },
+            style: {
+              textAlign: 'center',
+              name: 'dark',
+              'font-size': 14,
+              'font-family': 'Verdana'
+            }
+          });
+        }
+      });
+  })
+  </script>
+{% endblock javascript %}

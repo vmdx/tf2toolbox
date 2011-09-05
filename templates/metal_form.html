@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <form id="lookup_field_form" action="metal" method="post">
+      <input type="hidden" name="form_id" value="metal" />
+      <div id="tool_title">
+        <img id="tool_img" src="static/media/metal_tool_80.png" alt="metal_tool">
+        <div id="tool_text">
+          <span id="tool_name">Metal Maker</span><br/>
+          <span id="tool_desc">Organizes backpack weapons into scrap metal and token combinations</span>         
+        </div>
+
+      </div>
+      <div id="checkboxes">
+
+        <!-- <div class="checkbox_column checkbox_column_extra_wide">
+          <span class="checkbox_title">Options:</span>
+          <input type="checkbox" name="weapon_use[]" value="smart" checked>Keep all named, described, and off-level weapons<br />
+          <input type="checkbox" name="weapon_use[]" value="all" checked>Keep all vintage weapons<br />
+          <input type="checkbox" name="weapon_use[]" value="smart" checked>Keep at least one of each weapon<br />
+          <br />
+        </div> -->
+        
+{% if "num_bp_slots" in session %}
+{% set pages = session["num_bp_slots"] / 50 %}
+        <div class="checkbox_column">
+          <span class="checkbox_title">Pages:</span>
+          <input type="checkbox" name="pages[]" value="all" checked>All<br />
+{% set current_page_in_col = 2 %}
+{% for page in range(1, pages+1) %}
+          <input type="checkbox" name="pages[]" value="{{ page }}">{{ page }}<br />
+{% set current_page_in_col = current_page_in_col + 1 %}
+{% if current_page_in_col == 8 %}
+{% set current_page_in_col = 1 %}
+        </div>
+        <div class="checkbox_column">
+          <span class="checkbox_title"></span>
+{% endif %}
+{% endfor %}
+        </div>
+{% endif %}
+        
+        <div class="checkbox_column checkbox_column_extra_wide">
+          <span class="checkbox_title">Notes:</span>
+          <ul>
+            <li>Weapons will be split into <span class="special">special</span>, <span class="vintage">vintage</span>, and <span class="normal">normal</span> weapons.</li><br/>
+            <li><span class="special">Special</span> weapons are ones with custom names, custom descriptions, or non-standard levels. These <u>are not</u> included in metal calculations.</li>
+          </ul>
+        </div>
+        
+      </div>
+
+      <div id="input_button">
+{% if "steamID" in session %}
+        <input type="submit" id="lookup_submit" value="Go!" />
+{% else %}
+        <input type="submit" style="color:#bbbbbb;" id="lookup_submit" value="Please lookup a user first." disabled/>'
+{% endif %}
+      </div>
+      
+    </form>
+{% endblock content %}
+
+{% block css %}
+  <link href="static/css/metal_style.css" media="screen" rel="stylesheet" type="text/css" />
+{% endblock css %}

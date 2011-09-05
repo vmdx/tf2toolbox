@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <title>TF2Toolbox: Backpack Tools for Team Fortress 2</title>
+  <link href="static/css/style.css" media="screen" rel="stylesheet" type="text/css" />
+{% block css %}
+{% endblock css %}
+  <link rel="shortcut icon" href="static/media/favicon.ico" />
+  <link rel="icon" type="image/png" href="static/media/engie_toolbox_32.png" />
+</head>
+<body>
+
+  <div id="header">
+    
+    <div id="header_banner">
+      <a href="/"><img id="banner_img" src="static/media/engie_toolbox_50.png" alt="TF2 Toolbox"></a>
+      <img id="banner_button" src="static/media/indev.png" alt="indev">
+      <a href="/"><span id="banner_text">TF2Toolbox.com</span></a>
+    </div>
+    
+    <div id="current_user">
+
+{% if "steamID" in session and "username" in session and "avatar" in session %}
+      <a href="http://steamcommunity.com/profiles/{{ session["steamID"] }}">{{ session["username"]|safe }}</a>
+      <a href="http://steamcommunity.com/profiles/{{ session["steamID"] }}" target="_blank"><img id="avatar" src="{{ session["avatar"] }}" alt="avatar"></a>
+{% else %}
+      Not currently signed in.
+      <img id="avatar" src="static/media/blank.png" alt="avatar">
+{% endif %}
+
+      <div id="signin_forms">
+        <form id="signin_form" action="{{ template_info["signin_action"] }}" method="post">
+          <input type="hidden" name="form_id" value="signin" />
+          Lookup a Steam Community URL:
+          <input type="text" id="signin_input" name="steamURL" size="36" value="http://steamcommunity.com/id/" />
+        </form>    
+      </div>
+    
+    </div>
+  
+    <div id="header_toolbar">
+      <table id="header_toolbar_table">
+        <tr>
+{% block toolbar %}
+{% set tabs = [("Home", "index"), 
+               ("Backpack Text", "bptext"),
+               ("Metal Maker", "metal"),
+               ("Weapon Stock", "weapons")]
+%}
+{% for tab in tabs %}
+          <td{% if "nav_cell" in template_info and template_info["nav_cell"] == tab[0] %} id="active_tool_cell"{% endif %}><a href="{{ tab[1] }}">{{ tab[0] }}</a></td>
+{% endfor %}
+{% endblock toolbar %}
+        </tr>
+      </table>
+    </div>
+
+  </div>
+
+{% if "error_msg" in template_info %}
+  <div id="error_bar">
+    <span id="error_msg">{{ template_info["error_msg"] }}</span>
+  </div>
+{% endif %}
+
+  <div id="content">
+    
+{% block content %}
+
+{% endblock content %}
+ 
+  </div>
+  
+  <div id="footer">
+    <span id="footer_text"><a href="about">About</a> &#8226 <a href="static/changelog.txt">Changelog</a> &#8226 <a href="http://formspring.me/tf2toolbox" target="_blank">Give Feedback</a> &#8226 Created by <a href="http://lions.dongues.net" target="_blank">&gt;:3</a> <a href="http://steamcommunity.com/id/vmdx/" target="_blank">VMDX</a></span>
+
+  </div>
+
+{% block javascript %}
+
+{% endblock javascript %}
+  
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-21630599-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</body>
+</html>

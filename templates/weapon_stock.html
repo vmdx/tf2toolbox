@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <div id="tool_title">
+      <img id="tool_img" src="static/media/dictionary_tool_80.png" alt="weapon_tool">
+      <div id="tool_text">
+        <span id="tool_name">Weapon Stock</span><br/>
+        <span id="tool_desc">There are so many weapons nowadays! See which ones you are missing</span>
+      </div>
+      <div class="clearbar"></div>
+    </div>
+
+    <div id="weapon_stock_intro">
+      <div id="intro_col1">
+        <ul>
+          <li>Missing weapons are in <span class="have_not">RED.</span></li>
+          <li>Weapons you have are in <span class="have">GREEN.</span></li>
+        </ul>
+      </div>
+      <div id="intro_col2">
+        <ul>
+          <li><span class="essential">Essential</span> weapons have their own unique functionality.</li>
+          <li><span class="alternative">Alternative</span> weapons duplicate functionality (i.e. Iron Curtain is just like a Minigun). </li>
+        </ul>
+      </div>
+      <div class="clearbar"></div>
+    </div>
+
+{% for cls in template_info['result']['ordered_classes'] %}
+    <div class="class_row">
+      <span class="class_avatar" style="background-image:url('static/media/class_avatars/{{ cls.lower() }}.png');">{{ cls }}</span>
+      <div class="class_categories">
+{% for category in ['essential', 'alternative'] %}
+{% if template_info['result'][cls][category]|count > 0 %}
+        <div class="class_cat">
+          <span class="class_cat_title {{ category }}">{{ category|title + ('&nbsp;'*30)|safe }}</span>
+
+{% for wep in template_info['result'][cls][category]|sort %}
+          <div class="wep_entry">
+            <img class="wep_pic {{ 'have_img' if template_info['result'][cls][category][wep][0] else 'have_not_img' }}" src="{{ template_info['result'][cls][category][wep][1] }}" alt="{{ wep }}"/>
+            <span class="wep_name {{ 'have' if template_info['result'][cls][category][wep][0] else 'have_not' }}">{{ wep }}</span>
+          </div>
+{% endfor %}
+          <div class="clearbar"></div>
+        </div>
+{% endif %}
+{% endfor %}
+      </div>
+      <div class="clearbar"></div>
+    </div>
+{% endfor %}
+
+{% endblock content %}
+
+{% block css %}
+  <link href="static/css/weapon_style.css" media="screen" rel="stylesheet" type="text/css" />
+{% endblock css %}
+

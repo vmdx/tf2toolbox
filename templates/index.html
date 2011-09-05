@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <div id="released_tools" class="toolbox">
+      <span class="tools_title">Released Tools</span>
+      <div class="tool">
+        <a href="bptext"><img class="tool_img" src="static/media/bbcode_tool_spotlight.png" alt="bbcode_spotlight"></a>
+        <a href="bptext"><span class="tool_title" id="bbcode_tool">Backpack to Text Translator</span></a>
+        <span class="tool_desc">Converts backpack contents to eye-catching BBCode for trading on forums, or plaintext!</span>
+        <!-- <span class="tool_news">updated 3.9.2011</span> -->
+      </div>
+      <div class="tool">
+        <a href="metal"><img class="tool_img" src="static/media/metal_tool_spotlight.png" alt="bbcode_spotlight"></a>
+        <a href="metal"><span class="tool_title" id="metal_tool">Metal Maker</span></a>
+        <span class="tool_desc">Organizes backpack weapons into scrap metal and token combinations</span>
+        <!-- <span class="tool_news">updated 3.7.2011</span> -->
+      </div>
+
+    </div>
+
+    <div id="indev_tools" class="toolbox">
+      <span class="tools_title">&nbsp</span>
+      <div class="tool">
+        <img class="tool_img" src="static/media/dictionary_tool_spotlight.png" alt="bbcode_spotlight">
+        <span class="tool_title" id="dict_tool">Weapon Stock</span>
+        <span class="tool_desc">There are so many weapons nowadays! See which ones you are missing</span>
+        <!-- <span class="tool_news">not started</span> -->
+      </div>
+    </div>
+{% endblock content %}
+
+{% block css %}
+  <link href="static/css/mainpage_style.css" media="screen" rel="stylesheet" type="text/css" />
+{% endblock css %}

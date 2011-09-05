@@ -1,0 +1,132 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <div id="metal_output">
+      <div id="weapon_content">
+        <div id="class_avatars">
+{% for cls in template_info['result']['ordered_classes'] %}
+          <span class="class_avatar" style="background-image:url('static/media/class_avatars/{{ cls.lower() }}.png');">{{ cls }}</span>
+{% endfor %}
+        </div>
+
+        <div class="cross_column_title">
+          <span class="vintage">Vintage</span><span style="color: #dddddd;"> & </span><span class="normal">Normal</span><span style="color: #dddddd;"> Weapons</span>
+        </div>
+
+{% for cls in template_info['result']['ordered_classes'] %}
+        <div class="class_column">
+{% for wep in template_info['result']['weapons'][cls]['standard']|sort %}
+          <div class="weapon_entry">
+            <img class="weapon_image" src="{{ template_info['result']['weapons'][cls]['standard'][wep]['image'] }}" alt="{{ wep }}">
+{% if template_info['result']['weapons'][cls]['standard'][wep]['v_count'] and template_info['result']['weapons'][cls]['standard'][wep]['nv_count'] %}
+            <span class="quantity q_double q_x">x</span><span class="quantity q_double q_num vintage">{{ template_info['result']['weapons'][cls]['standard'][wep]['v_count'] }}</span>
+            <span class="quantity q_double q_x">x</span><span class="quantity q_double q_num normal">{{ template_info['result']['weapons'][cls]['standard'][wep]['nv_count'] }}</span>
+{% elif template_info['result']['weapons'][cls]['standard'][wep]['v_count'] %}
+            <span class="quantity q_single q_x">x</span><span class="quantity q_single q_num vintage">{{ template_info['result']['weapons'][cls]['standard'][wep]['v_count'] }}</span>
+{% elif template_info['result']['weapons'][cls]['standard'][wep]['nv_count'] %}
+            <span class="quantity q_single q_x">x</span><span class="quantity q_single q_num normal">{{ template_info['result']['weapons'][cls]['standard'][wep]['nv_count'] }}</span>
+{% endif %}
+          </div>
+{% endfor %}
+        </div>
+{% endfor %}
+
+        <div class="clearbar"></div>
+        <hr>
+        
+        <div id="calculations">
+{% for cls in template_info['result']['ordered_classes'] %}
+          <div class="class_column center">
+            <span class="calc normal">{{ template_info['result']['weapons'][cls]['total_nv_count'] }} NV</span><span class="calc white"> = <br/><span class="calc white center_number">{{ template_info['result']['weapons'][cls]['total_nv_count'] / 2 }}</span><img class="scrap_metal_pic" src="static/media/scrap.png"</img>
+            <div class="clearbar calc_space"></div>
+            <span class="calc vintage">{{ template_info['result']['weapons'][cls]['total_v_count'] }} V</span><span class="calc white"> = <br/><span class="calc white center_number">{{ template_info['result']['weapons'][cls]['total_v_count'] / 2 }}</span><img class="scrap_metal_pic" src="static/media/scrap.png"</img>
+            <div class="clearbar calc_space"></div>
+            <span class="calc_small special">{{ template_info['result']['weapons'][cls]['total_s_count'] }} Special</span><br/>
+          </div>
+{% endfor %}
+        </div>
+        
+        <div class="cross_column_title">
+          <span class="special">Special Weapons</span>
+        </div>
+
+
+{% for cls in template_info['result']['ordered_classes'] %}
+        <div class="class_column">
+{% for spec_wep in template_info['result']['weapons'][cls]['special']|sort %}
+          <img class="weapon_image" src="{{ spec_wep[1] }}" alt="{{ spec_wep[0] }}">
+{% endfor %}
+          <br/>
+        </div>
+{% endfor %}
+
+      </div>
+    
+      <div id="statistics">
+        <span class="stat_title">Numbers</span>
+        <br/>
+        <span class="stat plain subtitle">Total # of weapons:</span>
+        <span class="stat white subsubtitle">{{ template_info['result']['nv_all_count'] + template_info['result']['v_all_count'] }} ({{ (template_info['result']['nv_all_count'] + template_info['result']['v_all_count']) / 2}} scrap)</span>
+        <span class="stat normal">&nbsp&#8226 Non-vintage: {{ template_info['result']['nv_all_count'] }}</span>
+
+        <span class="stat vintage">&nbsp&#8226 Vintage: {{ template_info['result']['v_all_count'] }}</span>
+        <br/>
+        <span class="stat plain subtitle"># of Primary Weapons:</span>
+        <span class="stat white subsubtitle">{{ template_info['result']['nv_primary_count'] + template_info['result']['v_primary_count']}} ({{ (template_info['result']['nv_primary_count'] + template_info['result']['v_primary_count']) / 3 }} tokens)</span>
+        <span class="stat normal">&nbsp&#8226 Non-vintage: {{ template_info['result']['nv_primary_count'] }}</span>
+        <span class="stat vintage">&nbsp&#8226 Vintage: {{ template_info['result']['v_all_count'] }}</span>
+        <br/>
+        <span class="stat plain subtitle"># of Secondary Weapons:</span>
+        <span class="stat white subsubtitle">{{ template_info['result']['nv_secondary_count'] + template_info['result']['v_secondary_count']}} ({{ (template_info['result']['nv_secondary_count'] + template_info['result']['v_secondary_count']) / 3 }}  tokens)</span>
+        <span class="stat normal">&nbsp&#8226 Non-vintage: {{ template_info['result']['nv_secondary_count'] }}</span>
+        <span class="stat vintage">&nbsp&#8226 Vintage: {{ template_info['result']['v_secondary_count'] }}</span>
+      
+        <br/>
+        <span class="stat_title">Notes</span>
+        <ul id="stat_notes">
+{% for status in template_info['metal_params'] %}
+          <li>{{ status }}</li>
+          <br />
+{% endfor %}
+          <li><span style="color:#70B04A;">Special weapons</span> are not considered in any calculations.</li>
+
+        </ul>
+      </div>
+    
+      <div class="clearbar"></div>
+      
+    </div>
+{% endblock content %}
+
+{% block css %}
+  <link href="static/css/metal_style.css" media="screen" rel="stylesheet" type="text/css" />
+  <link href="static/css/metal_output.css" media="screen" rel="stylesheet" type="text/css" />
+{% endblock css %}
+
+{% block javascript %}
+<script type="text/javascript" src="static/js/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="static/js/jquery.qtip-1.0.0-rc3.js"></script>
+<script>
+$(document).ready(function() {
+
+    /* Create tooltips for every single item on mouseover. */
+    $(".weapon_image").each( function(i) {
+      var data = $(this).attr('alt');
+      if (data !== "") {
+        $(this).qtip({
+          content: data,
+          position: { target: 'mouse'},
+          show: { delay: 0, effect: {length: 0} },
+          hide: { delay: 0, effect: {length: 0} },
+          style: {
+            textAlign: 'center',
+            name: 'dark',
+            'font-size': 14,
+            'font-family': 'Verdana'
+          }
+        });
+      }
+    }); 
+})
+</script>
+{% endblock javascript %}

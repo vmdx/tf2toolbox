@@ -1,0 +1,139 @@
+-- TODO --
+
+--------
+FEATURES
+--------
+* Sort weapons/hats by new release. (but quality takes priority)
+
+* Metal Maker Vintage option.
+
+* Donate button?
+
+* BBCode show duplicates only?
+
+* Metal Maker show duplicates only, no untradeables/dirty metal?
+
+* What are Steam Inventory gifts?
+
+---------
+BUG FIXES
+---------
+
+------------
+OPTIMIZATION
+------------
+* Fix the CSS spaghetti :(
+
+* Figure out a better way to update promo weapons.
+
+* Make a steam community group?
+
+-- CHANGELOG --
+
+9.4.2011
+  - TF2Toolbox is now written in Flask/Python/Jinja! Good riddance PHP :) Future 
+  coding should be much easier now.
+  - Weapon Stock Tool.
+  - Metal Maker updates; now actually works. Uber Update items/Strange quality
+  work properly.
+  - BBCode Translator is now Backpack to Text Translator
+    - Option for plaintext or BBCode translation.
+    - Links to SteamCommunity/TF2 Backpack viewing site URLs. Yay!
+
+7.21.2011
+  - Huge refactoring, reorganization of php.
+  - Fixed all BBCode tags; they all close correctly now. Including nested colors.
+
+7.6.2011
+  - Fixed Zepheniah's Greed spelling
+
+6.30.2011
+	- Strange weapon support.
+  - Added Clear Buttons for BBCode form.
+  - New Hat category is now Uber Update hats.
+  - Added new dual-color paints from Uber Update.
+	- Removed some funky residual text from ads.
+
+6.21.2011
+  - Added craft numbers on items. Will always show if <= 100. Can
+  be shown always via option.
+  
+6.17.2011
+  - Option to show paint on hats.
+  - Fixed the hat blacklist: no untradeable & ungiftable hats are allowed.
+  - Changed Australian Xmas Hat category to "New Hats" category.
+  "New Hats" are currently set to Apr 7th + Replay Update hats.
+  - Created category for Genuine Hats.
+  - Updated all promotional items.
+  - Colored the text on the bbcode lookup page.
+  
+4.25.2011
+  - Fixed XML bug. Now parsing as a UTF8 encoded string. Thanks to Ath
+  for the key to the fix and Lenzi for letting me know.
+  - Removed all ads.
+  
+3.20.2011
+  - BBCode+MetalMaker lookup automatically checks how many pages you
+  have in your backpack and creates checkboxes accordingly!! Sorry 
+  for taking so long on this.
+  
+3.14.2011
+  - Added explanatory tooltip for page lookup, added pages 7-10 manual.
+  Still need to add a scalable way to choose any page.
+  
+3.12.2011
+  - Added Shogun Pack hats.
+
+3.11.2011
+  - Added notification for private backpacks.
+  
+3.10.2011
+  - Fixed alphabetization to compare levels correctly (Level 100 >
+  Level 20). Fixed Unusual alphabetization.
+
+3.9.2011
+  - Lots of code cleanup. Still needs work though :(
+  - Default alphabetical sorting.
+  - Gifted and untradable tags are now always on.
+  - Show hat levels option.
+  - Hide gifted/untradable item options.
+  - Tooltips to clarify some stuff on BBCode form.
+  - Added error message on invalid Steam Community URL signin.
+  - TF2 Wiki page created.
+
+3.8.2011
+  - Added dueling minigames and "action" items to BBCode tools/misc.
+  - Added option to offer credits to BBCode list :)
+  - Made external links open in new windows (hopefully new tabs if your
+  browser is worth its salt)
+  
+3.7.2011
+  - Added check for Genuine items (and Community and Valve and Self-Made)...
+  - Added Dirty/Clean check for UHHH, Voodoo Juju, Spine-Chilling Skull.
+  - Added Hero's Hachimaki and Genuine quality check for hats.
+  - Gifted tag for UHHH, Skull, Juju.
+  - Crates now arranged alphabetically.
+  - Fix: promo weapons now caught by "only show dupes" option in BBCode.
+
+3.3.2011
+  - Fixed a bug with primary and secondary slot tokens being classified
+  as weapons. They have "item_slot" = "primary" and "secondary"...
+  - Added preliminary about page.
+
+3.2.2011
+  - Set up subversion. :D
+  - Hacked all day, got the Metal Maker implementation done! Statistics could 
+  use some work, as well as layout...
+  - Did a little hack on metal_output.css that fixes the weird pixel offset on
+  the right side of screens... hopefully I can investigate and figure this out.
+
+2.24.2011
+  - Fixed bug on Unusual hats not coming first in precedence.
+  - Fixed CSS bug on signin form, still needs alignment work (maybe padding 
+  0 on the input form?)
+
+2.23.2011
+  - First major code push.
+  - Categorization of hats/weapons done.
+  - Unusual hat lookups done.
+  - Metal Maker form done.

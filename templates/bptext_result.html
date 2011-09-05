@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <div id="bbcode_output">
+      <textarea id="bbcode_text" rows="22" cols="102">{{ template_info['bptext_result_string'] }}</textarea>
+    </div>
+
+    <div id="bbcode_status">
+      <span id="bbcode_status_display">Status</span>
+      <ul id="bbcode_status_list">
+{% for status in template_info['bptext_params'] %}
+        <li>{{ status }}</li>
+{% endfor %}
+      </ul>
+
+      <form action="bptext" method="get">
+        <input type="submit" id="retry_button" value="Try Again" />
+      </form>
+    </div>
+{% endblock content %}
+
+{% block css %}
+  <link href="static/css/bbcode_style.css" media="screen" rel="stylesheet" type="text/css" />
+{% endblock css %}
+
