@@ -108,8 +108,8 @@ def set_user_session(template_info, steamURL):
   steamURL += "?xml=1"
 
   try:
-    with contextlib.closing(urllib2.urlopen(steamURL)) as url_file:
-      user_data = xml.dom.minidom.parse(url_file)
+    url_file = urllib2.urlopen(steamURL)
+    user_data = xml.dom.minidom.parse(url_file)
     root_children = user_data.documentElement.childNodes
     vars_set = 0
     for child in root_children:
@@ -145,8 +145,8 @@ def get_user_backpack(template_info, steamID):
   """
   backpack_url = "http://api.steampowered.com/IEconItems_440/GetPlayerItems/v0001/?SteamID=" + steamID + "&key=74EA34072E00ED29B92691B6F929F590"
   try:
-    with contextlib.closing(urllib2.urlopen(backpack_url)) as url_file:
-      bp_json = json.load(url_file)
+    url_file = urllib2.urlopen(backpack_url)
+    bp_json = json.load(url_file)
   except urllib2.URLError:
     template_info['error_msg'] = "We were unable to retrieve that user's backpack.\n"
 
@@ -614,13 +614,14 @@ def get_schema():
   print '[SCHEMA] Checking schema for mtime: %s' % dt.strftime('%a, %d %b %Y %X GMT')
 
   try:
-    with contextlib.closing(urllib2.urlopen(schema_req)) as schema:
-      print '[SCHEMA] Retrieving new schema.'
-      schema_string = schema.read()
+    schema = urllib2.urlopen(schema_req)
+    print '[SCHEMA] Retrieving new schema.'
+    schema_string = schema.read()
 
-    with open(schema_cache, 'w') as new_schema_cache:
-      print '[SCHEMA] Writing new schema cache.'
-      new_schema_cache.write(schema_string)
+    new_schema_cache = open(schema_cache, 'w')
+    print '[SCHEMA] Writing new schema cache.'
+    new_schema_cache.write(schema_string)
+    new_schema_cache.close()
 
     schema_json = json.loads(schema_string)
 
@@ -629,8 +630,9 @@ def get_schema():
     print e.code
     if e.code == 304:
       print '[IMPORTANT] Cached schema is up-to-date!'
-      with open(schema_cache) as schema:
-        schema_json = json.load(schema)
+      schema = open(schema_cache)
+      schema_json = json.load(schema)
+      schema.close()
     else:
       return None
 
@@ -778,21 +780,6 @@ def metal_form_to_params(form):
 
   return params_list
 
-
-def local_schema():
-  with open('static/schema.json') as schema:
-    schema_json = json.load(schema)
-  return schema_json
-
-def atreus_bp():
-  with open('atreus_bp.json') as bp:
-    bp_json = json.load(bp)
-  return bp_json
-
-def vmdx_bp():
-  with open('vmdx_bp.json') as bp:
-    bp_json = json.load(bp)
-  return bp_json
 
 if __name__ == '__main__':
   app.run()
