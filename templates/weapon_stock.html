@@ -26,6 +26,7 @@
       <div class="clearbar"></div>
     </div>
 
+{% if 'result' in template_info %}
 {% for cls in template_info['result']['ordered_classes'] %}
     <div class="class_row">
       <span class="class_avatar" style="background-image:url('static/media/class_avatars/{{ cls.lower() }}.png');">{{ cls }}</span>
@@ -49,7 +50,7 @@
       <div class="clearbar"></div>
     </div>
 {% endfor %}
-
+{% endif %}
 {% endblock content %}
 
 {% block css %}

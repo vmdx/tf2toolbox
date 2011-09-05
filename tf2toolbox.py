@@ -79,9 +79,10 @@ def weapons():
   if request.method == 'POST':
     if request.form['form_id'] == 'signin':
       set_user_session(template_info, request.form['steamURL'])
-  bp_json = get_user_backpack(template_info, session['steamID'])
-  if 'error_msg' not in template_info:
-    bp_weapons(template_info, bp_json, session)
+  if 'steamID' in session:
+    bp_json = get_user_backpack(template_info, session['steamID'])
+    if 'error_msg' not in template_info:
+      bp_weapons(template_info, bp_json, session)
   return render_template('weapon_stock.html', template_info=template_info, session=session)
 
 def set_user_session(template_info, steamURL):
