@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 
 {% block content %}
+{% if 'result' in template_info %}
     <div id="metal_output">
       <div id="weapon_content">
         <div id="class_avatars">
@@ -96,6 +97,7 @@
       <div class="clearbar"></div>
       
     </div>
+{% endif %}
 {% endblock content %}
 
 {% block css %}

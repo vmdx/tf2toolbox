@@ -300,8 +300,9 @@ def bp_metal(template_info, bp, form, session_info):
 
     # Skip invalid pages
     if 'all' not in form.getlist('pages[]'):
+      pages = [int(page) for page in form.getlist('pages[]')]
       inv_page = (item['inventory'] & 0xFFFF - 1) / 50 + 1
-      if inv_page not in form.getlist('pages[]'):
+      if inv_page not in pages:
         continue
 
 
@@ -669,8 +670,9 @@ def should_skip(item, form):
   """
   # Skip invalid pages
   if 'all' not in form.getlist('pages[]'):
+    pages = [int(page) for page in form.getlist('pages[]')]
     inv_page = (item['inventory'] & 0xFFFF - 1) / 50 + 1
-    if inv_page not in form.getlist('pages[]'):
+    if inv_page not in pages:
       return True
 
   # Skip item blacklist. TODO: Fix hack for Director's Vision
