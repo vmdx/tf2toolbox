@@ -50,6 +50,9 @@
       <div class="clearbar"></div>
     </div>
 {% endfor %}
+
+{% else %}
+    <button id="lookup_submit" disabled>Please sign in first! (top right corner)</button>
 {% endif %}
 {% endblock content %}
 

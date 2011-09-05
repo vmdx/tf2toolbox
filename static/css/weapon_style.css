@@ -137,3 +137,12 @@
 	font-size: 12px;
 	color: white;
 }
+
+#lookup_submit {
+	font-family:TFBuild, Verdana;
+	font-size:20px;
+	position: relative;
+        left: 100px;
+        top: 20px;
+        color: #bbbbbb;
+}
