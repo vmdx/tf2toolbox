@@ -18,7 +18,7 @@ import bpdata
 from flask import *
 
 # Configuration
-DEBUG = False
+DEBUG = True
 SECRET_KEY = 'I\xa4RT\x9aH\xc6\xdbK\x13I\xdb\x18\xe1\xfd\x8d\xbf\xfa\x17\xa5E\x8f\xd2\xdd'
 
 app = Flask(__name__)
@@ -768,7 +768,7 @@ def bptext_form_to_params(form):
   elif not page_list:
     params_list.append('Not displaying any backpack pages. Huh?')
   elif len(page_list) == 1:
-    params_list.append('Displaying backpack page %d.' % page_list[0])
+    params_list.append('Displaying backpack page %s.' % str(page_list[0]))
   else:
     params_list.append('Displaying backpack pages %s.' % ', '.join([str(num) for num in page_list]))
 
@@ -790,7 +790,7 @@ def metal_form_to_params(form):
   elif not page_list:
     params_list.append('Not displaying any backpack pages. Huh?')
   elif len(page_list) == 1:
-    params_list.append('Displaying backpack page %d.' % page_list[0])
+    params_list.append('Displaying backpack page %s.' % str(page_list[0]))
   else:
     params_list.append('Displaying backpack pages %s.' % ', '.join([str(num) for num in page_list]))
 
