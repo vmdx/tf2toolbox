@@ -2,6 +2,9 @@
 This is TF2Toolbox in Flask Python!
 """
 
+from __future__ import with_statement
+from __future__ import as_statement
+
 from collections import defaultdict
 import contextlib
 import datetime
@@ -625,7 +628,7 @@ def get_schema():
 
     schema_json = json.loads(schema_string)
 
-  except urllib2.HTTPError as e:
+  except urllib2.HTTPError, e:
     print e
     print e.code
     if e.code == 304:
