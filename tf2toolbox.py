@@ -433,9 +433,7 @@ def bp_parse(template_info, bp, form, session_info):
     if 'attributes' in item:
       for attribute in item['attributes']:
         if attribute['defindex'] == 142:
-          print item['name']
           item['attr']['paint'] = int(attribute['float_value']) # 1.0 -> Team Spirit.
-          print 'Painted %d' % item['attr']['paint']
         elif attribute['defindex'] == 186:
           item['attr']['gifted'] = True
         elif attribute['defindex'] == 229 and (attribute['value'] <= 100 or 'display_craft_num' in form):
@@ -565,9 +563,9 @@ def bp_parse(template_info, bp, form, session_info):
 
 
   if form['output_type'] == 'bbcode':
-    template_info['bptext_result_string'] = bp_to_bbcode(result) + '\n'.join(bptext_suffix_tags)
+    template_info['bptext_result_string'] = bp_to_bbcode(result, 'display_credit' in form) + '\n'.join(bptext_suffix_tags)
   elif form['output_type'] == 'plaintext':
-    template_info['bptext_result_string'] = bp_to_plaintext(result) + '\n'.join(bptext_suffix_tags)
+    template_info['bptext_result_string'] = bp_to_plaintext(result, 'display_credit' in form) + '\n'.join(bptext_suffix_tags)
   template_info['bptext_params'] = bptext_form_to_params(form)
 
 def add_to_result(result, sort_key, category, bbcode=None, plaintext=None, subcategory=None):
@@ -689,14 +687,19 @@ def should_skip(item, form):
 
   return False
 
-def bp_to_bbcode(bp):
+def bp_to_bbcode(bp, credit):
   """
   Given a parsed bp (from bp_parse()), translate it to BBCode. Return the string.
   """
   result = ""
 
+  first = True
   for category in bp['CATEGORY_ORDER']:
-    result += '[b][u]%s[/u][/b][list]\n' % category
+    if credit and first:
+      result += '[b][u]%s[/u][/b][color=#cd5c5c] (List generated at [URL=http://tf2toolbox.com/bptext]TF2Toolbox.com[/URL])[/color][list]\n' % category
+      first = False
+    else:
+      result += '[b][u]%s[/u][/b][list]\n' % category
     for item in sorted(bp[category].keys()):
       result += '[*][b]' + bp[category][item]['bbcode']
       if bp[category][item]['quantity'] > 1:
@@ -708,14 +711,19 @@ def bp_to_bbcode(bp):
 
   return result
 
-def bp_to_plaintext(bp):
+def bp_to_plaintext(bp, credit):
   """
   Given a parsed bp (from bp_parse()), translate it to plaintext. Return the string.
   """
   result = ""
 
+  first = True
   for category in bp['CATEGORY_ORDER']:
-    result += '%s\n' % category
+    if credit and first:
+      result += '[b][u]%s[/u][/b][color=#cd5c5c] (List generated at [URL=http://tf2toolbox.com/bptext]TF2Toolbox.com[/URL])[/color][list]\n' % category
+      first = False
+    else:
+      result += '%s\n' % category
     for item in sorted(bp[category].keys()):
       result += bp[category][item]['plaintext']
       if bp[category][item]['quantity'] > 1:
