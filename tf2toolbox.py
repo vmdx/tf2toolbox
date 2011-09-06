@@ -18,7 +18,7 @@ import bpdata
 from flask import *
 
 # Configuration
-DEBUG = True
+DEBUG = False
 SECRET_KEY = 'I\xa4RT\x9aH\xc6\xdbK\x13I\xdb\x18\xe1\xfd\x8d\xbf\xfa\x17\xa5E\x8f\xd2\xdd'
 
 app = Flask(__name__)
