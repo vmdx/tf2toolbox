@@ -9,8 +9,6 @@ FEATURES
 
 * Donate button?
 
-* BBCode show duplicates only?
-
 * Metal Maker show duplicates only, no untradeables/dirty metal?
 
 * What are Steam Inventory gifts?
@@ -30,6 +28,10 @@ OPTIMIZATION
 
 -- CHANGELOG --
 
+9.5.2011
+  - BPText: Added 'Only show duplicate weapons' option.
+  - Lots of bugfixes.
+
 9.4.2011
   - TF2Toolbox is now written in Flask/Python/Jinja! Good riddance PHP :) Future 
   coding should be much easier now.
@@ -48,11 +50,11 @@ OPTIMIZATION
   - Fixed Zepheniah's Greed spelling
 
 6.30.2011
-	- Strange weapon support.
+  - Strange weapon support.
   - Added Clear Buttons for BBCode form.
   - New Hat category is now Uber Update hats.
   - Added new dual-color paints from Uber Update.
-	- Removed some funky residual text from ads.
+  - Removed some funky residual text from ads.
 
 6.21.2011
   - Added craft numbers on items. Will always show if <= 100. Can
