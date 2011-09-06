@@ -416,6 +416,7 @@ def bp_parse(template_info, bp, form, session_info):
   # Set up the result schema.
   result = {
     'CATEGORY_ORDER': [category for category in bpdata.BPTEXT_FORM_CATEGORIES if category in form],
+    'WEAPON_CATEGORIES': ['Strange Weapons', 'Genuine Weapons', 'Normal Weapons', 'Vintage Weapons']
   }
   for category in bpdata.BPTEXT_FORM_CATEGORIES:
     result[category] = {}
@@ -564,9 +565,9 @@ def bp_parse(template_info, bp, form, session_info):
 
 
   if form['output_type'] == 'bbcode':
-    template_info['bptext_result_string'] = bp_to_bbcode(result, 'display_credit' in form) + '\n'.join(bptext_suffix_tags)
+    template_info['bptext_result_string'] = bp_to_bbcode(result, 'display_credit' in form, 'only_dup_weps' in form) + '\n'.join(bptext_suffix_tags)
   elif form['output_type'] == 'plaintext':
-    template_info['bptext_result_string'] = bp_to_plaintext(result, 'display_credit' in form) + '\n'.join(bptext_suffix_tags)
+    template_info['bptext_result_string'] = bp_to_plaintext(result, 'display_credit' in form, 'only_dup_weps' in form) + '\n'.join(bptext_suffix_tags)
   template_info['bptext_params'] = bptext_form_to_params(form)
 
 def add_to_result(result, sort_key, category, bbcode=None, plaintext=None, subcategory=None):
@@ -689,7 +690,7 @@ def should_skip(item, form):
 
   return False
 
-def bp_to_bbcode(bp, credit):
+def bp_to_bbcode(bp, credit, dup_weps_only):
   """
   Given a parsed bp (from bp_parse()), translate it to BBCode. Return the string.
   """
@@ -703,6 +704,10 @@ def bp_to_bbcode(bp, credit):
     else:
       result += '[b][u]%s[/u][/b][list]\n' % category
     for item in sorted(bp[category].keys()):
+      if dup_weps_only and category in bp['WEAPON_CATEGORIES'] and bp[category][item]['quantity'] == 1:
+        continue
+      if dup_weps_only:
+        bp[category][item]['quantity'] -= 1
       result += '[*][b]' + bp[category][item]['bbcode']
       if bp[category][item]['quantity'] > 1:
         result += ' x %d' % bp[category][item]['quantity']
@@ -713,7 +718,7 @@ def bp_to_bbcode(bp, credit):
 
   return result
 
-def bp_to_plaintext(bp, credit):
+def bp_to_plaintext(bp, credit, dup_weps_only):
   """
   Given a parsed bp (from bp_parse()), translate it to plaintext. Return the string.
   """
@@ -727,6 +732,10 @@ def bp_to_plaintext(bp, credit):
     else:
       result += '%s\n' % category
     for item in sorted(bp[category].keys()):
+      if dup_weps_only and category in bp['WEAPON_CATEGORIES'] and bp[category][item]['quantity'] == 1:
+        continue
+      if dup_weps_only:
+        bp[category][item]['quantity'] -= 1
       result += bp[category][item]['plaintext']
       if bp[category][item]['quantity'] > 1:
         result += ' x %d' % bp[category][item]['quantity']
@@ -754,6 +763,8 @@ def bptext_form_to_params(form):
     params_list.append('Displaying %s.' % ', '.join(items_list))
 
   # Options printing
+  if 'only_dup_weps' in form:
+    params_list.append('Only showing duplicate weapons!')
   if 'hide_untradeable' in form and 'hide_gifted' in form:
     params_list.append('Hiding untradeable and gifted items.')
   elif 'hide_gifted' in form:
