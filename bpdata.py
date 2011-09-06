@@ -202,6 +202,7 @@ QUALITY_BBCODE_MAP = {
 ALT_WEAPONS = ['Lugermorph', # Pistol
                'Three-Rune Blade', # Boston Basher
                'Frying Pan', # Shovel/Bottle
+               'Original', # Rocket Launcher
                'Maul', # Homewrecker
                'Postal Pummeler', # Axtinguisher
                'Horseless Headless Horsemann\'s Headtaker', # Eyelander
