@@ -640,7 +640,7 @@ def get_schema():
     print '[SCHEMA] Retrieving new schema.'
     schema_lines = schema.readlines()
 
-    SEND_MAIL = False
+    SEND_MAIL = True
     if SEND_MAIL:
       if os.path.exists(schema_cache):
         old_schema_cache = open(schema_cache, 'r')
