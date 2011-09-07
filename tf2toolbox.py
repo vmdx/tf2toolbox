@@ -681,7 +681,9 @@ def get_schema():
 
     # Send the email via Gmail.
     s = smtplib.SMTP('smtp.gmail.com')
+    s.ehlo()
     s.starttls()
+    s.ehlo()
     s.login(email_params[0], email_params[1])
     s.sendmail(email_params[0], email_params[2], msg.as_string())
     s.quit()
