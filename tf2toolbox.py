@@ -23,7 +23,7 @@ import bpdata
 from flask import *
 
 # Configuration
-DEBUG = False
+DEBUG = True
 SECRET_KEY = 'I\xa4RT\x9aH\xc6\xdbK\x13I\xdb\x18\xe1\xfd\x8d\xbf\xfa\x17\xa5E\x8f\xd2\xdd'
 
 app = Flask(__name__)
@@ -151,7 +151,7 @@ def get_user_backpack(template_info, steamID):
 
   In the case of an error, adds an error message to template_info.
   """
-  backpack_url = "ttp://api.steampowered.com/IEconItems_440/GetPlayerItems/v0001/?SteamID=" + steamID + "&key=74EA34072E00ED29B92691B6F929F590"
+  backpack_url = "http://api.steampowered.com/IEconItems_440/GetPlayerItems/v0001/?SteamID=" + steamID + "&key=74EA34072E00ED29B92691B6F929F590"
   try:
     url_file = urllib2.urlopen(backpack_url)
     bp_json = json.load(url_file)
