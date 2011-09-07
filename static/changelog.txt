@@ -24,10 +24,6 @@ OPTIMIZATION
 ------------
 * Fix the CSS spaghetti :(
 
-* Figure out a better way to update promo weapons.
-  - Codify update procedure somewhere (what exactly needs to be done?)
-  - Email notification when schema gets updated, with diff?
-
 * Make a steam community group/Twitter?
 
 -- CHANGELOG --

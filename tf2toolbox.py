@@ -7,9 +7,14 @@ from __future__ import with_statement
 from collections import defaultdict
 import contextlib
 import datetime
-import httplib
+import difflib
+from email import Encoders
+from email.mime.base import MIMEBase
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 import os
 import simplejson as json
+import smtplib
 import urllib2
 import xml.dom.minidom
 
@@ -633,14 +638,54 @@ def get_schema():
   try:
     schema = urllib2.urlopen(schema_req)
     print '[SCHEMA] Retrieving new schema.'
-    schema_string = schema.read()
+    schema_lines = schema.readlines()
+
+    if os.path.exists(schema_cache):
+      old_schema_cache = open(schema_cache, 'r')
+      old_schema_string = old_schema_cache.readlines()
+      old_schema_cache.close()
+    else:
+      old_schema_string = ['']
 
     new_schema_cache = open(schema_cache, 'w')
     print '[SCHEMA] Writing new schema cache.'
-    new_schema_cache.write(schema_string)
+    new_schema_cache.writelines(schema_lines)
     new_schema_cache.close()
 
-    schema_json = json.loads(schema_string)
+    schema_json = json.loads(''.join(schema_lines))
+
+    # Read the email info file and parse
+    info_file = open(os.path.join(os.getcwd(), 'email_auth.txt'))
+    email_params = info_file.read().strip().split('|')
+    info_file.close()
+    print '[SCHEMA] Email parameters file successfully read.'
+
+    msg = MIMEMultipart()
+    msg['Subject'] = 'TF2 Schema Update: %s' % dt.strftime('%a, %d %b %Y %X GMT')
+    msg['To'] = email_params[2]
+
+    # Take the diff and add it to the email message.
+    d = difflib.Differ()
+    result = list(d.compare(old_schema_string, schema_lines))
+    diff_file = open(os.path.join(os.getcwd(), 'schema.diff'), 'w')
+    diff_file.writelines(result)
+    diff_file.close()
+
+    part = MIMEBase('application', "octet-stream")
+    part.set_payload(open(os.path.join(os.getcwd(), 'schema.diff'), 'rb').read())
+    Encoders.encode_base64(part)
+    part.add_header('Content-Disposition', 'attachment; filename="schema.diff"')
+    msg.attach(part)
+
+    print '[SCHEMA] Diff successfully generated'
+
+    # Send the email via Gmail.
+    s = smtplib.SMTP('smtp.gmail.com')
+    s.starttls()
+    s.login(email_params[0], email_params[1])
+    s.sendmail(email_params[0], email_params[2], msg.as_string())
+    s.quit()
+    print '[SCHEMA] Update email successfully sent!'
 
   except urllib2.HTTPError, e:
     print e
