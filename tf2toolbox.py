@@ -413,6 +413,11 @@ def bp_parse(template_info, bp, form, session_info):
   for quality in schema['result']['qualities']:
     s['qualities'][schema['result']['qualities'][quality]] = schema['result']['qualityNames'][quality]
 
+  # Load in schema particle effects
+  s['particles'] = {}
+  for particle in schema['result']['attribute_controlled_attached_particles']:
+    s['particles'][particle['id']] = particle['name']
+
   # Set up the result schema.
   result = {
     'CATEGORY_ORDER': [category for category in bpdata.BPTEXT_FORM_CATEGORIES if category in form],
@@ -440,6 +445,8 @@ def bp_parse(template_info, bp, form, session_info):
           item['attr']['gifted'] = True
         elif attribute['defindex'] == 229 and (attribute['value'] <= 100 or 'display_craft_num' in form):
           item['attr']['craftnum'] = attribute['value']
+        elif attribute['defindex'] == 134:
+          item['attr']['particle'] = s['particles'][int(attribute['float_value'])]
 
     # Skip invalid items
     if should_skip(item, form):
@@ -449,6 +456,10 @@ def bp_parse(template_info, bp, form, session_info):
     if item['slot'] in ['head', 'misc']:
       quality = s['qualities'][item['quality']]
       # Suffixes: Quality tag, Untradeable, Gifted, Painted, CraftNum, Level if specified
+
+      # Get Unusual particle effect
+      if quality == 'Unusual' and 'particle' in item['attr']:
+        item['name'] = '%s (%s)' % (item['name'], item['attr']['particle'])
 
       sort_key = [item['name']]
       suffix_tags = []
