@@ -151,7 +151,7 @@ def get_user_backpack(template_info, steamID):
 
   In the case of an error, adds an error message to template_info.
   """
-  backpack_url = "http://api.steampowered.com/IEconItems_440/GetPlayerItems/v0001/?SteamID=" + steamID + "&key=74EA34072E00ED29B92691B6F929F590"
+  backpack_url = "ttp://api.steampowered.com/IEconItems_440/GetPlayerItems/v0001/?SteamID=" + steamID + "&key=74EA34072E00ED29B92691B6F929F590"
   try:
     url_file = urllib2.urlopen(backpack_url)
     bp_json = json.load(url_file)
@@ -640,12 +640,14 @@ def get_schema():
     print '[SCHEMA] Retrieving new schema.'
     schema_lines = schema.readlines()
 
-    if os.path.exists(schema_cache):
-      old_schema_cache = open(schema_cache, 'r')
-      old_schema_string = old_schema_cache.readlines()
-      old_schema_cache.close()
-    else:
-      old_schema_string = ['']
+    SEND_MAIL = False
+    if SEND_MAIL:
+      if os.path.exists(schema_cache):
+        old_schema_cache = open(schema_cache, 'r')
+        old_schema_string = old_schema_cache.readlines()
+        old_schema_cache.close()
+      else:
+        old_schema_string = ['']
 
     new_schema_cache = open(schema_cache, 'w')
     print '[SCHEMA] Writing new schema cache.'
@@ -654,40 +656,41 @@ def get_schema():
 
     schema_json = json.loads(''.join(schema_lines))
 
-    # Read the email info file and parse
-    info_file = open(os.path.join(os.getcwd(), 'email_auth.txt'))
-    email_params = info_file.read().strip().split('|')
-    info_file.close()
-    print '[SCHEMA] Email parameters file successfully read.'
+    if SEND_MAIL:
+      # Read the email info file and parse
+      info_file = open(os.path.join(os.getcwd(), 'email_auth.txt'))
+      email_params = info_file.read().strip().split('|')
+      info_file.close()
+      print '[SCHEMA] Email parameters file successfully read.'
 
-    msg = MIMEMultipart()
-    msg['Subject'] = 'TF2 Schema Update: %s' % dt.strftime('%a, %d %b %Y %X GMT')
-    msg['To'] = email_params[2]
+      msg = MIMEMultipart()
+      msg['Subject'] = 'TF2 Schema Update: %s' % dt.strftime('%a, %d %b %Y %X GMT')
+      msg['To'] = email_params[2]
 
-    # Take the diff and add it to the email message.
-    d = difflib.Differ()
-    result = list(d.compare(old_schema_string, schema_lines))
-    diff_file = open(os.path.join(os.getcwd(), 'schema.diff'), 'w')
-    diff_file.writelines(result)
-    diff_file.close()
+      # Take the diff and add it to the email message.
+      d = difflib.Differ()
+      result = list(d.compare(old_schema_string, schema_lines))
+      diff_file = open(os.path.join(os.getcwd(), 'schema.diff'), 'w')
+      diff_file.writelines(result)
+      diff_file.close()
 
-    part = MIMEBase('application', "octet-stream")
-    part.set_payload(open(os.path.join(os.getcwd(), 'schema.diff'), 'rb').read())
-    Encoders.encode_base64(part)
-    part.add_header('Content-Disposition', 'attachment; filename="schema.diff"')
-    msg.attach(part)
+      part = MIMEBase('application', "octet-stream")
+      part.set_payload(open(os.path.join(os.getcwd(), 'schema.diff'), 'rb').read())
+      Encoders.encode_base64(part)
+      part.add_header('Content-Disposition', 'attachment; filename="schema.diff"')
+      msg.attach(part)
 
-    print '[SCHEMA] Diff successfully generated'
+      print '[SCHEMA] Diff successfully generated'
 
-    # Send the email via Gmail.
-    s = smtplib.SMTP('smtp.gmail.com')
-    s.ehlo()
-    s.starttls()
-    s.ehlo()
-    s.login(email_params[0], email_params[1])
-    s.sendmail(email_params[0], email_params[2], msg.as_string())
-    s.quit()
-    print '[SCHEMA] Update email successfully sent!'
+      # Send the email via Gmail.
+      s = smtplib.SMTP('smtp.gmail.com')
+      s.ehlo()
+      s.starttls()
+      s.ehlo()
+      s.login(email_params[0], email_params[1])
+      s.sendmail(email_params[0], email_params[2], msg.as_string())
+      s.quit()
+      print '[SCHEMA] Update email successfully sent!'
 
   except urllib2.HTTPError, e:
     print e
