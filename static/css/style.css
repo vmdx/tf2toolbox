@@ -222,13 +222,29 @@ html, body {
 	border-top: 1px solid #505050;
 	border-bottom: 1px solid #505050;
 	margin-top: 15px;
+        position: relative;
 }
 
-#footer_text {
+#timing {
+  height: 25px;
+  position: absolute;
+  top: -27px;
+  padding-left: 5px;
+  padding-right: 5px;
+  line-height: 25px;
+  border-top: 1px solid #505050;
+  border-right: 1px solid #505050;
+  background-color: #2B2B2B;
+  color: #ffefae;
+  font-size: 10px;
+  font-family: Verdana;
+}
+
+.footer_text {
 	color: #ffefae;
 }
 
-#footer_text a {
+.footer_text a {
 	text-decoration: none;
 }
 

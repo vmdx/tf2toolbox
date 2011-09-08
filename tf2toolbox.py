@@ -15,6 +15,7 @@ from email.mime.multipart import MIMEMultipart
 import os
 import simplejson as json
 import smtplib
+import time
 import urllib2
 import xml.dom.minidom
 
@@ -34,21 +35,27 @@ app.jinja_env.trim_blocks = True
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
 def index():
-  template_info = {'nav_cell': 'Home'}
+  stime = time.time()
+  template_info = {'nav_cell': 'Home', 'api_time': 0, 'py_time': 0}
   if request.method == 'POST':
     set_user_session(template_info, request.form['steamURL'])
+  template_info['py_time'] = time.time() - stime - template_info['api_time']
   return render_template('index.html', template_info=template_info, session=session)
 
 @app.route('/about', methods=['GET', 'POST'])
 def about():
+  stime = time.time()
+  template_info = {'api_time': 0, 'py_time': 0}
   if request.method == 'POST':
     if request.form['form_id'] == 'signin':
       set_user_session(template_info, request.form['steamURL'])
-  return render_template('about.html', template_info={}, session=session)
+  template_info['py_time'] = time.time() - stime - template_info['api_time']
+  return render_template('about.html', template_info=template_info, session=session)
 
 @app.route('/bptext', methods=['GET', 'POST'])
 def bptext():
-  template_info = {'nav_cell': 'Backpack Text', 'signin_action': '/bptext'}
+  stime = time.time()
+  template_info = {'nav_cell': 'Backpack Text', 'signin_action': '/bptext', 'api_time': 0, 'py_time': 0}
   if request.method == 'POST':
     if request.form['form_id'] == 'signin':
       set_user_session(template_info, request.form['steamURL'])
@@ -60,11 +67,13 @@ def bptext():
           bp_parse(template_info, bp_json, request.form, session)
       return render_template('bptext_result.html', template_info=template_info, session=session)
 
+  template_info['py_time'] = time.time() - stime - template_info['api_time']
   return render_template('bptext_form.html', template_info=template_info, session=session)
 
 @app.route('/metal', methods=['GET', 'POST'])
 def metal():
-  template_info = {'nav_cell': 'Metal Maker', 'signin_action': '/metal'}
+  stime = time.time()
+  template_info = {'nav_cell': 'Metal Maker', 'signin_action': '/metal', 'api_time': 0, 'py_time': 0}
   if request.method == 'POST':
     if request.form['form_id'] == 'signin':
       set_user_session(template_info, request.form['steamURL'])
@@ -76,11 +85,13 @@ def metal():
           bp_metal(template_info, bp_json, request.form, session)
       return render_template('metal_result.html', template_info=template_info, session=session)
 
+  template_info['py_time'] = time.time() - stime - template_info['api_time']
   return render_template('metal_form.html', template_info=template_info, session=session)
 
 @app.route('/weapons', methods=['GET', 'POST'])
 def weapons():
-  template_info = {'nav_cell': 'Weapon Stock', 'signin_action': '/weapons'}
+  stime = time.time()
+  template_info = {'nav_cell': 'Weapon Stock', 'signin_action': '/weapons', 'api_time': 0, 'py_time': 0}
   if request.method == 'POST':
     if request.form['form_id'] == 'signin':
       set_user_session(template_info, request.form['steamURL'])
@@ -88,6 +99,8 @@ def weapons():
     bp_json = get_user_backpack(template_info, session['steamID'])
     if 'error_msg' not in template_info:
       bp_weapons(template_info, bp_json, session)
+
+  template_info['py_time'] = time.time() - stime - template_info['api_time']
   return render_template('weapon_stock.html', template_info=template_info, session=session)
 
 def set_user_session(template_info, steamURL):
@@ -116,7 +129,9 @@ def set_user_session(template_info, steamURL):
   steamURL += "?xml=1"
 
   try:
+    rtime = time.time()
     url_file = urllib2.urlopen(steamURL)
+    template_info['api_time'] += time.time() - rtime
     user_data = xml.dom.minidom.parse(url_file)
     root_children = user_data.documentElement.childNodes
     vars_set = 0
@@ -153,7 +168,9 @@ def get_user_backpack(template_info, steamID):
   """
   backpack_url = "http://api.steampowered.com/IEconItems_440/GetPlayerItems/v0001/?SteamID=" + steamID + "&key=74EA34072E00ED29B92691B6F929F590"
   try:
+    rtime = time.time()
     url_file = urllib2.urlopen(backpack_url)
+    template_info['api_time'] += time.time() - rtime
     bp_json = json.load(url_file)
   except urllib2.URLError:
     template_info['error_msg'] = "We were unable to retrieve that user's backpack.\n"
@@ -193,7 +210,7 @@ def bp_weapons(template_info, bp, session_info):
     'Multiple'
   }
   """
-  schema = get_schema()
+  schema = get_schema(template_info)
   if not schema:
     template_info['error_msg'] = "Could not retrieve the TF2 Item Schema.\n"
     return
@@ -264,7 +281,7 @@ def bp_metal(template_info, bp, form, session_info):
     * Errors if needed.
 
   """
-  schema = get_schema()
+  schema = get_schema(template_info)
   if not schema:
     template_info['error_msg'] = "Could not retrieve the TF2 Item Schema.\n"
     return
@@ -399,7 +416,7 @@ def bp_parse(template_info, bp, form, session_info):
     * Errors if needed.
 
   """
-  schema = get_schema()
+  schema = get_schema(template_info)
   if not schema:
     template_info['error_msg'] = "Could not retrieve the TF2 Item Schema.\n"
     return
@@ -608,7 +625,7 @@ def add_to_result(result, sort_key, category, bbcode=None, plaintext=None, subca
   else:
     result[category][sort_key]['plaintext'] = sort_key
 
-def get_schema():
+def get_schema(template_info):
   """
   Returns the TF2 schema in JSON format.
 
@@ -636,7 +653,9 @@ def get_schema():
   print '[SCHEMA] Checking schema at %s for mtime: %s' % (schema_cache, dt.strftime('%a, %d %b %Y %X GMT'))
 
   try:
+    rtime = time.time()
     schema = urllib2.urlopen(schema_req)
+    template_info['api_time'] += time.time() - rtime
     print '[SCHEMA] Retrieving new schema.'
     schema_lines = schema.readlines()
 
