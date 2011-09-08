@@ -65,6 +65,7 @@ def bptext():
         bp_json = get_user_backpack(template_info, session['steamID'])
         if 'error_msg' not in template_info:
           bp_parse(template_info, bp_json, request.form, session)
+      template_info['py_time'] = time.time() - stime - template_info['api_time']
       return render_template('bptext_result.html', template_info=template_info, session=session)
 
   template_info['py_time'] = time.time() - stime - template_info['api_time']
@@ -83,6 +84,7 @@ def metal():
         bp_json = get_user_backpack(template_info, session['steamID'])
         if 'error_msg' not in template_info:
           bp_metal(template_info, bp_json, request.form, session)
+      template_info['py_time'] = time.time() - stime - template_info['api_time']
       return render_template('metal_result.html', template_info=template_info, session=session)
 
   template_info['py_time'] = time.time() - stime - template_info['api_time']
