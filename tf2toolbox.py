@@ -551,9 +551,11 @@ def bp_parse(template_info, bp, form, session_info):
         suffix_tags.append('Level %d' % item['level'])
 
       if 'flag_cannot_trade' in item:
+        sort_key[0] += ' Untradeable'
         suffix_tags.append('Untradeable')
 
       if 'gifted' in item['attr']:
+        sort_key[0] += ' Gifted'
         suffix_tags.append('Gifted')
 
       suffix = ' (%s)' % ', '.join(suffix_tags) if suffix_tags else ''
