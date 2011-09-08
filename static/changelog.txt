@@ -28,6 +28,13 @@ OPTIMIZATION
 
 -- CHANGELOG --
 
+9.7.2011
+  - Timing metrics - now users can see how long TF2Toolbox is taking to
+  execute code, and how long the SteamAPI is taking to respond.
+  - Bugfixes - weapon sort key not including untradeables/gifted, SteamCommunity
+  URL handling, missing unusual effects on hats.
+  - Added a nifty thing that emails me whenever the TF2 schema changes... :)
+
 9.5.2011
   - BPText: Added 'Only show duplicate weapons' option.
   - Lots of bugfixes.

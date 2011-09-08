@@ -139,6 +139,9 @@ def set_user_session(template_info, steamURL):
     vars_set = 0
     for child in root_children:
       if child.nodeName ==  'steamID':
+        if child.firstChild is None:
+          template_info['error_msg'] = 'This user has not yet set up his/her Steam Community profile.'
+          return
         session['username'] = child.firstChild.nodeValue
       elif child.nodeName == 'avatarMedium':
         session['avatar'] = child.firstChild.nodeValue
