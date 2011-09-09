@@ -24,7 +24,7 @@ import bpdata
 from flask import *
 
 # Configuration
-DEBUG = False
+DEBUG = True
 SECRET_KEY = 'I\xa4RT\x9aH\xc6\xdbK\x13I\xdb\x18\xe1\xfd\x8d\xbf\xfa\x17\xa5E\x8f\xd2\xdd'
 
 app = Flask(__name__)
@@ -328,10 +328,9 @@ def bp_metal(template_info, bp, form, session_info):
     # Skip invalid pages
     if 'all' not in form.getlist('pages[]'):
       pages = [int(page) for page in form.getlist('pages[]')]
-      inv_page = (item['inventory'] & 0xFFFF - 1) / 50 + 1
+      inv_page = ((item['inventory'] & 0xFFFF) - 1) / 50 + 1
       if inv_page not in pages:
         continue
-
 
     # Set item info from schema
     item['craft'] = s[item['defindex']]['craft']
@@ -761,7 +760,7 @@ def should_skip(item, form):
   # Skip invalid pages
   if 'all' not in form.getlist('pages[]'):
     pages = [int(page) for page in form.getlist('pages[]')]
-    inv_page = (item['inventory'] & 0xFFFF - 1) / 50 + 1
+    inv_page = ((item['inventory'] & 0xFFFF) - 1) / 50 + 1
     if inv_page not in pages:
       return True
 
