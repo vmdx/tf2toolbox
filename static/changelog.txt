@@ -28,6 +28,11 @@ OPTIMIZATION
 
 -- CHANGELOG --
 
+9.8.2011
+  - Added Reddit Markdown as a translation option for BPText. Thanks
+  to JohnDum at Reddit for the help and inspiration.
+    - http://www.reddit.com/r/tf2trade/comments/k2zru/tool_tf2toolboxcom_bbcode_converter/
+
 9.7.2011
   - Timing metrics - now users can see how long TF2Toolbox is taking to
   execute code, and how long the SteamAPI is taking to respond.

@@ -10,7 +10,7 @@
       <span id="bbcode_status_display">Status</span>
       <ul id="bbcode_status_list">
 {% for status in template_info['bptext_params'] %}
-        <li>{{ status }}</li>
+        <li>{{ status|safe }}</li>
 {% endfor %}
       </ul>
 

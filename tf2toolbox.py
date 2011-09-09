@@ -606,6 +606,8 @@ def bp_parse(template_info, bp, form, session_info):
 
   if form['output_type'] == 'bbcode':
     template_info['bptext_result_string'] = bp_to_bbcode(result, 'display_credit' in form, 'only_dup_weps' in form) + '\n'.join(bptext_suffix_tags)
+  elif form['output_type'] == 'markdown':
+    template_info['bptext_result_string'] = bp_to_markdown(result, 'display_credit' in form, 'only_dup_weps' in form) + '\n'.join(bptext_suffix_tags)
   elif form['output_type'] == 'plaintext':
     template_info['bptext_result_string'] = bp_to_plaintext(result, 'display_credit' in form, 'only_dup_weps' in form) + '\n'.join(bptext_suffix_tags)
   template_info['bptext_params'] = bptext_form_to_params(form)
@@ -785,6 +787,8 @@ def bp_to_bbcode(bp, credit, dup_weps_only):
 
   first = True
   for category in bp['CATEGORY_ORDER']:
+    if not bp[category]:
+      continue
     if credit and first:
       result += '[b][u]%s[/u][/b][color=#cd5c5c] (List generated at [URL=http://tf2toolbox.com/bptext]TF2Toolbox.com[/URL])[/color][list]\n' % category
       first = False
@@ -799,11 +803,38 @@ def bp_to_bbcode(bp, credit, dup_weps_only):
       if bp[category][item]['quantity'] > 1:
         result += ' x %d' % bp[category][item]['quantity']
       result += '[/b]\n'
-    if not bp[category]:
-      result += 'None\n'
     result += '[/list]\n\n'
 
   return result
+
+def bp_to_markdown(bp, credit, dup_weps_only):
+  """
+  Given a parsed bp (from bp_parse()), translate it to Reddit markdown. Return the string.
+
+  Note that this heavily depends on the plaintext implementation.
+  """
+  result = ""
+
+  first = True
+  for category in bp['CATEGORY_ORDER']:
+    if not bp[category]:
+      continue
+    result += '**%s**\n\n' % category
+    for item in sorted(bp[category].keys()):
+      if dup_weps_only and category in bp['WEAPON_CATEGORIES'] and bp[category][item]['quantity'] == 1:
+        continue
+      if dup_weps_only:
+        bp[category][item]['quantity'] -= 1
+      result += '* ' + bp[category][item]['plaintext']
+      if bp[category][item]['quantity'] > 1:
+        result += ' x %d' % bp[category][item]['quantity']
+      result += '\n'
+    result += '\n\n'
+
+  result += 'List generated at [TF2Toolbox.com](http://tf2toolbox.com/bptext)) with help from [JohnDum](http://www.reddit.com/r/tf2trade/comments/k2zru/tool_tf2toolboxcom_bbcode_converter/) at Reddit.\n\n'
+
+  return result
+
 
 def bp_to_plaintext(bp, credit, dup_weps_only):
   """
@@ -813,8 +844,10 @@ def bp_to_plaintext(bp, credit, dup_weps_only):
 
   first = True
   for category in bp['CATEGORY_ORDER']:
+    if not bp[category]:
+      continue
     if credit and first:
-      result += '[b][u]%s[/u][/b][color=#cd5c5c] (List generated at [URL=http://tf2toolbox.com/bptext]TF2Toolbox.com[/URL])[/color][list]\n' % category
+      result += '%s (List generated at TF2Toolbox.com)\n' % category
       first = False
     else:
       result += '%s\n' % category
@@ -827,8 +860,6 @@ def bp_to_plaintext(bp, credit, dup_weps_only):
       if bp[category][item]['quantity'] > 1:
         result += ' x %d' % bp[category][item]['quantity']
       result += '\n'
-    if not bp[category]:
-      result += 'None\n'
     result += '\n'
 
   return result
@@ -869,6 +900,14 @@ def bptext_form_to_params(form):
     params_list.append('Displaying backpack page %s.' % str(page_list[0]))
   else:
     params_list.append('Displaying backpack pages %s.' % ', '.join([str(num) for num in page_list]))
+
+  # Output type
+  if form['output_type'] == 'bbcode':
+    params_list.append('Translated backpack to BBCode.')
+  elif form['output_type'] == 'markdown':
+    params_list.append('Translated backpack to Reddit Markdown. Huge thanks to <a href="http://www.reddit.com/r/tf2trade/comments/k2zru/tool_tf2toolboxcom_bbcode_converter/">JohnDum at Reddit</a> for the help and inspiration!')
+  elif form['output_type'] == 'plaintext':
+    params_list.append('Translated backpack to plaintext.')
 
   return params_list
 

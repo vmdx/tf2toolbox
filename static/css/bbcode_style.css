@@ -117,6 +117,12 @@
 #bbcode_status_list li {
 	padding: 10px 0px;
 }
+
+#bbcode_status a {
+  color: #ffefae;
+  text-decoration: none;
+}
+
 #retry_button {
 	font-family:TFBuild, Verdana;
 	font-size:16px;
