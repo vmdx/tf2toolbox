@@ -834,7 +834,7 @@ def bp_to_markdown(bp, credit, dup_weps_only):
       result += '\n'
     result += '\n\n'
 
-  result += 'List generated at [TF2Toolbox.com](http://tf2toolbox.com/bptext) with help from [JohnDum](http://www.reddit.com/r/tf2trade/comments/k2zru/tool_tf2toolboxcom_bbcode_converter/) at Reddit.\n\n'
+  result += 'List generated at [TF2Toolbox.com](http://tf2toolbox.com/bptext) with help from [JonDum](http://www.reddit.com/r/tf2trade/comments/k2zru/tool_tf2toolboxcom_bbcode_converter/) at Reddit.\n\n'
 
   return result
 
@@ -908,7 +908,7 @@ def bptext_form_to_params(form):
   if form['output_type'] == 'bbcode':
     params_list.append('Translated backpack to BBCode.')
   elif form['output_type'] == 'markdown':
-    params_list.append('Translated backpack to Reddit Markdown. Huge thanks to <a href="http://www.reddit.com/r/tf2trade/comments/k2zru/tool_tf2toolboxcom_bbcode_converter/">JohnDum at Reddit</a> for the help and inspiration!')
+    params_list.append('Translated backpack to Reddit Markdown. Huge thanks to <a href="http://www.reddit.com/r/tf2trade/comments/k2zru/tool_tf2toolboxcom_bbcode_converter/">JonDum at Reddit</a> for the help and inspiration!')
   elif form['output_type'] == 'plaintext':
     params_list.append('Translated backpack to plaintext.')
 
