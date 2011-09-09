@@ -602,6 +602,9 @@ def bp_parse(template_info, bp, form, session_info):
     elif form['inc_bp_link'] == 'optf2':
       bptext_suffix_tags.append('OPTF2: http://optf2.com/user/%s' % (session['customURL'] if 'customURL' in session else session['steamID']))
 
+  # TODO: Fix icky hack here to append extra line for Reddit
+  if form['output_type'] == 'markdown':
+    bptext_suffix_tags = [tag+'\n' for tag in bptext_suffix_tags]
 
   if form['output_type'] == 'bbcode':
     template_info['bptext_result_string'] = bp_to_bbcode(result, 'display_credit' in form, 'only_dup_weps' in form) + '\n'.join(bptext_suffix_tags)
