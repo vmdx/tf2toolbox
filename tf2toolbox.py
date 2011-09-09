@@ -24,7 +24,7 @@ import bpdata
 from flask import *
 
 # Configuration
-DEBUG = True
+DEBUG = False
 SECRET_KEY = 'I\xa4RT\x9aH\xc6\xdbK\x13I\xdb\x18\xe1\xfd\x8d\xbf\xfa\x17\xa5E\x8f\xd2\xdd'
 
 app = Flask(__name__)
@@ -34,6 +34,7 @@ app.jinja_env.trim_blocks = True
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
+@app.route('/index.html', methods=['GET', 'POST'])
 def index():
   stime = time.time()
   template_info = {'nav_cell': 'Home', 'api_time': 0, 'py_time': 0}
