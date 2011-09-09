@@ -831,7 +831,7 @@ def bp_to_markdown(bp, credit, dup_weps_only):
       result += '\n'
     result += '\n\n'
 
-  result += 'List generated at [TF2Toolbox.com](http://tf2toolbox.com/bptext)) with help from [JohnDum](http://www.reddit.com/r/tf2trade/comments/k2zru/tool_tf2toolboxcom_bbcode_converter/) at Reddit.\n\n'
+  result += 'List generated at [TF2Toolbox.com](http://tf2toolbox.com/bptext) with help from [JohnDum](http://www.reddit.com/r/tf2trade/comments/k2zru/tool_tf2toolboxcom_bbcode_converter/) at Reddit.\n\n'
 
   return result
 
