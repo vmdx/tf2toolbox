@@ -429,11 +429,13 @@ def bp_parse(template_info, bp, form, session_info):
   # Load the schema into an usable form, with defindexes as keys.
   s = {}
   for entry in schema['result']['items']:
+    used_by_classes = entry.get('used_by_classes', None)
     s[entry['defindex']] = {'name': entry['item_name'],
                             'slot': entry.get('item_slot', None),
                             'class': entry['item_class'],
-                            'blacklist': is_blacklisted(entry)
-                           }
+                            'blacklist': is_blacklisted(entry),
+                            'used_by': 'Multiple' if not used_by_classes or len(used_by_classes) > 1 else used_by_classes[0]
+                            }
 
   # Load in schema quality mappings: 0 -> "Normal", 1 -> "Genuine"
   s['qualities'] = {}
@@ -453,7 +455,25 @@ def bp_parse(template_info, bp, form, session_info):
   for category in bpdata.BPTEXT_FORM_CATEGORIES:
     result[category] = {}
 
+  # Set up seen class sets for hats and weapons.
+  if form['output_sort'] == 'class':
+    seen_hat_classes = set()
+    seen_weapon_classes = set()
+
   # Parse each item!
+  # The sort_key variables are important for sorting the output.
+  # Regular alphabetical sort key: ('Team Captain Untradeable Gifted Team Spirit', 150, 99)
+  # (Item w/tags, craftnum, level)
+  #
+  # Class based sort key for HATS AND WEAPONS: (10, 'Team Captain Untradeable Gifted Pink', 150, 99)
+  # The 10 represents Team Captain as a Multiple class item, hence sorting after Scout items (code 1),
+  # Soldier items (code 2), etc.
+  #
+  # We also have special subcategory sort keys for class based sort.
+  # The scout one looks like this: (1, 0, 'Scout')
+  # This way, it gets sorted ahead of all the Scout weapons/hats (due to the 0).
+  # FIXME: Now we need to add these category sort keys somehow. Uniquely (don't put more than one in a category, don't put them if 0 items matching).
+  # AND we need to figure out how to print them.
   for item in bp['result']['items']:
 
     # Set item info from schema
@@ -461,6 +481,7 @@ def bp_parse(template_info, bp, form, session_info):
     item['slot'] = s[item['defindex']]['slot']
     item['class'] = s[item['defindex']]['class']
     item['blacklist'] = s[item['defindex']]['blacklist']
+    item['used_by'] = s[item['defindex']]['used_by']
 
     # Get item attributes
     item['attr'] = {}
@@ -512,13 +533,12 @@ def bp_parse(template_info, bp, form, session_info):
       # TODO: Fix dumb array copy hack to get suffix tags correct for plaintext vs bbcode.
       pt_suffix_tags = list(suffix_tags)
       if 'paint' in item['attr']:
-        sort_key += ' %s' % bpdata.PAINT_NUMBER_MAP['plaintext'][item['attr']['paint']]
+        sort_key[0] += ' %s' % bpdata.PAINT_NUMBER_MAP['plaintext'][item['attr']['paint']]
         suffix_tags.append(bpdata.PAINT_NUMBER_MAP[item['attr']['paint']])
         pt_suffix_tags.append(bpdata.PAINT_NUMBER_MAP['plaintext'][item['attr']['paint']])
 
       suffix = ' (%s)' % ', '.join(suffix_tags) if suffix_tags else ''
       pt_suffix = ' (%s)' % ', '.join(pt_suffix_tags) if pt_suffix_tags else ''
-      sort_key = tuple(sort_key)
 
       plaintext_string = '%s%s%s%s' % (quality+' ' if quality != 'Unique' else '', item['name'], craft_num, pt_suffix)
       bbcode_string = '%s%s%s[/color]%s' % (bpdata.QUALITY_BBCODE_MAP[quality], item['name'], craft_num, suffix)
@@ -530,6 +550,18 @@ def bp_parse(template_info, bp, form, session_info):
       else:
         category = '%s Hats' % (quality if quality != 'Unique' else 'Normal')
 
+      # Depending on the output sort, add an extra value to the sort_key.
+      if form['output_sort'] == 'class':
+        sort_key.insert(0, bpdata.TF2CLASS_SORT_DICT[item['used_by']])
+        # If we haven't seen this class before, add it to seen classes.
+        if (category, item['used_by']) not in seen_hat_classes:
+          seen_hat_classes.add((category, item['used_by']))
+          subcat_sort_key = (bpdata.TF2CLASS_SORT_DICT[item['used_by']], 0, item['used_by'])
+          result[category][subcat_sort_key] = {'SUBCATEGORY': item['used_by']}
+      elif form['output_sort'] == 'release':
+        pass
+
+      sort_key = tuple(sort_key)
       add_to_result(result, sort_key, category, plaintext=plaintext_string, bbcode=bbcode_string)
 
 
@@ -562,7 +594,6 @@ def bp_parse(template_info, bp, form, session_info):
         suffix_tags.append('Gifted')
 
       suffix = ' (%s)' % ', '.join(suffix_tags) if suffix_tags else ''
-      sort_key = tuple(sort_key)
 
       plaintext_string = '%s%s%s%s' % (quality+' ' if quality != 'Unique' else '', item['name'], craft_num, suffix)
       bbcode_string = '%s%s%s[/color]%s' % (bpdata.QUALITY_BBCODE_MAP[quality], item['name'], craft_num, suffix)
@@ -573,7 +604,22 @@ def bp_parse(template_info, bp, form, session_info):
       elif quality == 'Unusual':
         sort_quality = 'Genuine'
 
-      add_to_result(result, sort_key, '%s Weapons' % sort_quality, plaintext=plaintext_string, bbcode=bbcode_string)
+      category = '%s Weapons' % sort_quality
+
+      # Depending on the output sort, add an extra value to the sort_key.
+      if form['output_sort'] == 'class':
+        sort_key.insert(0, bpdata.TF2CLASS_SORT_DICT[item['used_by']])
+        # If we haven't seen this class before, add it to seen classes.
+        if (category, item['used_by']) not in seen_weapon_classes:
+          seen_weapon_classes.add((category, item['used_by']))
+          subcat_sort_key = (bpdata.TF2CLASS_SORT_DICT[item['used_by']], 0, item['used_by'])
+          result[category][subcat_sort_key] = {'SUBCATEGORY': item['used_by']}
+      elif form['output_sort'] == 'release':
+        pass
+
+      sort_key = tuple(sort_key)
+
+      add_to_result(result, sort_key, category, plaintext=plaintext_string, bbcode=bbcode_string)
 
     # Paint
     elif item['name'] in bpdata.PAINT_MAP:
@@ -593,7 +639,7 @@ def bp_parse(template_info, bp, form, session_info):
 
   bptext_suffix_tags = []
   if 'display_sc_url' in form:
-    bptext_suffix_tags.append('SteamCommunity URL: http://steamcommunity.com/%s' % ('id/'+session['customURL'] if 'customURL' in session else 'profiles/'+session['steamID']))
+    bptext_suffix_tags.append('Steam Community URL: http://steamcommunity.com/%s' % ('id/'+session['customURL'] if 'customURL' in session else 'profiles/'+session['steamID']))
 
   if form['inc_bp_link'] != 'none':
     if form['inc_bp_link'] == 'tf2b':
@@ -607,12 +653,8 @@ def bp_parse(template_info, bp, form, session_info):
   if form['output_type'] == 'markdown':
     bptext_suffix_tags = [tag+'\n' for tag in bptext_suffix_tags]
 
-  if form['output_type'] == 'bbcode':
-    template_info['bptext_result_string'] = bp_to_bbcode(result, 'display_credit' in form, 'only_dup_weps' in form) + '\n'.join(bptext_suffix_tags)
-  elif form['output_type'] == 'markdown':
-    template_info['bptext_result_string'] = bp_to_markdown(result, 'display_credit' in form, 'only_dup_weps' in form) + '\n'.join(bptext_suffix_tags)
-  elif form['output_type'] == 'plaintext':
-    template_info['bptext_result_string'] = bp_to_plaintext(result, 'display_credit' in form, 'only_dup_weps' in form) + '\n'.join(bptext_suffix_tags)
+  template_info['bptext_result_string'] = bp_to_text(result, 'display_credit' in form, 'only_dup_weps' in form, form['output_type']) + '\n' + '\n'.join(bptext_suffix_tags)
+
   template_info['bptext_params'] = bptext_form_to_params(form)
 
 def add_to_result(result, sort_key, category, bbcode=None, plaintext=None, subcategory=None):
@@ -702,7 +744,9 @@ def get_schema(template_info):
       d = difflib.Differ()
       result = list(d.compare(old_schema_string, schema_lines))
       diff_file = open(os.path.join(os.getcwd(), 'schema.diff'), 'w')
-      diff_file.writelines(result)
+      for line in result:
+        if not line.startswith('  '):
+          diff_file.write(line)
       diff_file.close()
 
       part = MIMEBase('application', "octet-stream")
@@ -782,90 +826,67 @@ def should_skip(item, form):
 
   return False
 
-def bp_to_bbcode(bp, credit, dup_weps_only):
-  """
-  Given a parsed bp (from bp_parse()), translate it to BBCode. Return the string.
-  """
-  result = ""
+BPTEXT_LANGUAGE_SYNTAX = {
+  'bbcode': {
+    'category_opener': '[b][u]%s[/u][/b][list]',
+    'category_opener_w_cred': '[b][u]%s[/u][/b][color=#cd5c5c] (List generated at [URL=http://tf2toolbox.com/bptext]TF2Toolbox.com[/URL])[/color][list]',
+    'item_opener': '[*][b]',
+    'item_closer': '[/b]',
+    'category_closer': '[/list]\n',
+    'subcat_exp': '[b]--- %s ---[/b]'
+  },
+  'plaintext': {
+    'category_opener': '%s',
+    'category_opener_w_cred': '%s (List generated at TF2Toolbox.com)',
+    'item_opener': '',
+    'item_closer': '',
+    'category_closer': '',
+    'subcat_exp': '--- %s ---'
+  },
+  'markdown': {
+    'category_opener': '**%s**\n', # Extra new lines needed for Reddit.
+    'category_opener_w_cred': '**%s**\n', # No credit at the top. Credit goes at bottom.
+    'item_opener': '* ',
+    'item_closer': '',
+    'category_closer': '\n',
+    'subcat_exp': '\n_%s_\n',
+    'parse_text': 'plaintext',
+    'bottom_credit': 'List generated at [TF2Toolbox.com](http://tf2toolbox.com/bptext) with help from [JonDum](http://www.reddit.com/r/tf2trade/comments/k2zru/tool_tf2toolboxcom_bbcode_converter/) at Reddit.\n'
+  }
+}
 
+def bp_to_text(bp, credit, dup_weps_only, language):
+  """
+  Consolidation function that translates a parsed bp (from bp_parse()) to
+  a specified language.
+  """
+  result_lines = []
   first = True
   for category in bp['CATEGORY_ORDER']:
     if not bp[category]:
       continue
     if credit and first:
-      result += '[b][u]%s[/u][/b][color=#cd5c5c] (List generated at [URL=http://tf2toolbox.com/bptext]TF2Toolbox.com[/URL])[/color][list]\n' % category
+      result_lines.append(BPTEXT_LANGUAGE_SYNTAX[language]['category_opener_w_cred'] % category)
       first = False
     else:
-      result += '[b][u]%s[/u][/b][list]\n' % category
-    for item in sorted(bp[category].keys()):
-      if dup_weps_only and category in bp['WEAPON_CATEGORIES'] and bp[category][item]['quantity'] == 1:
+      result_lines.append(BPTEXT_LANGUAGE_SYNTAX[language]['category_opener'] % category)
+    for sort_key in sorted(bp[category].keys()):
+      # First check for subcategories. If not a subcategory, then we know its an item entry.
+      if 'SUBCATEGORY' in bp[category][sort_key]:
+        result_lines.append(BPTEXT_LANGUAGE_SYNTAX[language]['subcat_exp'] % bp[category][sort_key]['SUBCATEGORY'])
         continue
-      if dup_weps_only:
-        bp[category][item]['quantity'] -= 1
-      result += '[*][b]' + bp[category][item]['bbcode']
-      if bp[category][item]['quantity'] > 1:
-        result += ' x %d' % bp[category][item]['quantity']
-      result += '[/b]\n'
-    result += '[/list]\n\n'
-
-  return result
-
-def bp_to_markdown(bp, credit, dup_weps_only):
-  """
-  Given a parsed bp (from bp_parse()), translate it to Reddit markdown. Return the string.
-
-  Note that this heavily depends on the plaintext implementation.
-  """
-  result = ""
-
-  first = True
-  for category in bp['CATEGORY_ORDER']:
-    if not bp[category]:
-      continue
-    result += '**%s**\n\n' % category
-    for item in sorted(bp[category].keys()):
-      if dup_weps_only and category in bp['WEAPON_CATEGORIES'] and bp[category][item]['quantity'] == 1:
+      if dup_weps_only and category in bp['WEAPON_CATEGORIES'] and bp[category][sort_key]['quantity'] == 1:
         continue
-      if dup_weps_only:
-        bp[category][item]['quantity'] -= 1
-      result += '* ' + bp[category][item]['plaintext']
-      if bp[category][item]['quantity'] > 1:
-        result += ' x %d' % bp[category][item]['quantity']
-      result += '\n'
-    result += '\n\n'
+      text_type = BPTEXT_LANGUAGE_SYNTAX[language]['parse_text'] if 'parse_text' in BPTEXT_LANGUAGE_SYNTAX[language] else language
+      quantity_string = ' x %d' % bp[category][sort_key]['quantity'] if bp[category][sort_key]['quantity'] > 1 else ''
+      result_lines.append(BPTEXT_LANGUAGE_SYNTAX[language]['item_opener'] + bp[category][sort_key][text_type] + quantity_string + BPTEXT_LANGUAGE_SYNTAX[language]['item_closer'])
+    result_lines.append(BPTEXT_LANGUAGE_SYNTAX[language]['category_closer'])
 
-  result += 'List generated at [TF2Toolbox.com](http://tf2toolbox.com/bptext) with help from [JonDum](http://www.reddit.com/r/tf2trade/comments/k2zru/tool_tf2toolboxcom_bbcode_converter/) at Reddit.\n\n'
+  if credit and 'bottom_credit' in BPTEXT_LANGUAGE_SYNTAX[language]:
+    result_lines.append(BPTEXT_LANGUAGE_SYNTAX[language]['bottom_credit'])
 
-  return result
+  return '\n'.join(result_lines)
 
-
-def bp_to_plaintext(bp, credit, dup_weps_only):
-  """
-  Given a parsed bp (from bp_parse()), translate it to plaintext. Return the string.
-  """
-  result = ""
-
-  first = True
-  for category in bp['CATEGORY_ORDER']:
-    if not bp[category]:
-      continue
-    if credit and first:
-      result += '%s (List generated at TF2Toolbox.com)\n' % category
-      first = False
-    else:
-      result += '%s\n' % category
-    for item in sorted(bp[category].keys()):
-      if dup_weps_only and category in bp['WEAPON_CATEGORIES'] and bp[category][item]['quantity'] == 1:
-        continue
-      if dup_weps_only:
-        bp[category][item]['quantity'] -= 1
-      result += bp[category][item]['plaintext']
-      if bp[category][item]['quantity'] > 1:
-        result += ' x %d' % bp[category][item]['quantity']
-      result += '\n'
-    result += '\n'
-
-  return result
 
 def bptext_form_to_params(form):
   """
@@ -903,6 +924,14 @@ def bptext_form_to_params(form):
     params_list.append('Displaying backpack page %s.' % str(page_list[0]))
   else:
     params_list.append('Displaying backpack pages %s.' % ', '.join([str(num) for num in page_list]))
+
+  # Output sort.
+  if form['output_sort'] == 'alpha':
+    params_list.append('Sorting items alphabetically.')
+  elif form['output_sort'] == 'class':
+    params_list.append('Sorting items by TF2 class (Scout, Soldier, Pyro, etc.).')
+  elif form['output_sort'] == 'release':
+    params_list.append('Sorting items by TF2 update (Uber Update, etc.).')
 
   # Output type
   if form['output_type'] == 'bbcode':

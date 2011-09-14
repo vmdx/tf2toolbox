@@ -1,16 +1,16 @@
 /* BBCode lookup */
 #checkboxes {
+        min-width: 1000px;  /* Should expand to fit floating elements inside. Is there a way to do this?? */
 	clear:both;
-	height: 170px;
 	padding-top: 20px;
 	padding-left: 10px;
 	color: #f2f2f2;
 }
 .checkbox_column {
 	text-align:left;
-	font-family: TFSec;
+        font-family: TFSec;
 	font-size:13px;
-	height: 170px;
+	min-height: 170px;
 	float:left;
 	margin-right: 10px;
 	position: relative;
@@ -19,6 +19,10 @@
 .checkbox_column_bigright {
 	margin-right: 30px;
 	position: relative;
+}
+
+.clearbar {
+  clear: both;
 }
 
 .uncheck_button {

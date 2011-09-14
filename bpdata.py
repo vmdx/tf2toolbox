@@ -1,3 +1,17 @@
+# TF2 Classes used for sorting by class
+TF2CLASS_SORT_DICT = {
+  'Scout': 1,
+  'Soldier': 2,
+  'Pyro': 3,
+  'Demoman': 4,
+  'Heavy': 5,
+  'Engineer': 6,
+  'Medic': 7,
+  'Sniper': 8,
+  'Spy': 9,
+  'Multiple': 10
+}
+
 # BPText form categories, in order.
 BPTEXT_FORM_CATEGORIES = [
   'Unusual Hats',

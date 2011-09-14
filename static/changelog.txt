@@ -1,5 +1,7 @@
 -- TODO --
 
+LOOK UP VIM ITUNES PLUGIN
+
 --------
 FEATURES
 --------
@@ -7,30 +9,46 @@ FEATURES
 
 * Metal Maker Vintage option.
 
-* Donate button?
+* Donate page. ffffuuuuu do work.
 
 * Metal Maker show duplicates only, no untradeables/dirty metal?
-
-* What are Steam Inventory gifts?
 
 ---------
 BUG FIXES
 ---------
-
 * Double check open file descriptors.
+* UHHH shows up in Genuine weapons
+* bbcode_style.css checkboxes should expand to fit floating elements inside.
 
 ------------
 OPTIMIZATION
 ------------
+
 * Fix the CSS spaghetti :(
 
 * Make a steam community group/Twitter?
 
+* Python membership testing is O(1) for sets and dicts as opposed to O(N) for sequences.
+Check all 'a in b' statements.
+
+* Check for iterator form (xrange vs range)
+
+* Stop creating strings with += . Try to use str.join() as much as possible to cut
+down on intermediate strings.
+
+
 -- CHANGELOG --
+
+9.13.2011
+  - BPText can now sort weapons/hats by TF2 class (Scout, Soldier, etc.)!
+  - BPText duplicate weapons only option now shows a list of all weapons with 2+ quantity.
+  Previously, it showed a list of all weapons with quantity-1, hiding weapons with 0 count.
+  - Powered by Steam in footer.
+  - Fixed schema differ to only send changed lines in diff.
 
 9.8.2011
   - Added Reddit Markdown as a translation option for BPText. Thanks
-  to JohnDum at Reddit for the help and inspiration.
+  to JonDum at Reddit for the help and inspiration.
     - http://www.reddit.com/r/tf2trade/comments/k2zru/tool_tf2toolboxcom_bbcode_converter/
 
 9.7.2011
