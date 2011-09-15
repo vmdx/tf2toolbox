@@ -189,11 +189,11 @@ def set_user_session(template_info, steamURL):
           template_info['error_msg'] = 'This user has not yet set up his/her Steam Community profile.'
           return
         session['username'] = child.firstChild.nodeValue
-      elif child.nodeName == 'avatarMedium':
+      elif child.nodeName == 'avatarMedium' and child.firstChild:
         session['avatar'] = child.firstChild.nodeValue
-      elif child.nodeName == 'steamID64':
+      elif child.nodeName == 'steamID64' and child.firstChild:
         session['steamID'] = child.firstChild.nodeValue
-      elif child.nodeName == 'customURL':
+      elif child.nodeName == 'customURL' and child.firstChild:
         session['customURL'] = child.firstChild.nodeValue
   except urllib2.URLError:
     template_info['error_msg'] = "We were unable to retrieve that URL. Please try again!\n"
