@@ -31,13 +31,19 @@ app = Flask(__name__)
 app.config.from_object(__name__)
 app.jinja_env.trim_blocks = True
 
+# News messages
+home_news_msg = ''
+#bptext_news_msg = 'Please consider <a href="/donate">donating</a> to help support TF2Toolbox!'
+bptext_news_msg = ''
+metal_news_msg = ''
+weapons_news_msg = ''
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
 @app.route('/index.html', methods=['GET', 'POST'])
 def index():
   stime = time.time()
-  template_info = {'nav_cell': 'Home', 'api_time': 0, 'py_time': 0}
+  template_info = {'nav_cell': 'Home', 'news_msg': home_news_msg,'api_time': 0, 'py_time': 0}
   if request.method == 'POST':
     set_user_session(template_info, request.form['steamURL'])
   template_info['py_time'] = time.time() - stime - template_info['api_time']
@@ -53,10 +59,20 @@ def about():
   template_info['py_time'] = time.time() - stime - template_info['api_time']
   return render_template('about.html', template_info=template_info, session=session)
 
+@app.route('/donate', methods=['GET', 'POST'])
+def about():
+  stime = time.time()
+  template_info = {'api_time': 0, 'py_time': 0}
+  if request.method == 'POST':
+    if request.form['form_id'] == 'signin':
+      set_user_session(template_info, request.form['steamURL'])
+  template_info['py_time'] = time.time() - stime - template_info['api_time']
+  return render_template('donate.html', template_info=template_info, session=session)
+
 @app.route('/bptext', methods=['GET', 'POST'])
 def bptext():
   stime = time.time()
-  template_info = {'nav_cell': 'Backpack Text', 'signin_action': '/bptext', 'api_time': 0, 'py_time': 0}
+  template_info = {'nav_cell': 'Backpack Text', 'news_msg': bptext_news_msg, 'signin_action': '/bptext', 'api_time': 0, 'py_time': 0}
   if request.method == 'POST':
     if request.form['form_id'] == 'signin':
       set_user_session(template_info, request.form['steamURL'])
@@ -75,7 +91,7 @@ def bptext():
 @app.route('/metal', methods=['GET', 'POST'])
 def metal():
   stime = time.time()
-  template_info = {'nav_cell': 'Metal Maker', 'signin_action': '/metal', 'api_time': 0, 'py_time': 0}
+  template_info = {'nav_cell': 'Metal Maker', 'news_msg': metal_news_msg, 'signin_action': '/metal', 'api_time': 0, 'py_time': 0}
   if request.method == 'POST':
     if request.form['form_id'] == 'signin':
       set_user_session(template_info, request.form['steamURL'])
@@ -94,7 +110,7 @@ def metal():
 @app.route('/weapons', methods=['GET', 'POST'])
 def weapons():
   stime = time.time()
-  template_info = {'nav_cell': 'Weapon Stock', 'signin_action': '/weapons', 'api_time': 0, 'py_time': 0}
+  template_info = {'nav_cell': 'Weapon Stock', 'news_msg': weapons_news_msg, 'signin_action': '/weapons', 'api_time': 0, 'py_time': 0}
   if request.method == 'POST':
     if request.form['form_id'] == 'signin':
       set_user_session(template_info, request.form['steamURL'])
@@ -105,6 +121,35 @@ def weapons():
 
   template_info['py_time'] = time.time() - stime - template_info['api_time']
   return render_template('weapon_stock.html', template_info=template_info, session=session)
+
+@app.errorhandler(500)
+def internal_server_error(e):
+  # Create the error message.
+  error_msg = {'error': str(e), 'request': str(request), 'form': str(request.form), 'session': str(session)}
+
+  SEND_MAIL = True
+  if SEND_MAIL:
+    # Read the email info file and parse
+    info_file = open(os.path.join(os.getcwd(), 'email_auth.txt'))
+    email_params = info_file.read().strip().split('|')
+    info_file.close()
+    print '[500 ERROR] Email parameters file successfully read.'
+
+    msg = MIMEText(str(error_msg))
+    msg['Subject'] = 'TF2Toolbox ERROR: %s' % time.ctime(time.time())
+    msg['To'] = email_params[2]
+    # Send the email via Gmail.
+    s = smtplib.SMTP('smtp.gmail.com')
+    s.ehlo()
+    s.starttls()
+    s.ehlo()
+    s.login(email_params[0], email_params[1])
+    s.sendmail(email_params[0], email_params[2], msg.as_string())
+    s.quit()
+    print '[500 ERROR] Error email successfully sent!'
+
+  return render_template('500.html', error_info=error_msg)
+
 
 def set_user_session(template_info, steamURL):
   """
@@ -472,8 +517,6 @@ def bp_parse(template_info, bp, form, session_info):
   # We also have special subcategory sort keys for class based sort.
   # The scout one looks like this: (1, 0, 'Scout')
   # This way, it gets sorted ahead of all the Scout weapons/hats (due to the 0).
-  # FIXME: Now we need to add these category sort keys somehow. Uniquely (don't put more than one in a category, don't put them if 0 items matching).
-  # AND we need to figure out how to print them.
   for item in bp['result']['items']:
 
     # Set item info from schema
@@ -682,16 +725,6 @@ def add_to_result(result, sort_key, category, bbcode=None, plaintext=None, subca
 def get_schema(template_info):
   """
   Returns the TF2 schema in JSON format.
-
-  TODO: Optimization - Cache it locally on the web server, HTTP request with If-Modified-Since. If yes,
-  writeover the cached copy.
-
-  Two issues: where to store? in memcache or as a file?
-              how to pull? http request every time with if-modified-since, or time based (expiration 1 hour)
-
-  curl -v -H "If-Modified-Since: Wed, 24 Aug 2011 11:08:08 GMT" http://api.steampowered.com/IEconItems_440/GetSchema/v0001/?key=74EA34072E00ED29B92691B6F929F590&language=en
-
-  Look into Python requests library.
   """
   schema_cache = os.path.join(os.getcwd(), 'static/schema.json')
   schema_url = "http://api.steampowered.com/IEconItems_440/GetSchema/v0001/?key=74EA34072E00ED29B92691B6F929F590&language=en"
@@ -769,7 +802,6 @@ def get_schema(template_info):
 
   except urllib2.HTTPError, e:
     print e
-    print e.code
     if e.code == 304:
       print '[IMPORTANT] Cached schema is up-to-date!'
       schema = open(schema_cache)

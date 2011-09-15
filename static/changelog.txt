@@ -13,6 +13,8 @@ FEATURES
 
 * Metal Maker show duplicates only, no untradeables/dirty metal?
 
+* Create 'New!' button to put next to new features
+
 ---------
 BUG FIXES
 ---------
@@ -38,6 +40,9 @@ down on intermediate strings.
 
 
 -- CHANGELOG --
+9.15.2011
+  - News/error bar tweaks.
+  - Better error handling on 500s.
 
 9.13.2011
   - BPText can now sort weapons/hats by TF2 class (Scout, Soldier, etc.)!

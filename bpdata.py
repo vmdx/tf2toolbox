@@ -12,6 +12,16 @@ TF2CLASS_SORT_DICT = {
   'Multiple': 10
 }
 
+# TF2 patch released used for sorting by release
+# Sorted in reverse chronological order (latest = first)
+TF2RELEASE_SORT_DICT = {
+
+}
+
+TF2RELEASE_INFO = {
+
+}
+
 # BPText form categories, in order.
 BPTEXT_FORM_CATEGORIES = [
   'Unusual Hats',
@@ -29,7 +39,7 @@ BPTEXT_FORM_CATEGORIES = [
   'Crates',
   'Metal']
 
-RARE_PROMO_HATS = [
+RARE_PROMO_HATS = set([
   # Left 4 Dead 2
   "Bill's Hat",
   # Sam & Max: The Devil's Playhouse
@@ -40,9 +50,9 @@ RARE_PROMO_HATS = [
   "Voodoo Juju", "Spine-Chilling Skull",
   # Other
   "Earbuds", "Gentle Manne's Service Medal"
-]
+])
 
-PROMO_HATS = [
+PROMO_HATS = set([
   # Alien Swarm
   "Alien Swarm Parasite",
   # Killing Floor
@@ -74,7 +84,7 @@ PROMO_HATS = [
   # Halloween 2010
   "Ghastlier Gibus", "Horseless Headless Horsemann's Head", "Saxton Hale Mask",
   "Scout Mask", "Soldier Mask", "Pyro Mask", "Demoman Mask", "Heavy Mask", "Engineer Mask", "Medic Mask", "Sniper Mask", "Spy Mask"
-]
+])
 
 # Paint to hex color mapping
 PAINT_MAP = {
@@ -213,7 +223,7 @@ QUALITY_BBCODE_MAP = {
 
 # Weapon Stock data
 # These are weapons that duplicate functionality of another weapon.
-ALT_WEAPONS = ['Lugermorph', # Pistol
+ALT_WEAPONS = set(['Lugermorph', # Pistol
                'Three-Rune Blade', # Boston Basher
                'Frying Pan', # Shovel/Bottle
                'Original', # Rocket Launcher
@@ -225,6 +235,6 @@ ALT_WEAPONS = ['Lugermorph', # Pistol
                'Fishcake', # Dalokoh's Bar
                'Big Kill', # Revolver
                'Enthusiast\'s Timepiece' # Invis Watch
-               ]
+               ])
 
-LIMITED_WEAPONS = ['Golden Wrench', 'Saxxy']
+LIMITED_WEAPONS = set(['Golden Wrench', 'Saxxy'])

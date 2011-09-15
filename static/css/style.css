@@ -174,36 +174,36 @@ html, body {
 	background-color: #d27c00;
 }
 
-#error_bar {
+.top_bar {
 	position:relative;
 	background-color: orange;
-	height: 30px;
+	height: 25px;
 	border:1px solid black;
 }
 
-#error_msg {
+.top_msg {
 	display:block;
 	text-align: center;
 	font-family: TFBuild, Verdana;
-	padding-top: 5px;
-	text-shadow: #d27c00 0.1em 0.1em 0.2em;
+	line-height: 25px;
+        text-shadow: #d27c00 0.1em 0.1em 0.2em;
 	
 }
 
-#error_msg a {
+.top_msg a {
 	font-family: TFBuild, Verdana;
-/*	text-decoration: none;*/
+	text-decoration: none;
 }
 
-#error_msg a:link {
+.top_msg a:link {
 	color: #e6e6e6;
 }
 
-#error_msg a:visited {
+.top_msg a:visited {
 	color: #e6e6e6;
 }
 
-#error_msg a:hover {
+.top_msg a:hover {
 	color: #e6e6e6;
 }
 
