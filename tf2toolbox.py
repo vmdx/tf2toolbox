@@ -590,7 +590,9 @@ def bp_parse(template_info, bp, form, session_info):
       elif quality != 'Genuine' and item['name'] in bpdata.PROMO_HATS:
         category = 'Promo Hats'
       else:
-        category = '%s Hats' % (quality if quality != 'Unique' else 'Normal')
+        hat_quality = quality if quality in set(['Vintage', 'Genuine', 'Unusual']) else 'Normal'
+        hat_quality = 'Unusual' if quality in set(['Community', 'Self-Made', 'Valve']) else hat_quality
+        category = '%s Hats' % hat_quality
 
       # Depending on the output sort, add an extra value to the sort_key.
       if form['output_sort'] == 'class':
@@ -643,7 +645,7 @@ def bp_parse(template_info, bp, form, session_info):
       sort_quality = quality
       if quality == 'Unique':
         sort_quality = 'Normal'
-      elif quality == 'Unusual':
+      elif quality not in set(['Unique', 'Vintage', 'Strange']):
         sort_quality = 'Genuine'
 
       category = '%s Weapons' % sort_quality

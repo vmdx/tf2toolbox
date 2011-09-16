@@ -218,7 +218,10 @@ QUALITY_BBCODE_MAP = {
   'Genuine': '[color=#4D7455]Genuine ',
   'Strange': '[color=#CD9B1D]Strange ',
   'Vintage': '[color=#476291]Vintage ',
-  'Unique': '[color=#A59003]'
+  'Unique': '[color=#A59003]',
+  'Community': '[color=#70B04A]Community ',
+  'Self-Made': '[color=#70B04A]Self-Made ',
+  'Valve': '[color=#A50F79]Valve '
 }
 
 # Weapon Stock data

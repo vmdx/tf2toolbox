@@ -7,8 +7,6 @@ FEATURES
 
 * Metal Maker Vintage option.
 
-* Donate page. ffffuuuuu do work.
-
 * Metal Maker show duplicates only, no untradeables/dirty metal?
 
 * Create 'New!' button to put next to new features
