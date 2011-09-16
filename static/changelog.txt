@@ -1,7 +1,5 @@
 -- TODO --
 
-LOOK UP VIM ITUNES PLUGIN
-
 --------
 FEATURES
 --------
@@ -43,6 +41,9 @@ down on intermediate strings.
 9.15.2011
   - News/error bar tweaks.
   - Better error handling on 500s.
+  - Fixed terrible XML bug that prevented users without customURL from signing in.
+  Now using xml.etree.ElementTree.
+  - Donation page - thank you :)
 
 9.13.2011
   - BPText can now sort weapons/hats by TF2 class (Scout, Soldier, etc.)!

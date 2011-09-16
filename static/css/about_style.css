@@ -15,3 +15,7 @@ p {
 	width: 800px;
 	font-size:14px;
 }
+
+#content {
+  margin-bottom: 50px;
+}

@@ -17,33 +17,34 @@ import simplejson as json
 import smtplib
 import time
 import urllib2
-import xml.dom.minidom
+import xml.etree.ElementTree as xml
 
 import bpdata
 
 from flask import *
 
-# Configuration
-DEBUG = False
-SECRET_KEY = 'I\xa4RT\x9aH\xc6\xdbK\x13I\xdb\x18\xe1\xfd\x8d\xbf\xfa\x17\xa5E\x8f\xd2\xdd'
-
 app = Flask(__name__)
-app.config.from_object(__name__)
+# Configuration
+app.debug = False
+app.secret_key = 'I\xa4RT\x9aH\xc6\xdbK\x13I\xdb\x18\xe1\xfd\x8d\xbf\xfa\x17\xa5E\x8f\xd2\xdd'
 app.jinja_env.trim_blocks = True
 
-# News messages
-home_news_msg = ''
-#bptext_news_msg = 'Please consider <a href="/donate">donating</a> to help support TF2Toolbox!'
-bptext_news_msg = ''
-metal_news_msg = ''
-weapons_news_msg = ''
+# Global variables, news messages
+SEND_MAIL = True
+EMAIL_SENDER = ''
+EMAIL_RECIPIENT = ''
+EMAIL_AUTH = ''
+HOME_NEWS_MSG = 'Please consider <a href="/donate">donating</a> to help support TF2Toolbox!'
+BPTEXT_NEWS_MSG = 'Please consider <a href="/donate">donating</a> to help support TF2Toolbox!'
+METAL_NEWS_MSG = 'Please consider <a href="/donate">donating</a> to help support TF2Toolbox!'
+WEAPONS_NEWS_MSG = 'Please consider <a href="/donate">donating</a> to help support TF2Toolbox!'
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
 @app.route('/index.html', methods=['GET', 'POST'])
 def index():
   stime = time.time()
-  template_info = {'nav_cell': 'Home', 'news_msg': home_news_msg,'api_time': 0, 'py_time': 0}
+  template_info = {'nav_cell': 'Home', 'news_msg': HOME_NEWS_MSG,'api_time': 0, 'py_time': 0}
   if request.method == 'POST':
     set_user_session(template_info, request.form['steamURL'])
   template_info['py_time'] = time.time() - stime - template_info['api_time']
@@ -60,7 +61,7 @@ def about():
   return render_template('about.html', template_info=template_info, session=session)
 
 @app.route('/donate', methods=['GET', 'POST'])
-def about():
+def donate():
   stime = time.time()
   template_info = {'api_time': 0, 'py_time': 0}
   if request.method == 'POST':
@@ -72,7 +73,7 @@ def about():
 @app.route('/bptext', methods=['GET', 'POST'])
 def bptext():
   stime = time.time()
-  template_info = {'nav_cell': 'Backpack Text', 'news_msg': bptext_news_msg, 'signin_action': '/bptext', 'api_time': 0, 'py_time': 0}
+  template_info = {'nav_cell': 'Backpack Text', 'news_msg': BPTEXT_NEWS_MSG, 'signin_action': '/bptext', 'api_time': 0, 'py_time': 0}
   if request.method == 'POST':
     if request.form['form_id'] == 'signin':
       set_user_session(template_info, request.form['steamURL'])
@@ -91,7 +92,7 @@ def bptext():
 @app.route('/metal', methods=['GET', 'POST'])
 def metal():
   stime = time.time()
-  template_info = {'nav_cell': 'Metal Maker', 'news_msg': metal_news_msg, 'signin_action': '/metal', 'api_time': 0, 'py_time': 0}
+  template_info = {'nav_cell': 'Metal Maker', 'news_msg': METAL_NEWS_MSG, 'signin_action': '/metal', 'api_time': 0, 'py_time': 0}
   if request.method == 'POST':
     if request.form['form_id'] == 'signin':
       set_user_session(template_info, request.form['steamURL'])
@@ -110,7 +111,7 @@ def metal():
 @app.route('/weapons', methods=['GET', 'POST'])
 def weapons():
   stime = time.time()
-  template_info = {'nav_cell': 'Weapon Stock', 'news_msg': weapons_news_msg, 'signin_action': '/weapons', 'api_time': 0, 'py_time': 0}
+  template_info = {'nav_cell': 'Weapon Stock', 'news_msg': WEAPONS_NEWS_MSG, 'signin_action': '/weapons', 'api_time': 0, 'py_time': 0}
   if request.method == 'POST':
     if request.form['form_id'] == 'signin':
       set_user_session(template_info, request.form['steamURL'])
@@ -127,8 +128,7 @@ def internal_server_error(e):
   # Create the error message.
   error_msg = {'error': str(e), 'request': str(request), 'form': str(request.form), 'session': str(session)}
 
-  SEND_MAIL = True
-  if SEND_MAIL:
+  if SEND_MAIL and not app.debug:
     # Read the email info file and parse
     info_file = open(os.path.join(os.getcwd(), 'email_auth.txt'))
     email_params = info_file.read().strip().split('|')
@@ -161,8 +161,6 @@ def set_user_session(template_info, steamURL):
     * customURL
 
   In the case of an error, adds an error message to template_info.
-
-  TODO: Consider using xml.etree.ElementTree, or lxml, instead of xml.dom.minidom
   """
   session.pop('username', None)
   session.pop('avatar', None)
@@ -180,21 +178,22 @@ def set_user_session(template_info, steamURL):
     rtime = time.time()
     url_file = urllib2.urlopen(steamURL)
     template_info['api_time'] += time.time() - rtime
-    user_data = xml.dom.minidom.parse(url_file)
-    root_children = user_data.documentElement.childNodes
-    vars_set = 0
-    for child in root_children:
-      if child.nodeName ==  'steamID':
-        if child.firstChild is None:
+    user_data = xml.XML(url_file.read())
+    url_file.close()
+    for child in user_data:
+      if child.text is None:
+        continue
+      if child.tag == 'steamID':
+        if not child.text:
           template_info['error_msg'] = 'This user has not yet set up his/her Steam Community profile.'
           return
-        session['username'] = child.firstChild.nodeValue
-      elif child.nodeName == 'avatarMedium' and child.firstChild:
-        session['avatar'] = child.firstChild.nodeValue
-      elif child.nodeName == 'steamID64' and child.firstChild:
-        session['steamID'] = child.firstChild.nodeValue
-      elif child.nodeName == 'customURL' and child.firstChild:
-        session['customURL'] = child.firstChild.nodeValue
+        session['username'] = child.text
+      elif child.tag == 'avatarMedium':
+        session['avatar'] = child.text
+      elif child.tag == 'steamID64':
+        session['steamID'] = child.text
+      elif child.tag == 'customURL':
+        session['customURL'] = child.text
   except urllib2.URLError:
     template_info['error_msg'] = "We were unable to retrieve that URL. Please try again!\n"
     return
@@ -746,7 +745,6 @@ def get_schema(template_info):
     print '[SCHEMA] Retrieving new schema.'
     schema_lines = schema.readlines()
 
-    SEND_MAIL = True
     if SEND_MAIL:
       if os.path.exists(schema_cache):
         old_schema_cache = open(schema_cache, 'r')
@@ -769,26 +767,9 @@ def get_schema(template_info):
       info_file.close()
       print '[SCHEMA] Email parameters file successfully read.'
 
-      msg = MIMEMultipart()
-      msg['Subject'] = 'TF2 Schema Update: %s' % dt.strftime('%a, %d %b %Y %X GMT')
+      msg = MIMEText('Last modified time was %s' % dt.strftime('%a, %d %b %Y %X GMT'))
+      msg['Subject'] = 'TF2 Schema Update: %s' % time.ctime(time.time())
       msg['To'] = email_params[2]
-
-      # Take the diff and add it to the email message.
-      d = difflib.Differ()
-      result = list(d.compare(old_schema_string, schema_lines))
-      diff_file = open(os.path.join(os.getcwd(), 'schema.diff'), 'w')
-      for line in result:
-        if not line.startswith('  '):
-          diff_file.write(line)
-      diff_file.close()
-
-      part = MIMEBase('application', "octet-stream")
-      part.set_payload(open(os.path.join(os.getcwd(), 'schema.diff'), 'rb').read())
-      Encoders.encode_base64(part)
-      part.add_header('Content-Disposition', 'attachment; filename="schema.diff"')
-      msg.attach(part)
-
-      print '[SCHEMA] Diff successfully generated'
 
       # Send the email via Gmail.
       s = smtplib.SMTP('smtp.gmail.com')

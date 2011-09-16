@@ -209,7 +209,6 @@ html, body {
 
 #content {
 	min-width: 850px;
-	padding-bottom: 50px;
 	position: relative;
 }
 
@@ -267,4 +266,63 @@ a img {
 .info_tooltip {
 	position: relative;
 	top: 4px;
+}
+
+/* Donation page style */
+#pp_button * {
+  display: block;
+  margin: auto;
+}
+#donate_title {
+  font-family: TFBuild, Verdana;
+  margin-top: 20px;
+  text-align:center;
+  display: block;
+  color: orange;
+  text-shadow: black 0.2em 0.2em 0.2em;
+  font-size: 30px;
+}
+
+#donate_intro {
+  text-align:center;
+  display: block;
+  color: #ffefae;
+  font-size: 14px;
+  text-shadow: black 0.2em 0.2em 0.2em;
+}
+
+#donate_reasons {
+  margin-top: 30px;
+  margin-bottom: 20px;
+  color: #ffffff;
+  font-size: 16px;
+  text-shadow: black 0.2em 0.2em 0.2em;
+  text-align: center;
+  display: block;
+}
+
+#donors {
+  margin-top: 10px;
+}
+
+#donor_list_title {
+  padding-left: 10px;
+  font-family: TFBuild, Verdana;
+  display: block;
+  margin-bottom: 3px;
+  color: #ffefae;
+  text-shadow: black 0.2em 0.2em 0.2em;
+}
+
+.donor_list {
+  margin-top: 3px;
+  height: 150px;
+  display: block;
+  float: left;
+  color: #ffffff;
+  text-shadow: black 0.2em 0.2em 0.2em;
+}
+
+.main_clearbar {
+  clear: both;
 }
