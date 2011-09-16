@@ -18,6 +18,7 @@ import smtplib
 import time
 import urllib2
 import xml.etree.ElementTree as xml
+from xml.parsers.expat import ExpatError
 
 import bpdata
 
@@ -197,7 +198,7 @@ def set_user_session(template_info, steamURL):
   except urllib2.URLError:
     template_info['error_msg'] = "We were unable to retrieve that URL. Please try again!\n"
     return
-  except xml.parsers.expat.ExpatError:
+  except ExpatError:
     pass
 
   if 'username' not in session or 'avatar' not in session or 'steamID' not in session:

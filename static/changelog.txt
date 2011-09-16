@@ -17,14 +17,12 @@ BUG FIXES
 * Double check open file descriptors.
 * UHHH shows up in Genuine weapons
 * bbcode_style.css checkboxes should expand to fit floating elements inside.
-
+* Add Steam Community Group to footer
 ------------
 OPTIMIZATION
 ------------
 
 * Fix the CSS spaghetti :(
-
-* Make a steam community group/Twitter?
 
 * Python membership testing is O(1) for sets and dicts as opposed to O(N) for sequences.
 Check all 'a in b' statements.
