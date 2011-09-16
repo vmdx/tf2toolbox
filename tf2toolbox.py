@@ -34,10 +34,10 @@ SEND_MAIL = True
 EMAIL_SENDER = ''
 EMAIL_RECIPIENT = ''
 EMAIL_AUTH = ''
-HOME_NEWS_MSG = 'Please consider <a href="/donate">donating</a> to help support TF2Toolbox!'
-BPTEXT_NEWS_MSG = 'Please consider <a href="/donate">donating</a> to help support TF2Toolbox!'
-METAL_NEWS_MSG = 'Please consider <a href="/donate">donating</a> to help support TF2Toolbox!'
-WEAPONS_NEWS_MSG = 'Please consider <a href="/donate">donating</a> to help support TF2Toolbox!'
+HOME_NEWS_MSG = ''
+BPTEXT_NEWS_MSG = ''
+METAL_NEWS_MSG = ''
+WEAPONS_NEWS_MSG = ''
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
