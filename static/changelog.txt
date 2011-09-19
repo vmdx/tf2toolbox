@@ -4,6 +4,7 @@
 FEATURES
 --------
 * Sort weapons/hats by new release. (but quality takes priority)
+  - http://wiki.teamfortress.com/wiki/Item_timeline
 
 * Metal Maker Vintage option.
 
@@ -17,7 +18,7 @@ BUG FIXES
 * Double check open file descriptors.
 * UHHH shows up in Genuine weapons
 * bbcode_style.css checkboxes should expand to fit floating elements inside.
-* Add Steam Community Group to footer
+
 ------------
 OPTIMIZATION
 ------------
@@ -32,6 +33,10 @@ Check all 'a in b' statements.
 * Stop creating strings with += . Try to use str.join() as much as possible to cut
 down on intermediate strings.
 
+* Fix the wiki:
+http://wiki.teamfortress.com/wiki/TF2Toolbox
+
+* Open source TF2Toolbox
 
 -- CHANGELOG --
 9.15.2011
