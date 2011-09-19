@@ -198,6 +198,9 @@ def set_user_session(template_info, steamURL):
   except urllib2.URLError:
     template_info['error_msg'] = "We were unable to retrieve that URL. Please try again!\n"
     return
+  except UnicodeEncodeError:
+    template_info['error_msg'] = "Your URL contained an invalid character. Make sure that URL points to an existing Steam Community page!"
+    return
   except ExpatError:
     pass
 
