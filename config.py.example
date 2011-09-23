@@ -1,0 +1,30 @@
+"""
+This is an example configuration file. All fields are required
+to run TF2Toolbox unless otherwise specified. This file should
+be called 'config.py' in production.
+"""
+# app.debug is set to this. Always False in production.
+DEBUG = False
+
+# Steam API key
+STEAM_API_KEY = 'your api key here'
+
+# Flask secret key for sessions and protecting your users
+# Best way to generate is import os; os.urandom(24)
+SECRET_KEY = 'some random secret key'
+
+# Settings for sending notification mail to an administrator
+# Notifications happen for 500 errors and TF2 schema updates.
+
+# Do I want to send mail or not?
+SEND_MAIL = True
+# Which SMTP server should I use?
+SMTP_SERVER = 'smtp.gmail.com'
+# Who is sending the email?
+EMAIL_SENDER = 'some_gmail_account@gmail.com'
+# What is their password?
+EMAIL_SENDER_PASSWORD = 'your_password'
+# Who is going to receive the email? (should be the admin)
+EMAIL_RECEIVER = 'your_email@whatever.com'
+
+

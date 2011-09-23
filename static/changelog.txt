@@ -39,6 +39,11 @@ http://wiki.teamfortress.com/wiki/TF2Toolbox
 * Open source TF2Toolbox
 
 -- CHANGELOG --
+
+9.22.2011
+  - Migrated configuration to its own file.
+  - Some styling issues on Weapon Stock/Metal Maker lookup buttons.
+
 9.15.2011
   - News/error bar tweaks.
   - Better error handling on 500s.

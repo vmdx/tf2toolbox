@@ -26,15 +26,10 @@ from flask import *
 
 app = Flask(__name__)
 # Configuration
-app.debug = False
-app.secret_key = 'I\xa4RT\x9aH\xc6\xdbK\x13I\xdb\x18\xe1\xfd\x8d\xbf\xfa\x17\xa5E\x8f\xd2\xdd'
+app.config.from_pyfile('config.py')
 app.jinja_env.trim_blocks = True
 
-# Global variables, news messages
-SEND_MAIL = True
-EMAIL_SENDER = ''
-EMAIL_RECIPIENT = ''
-EMAIL_AUTH = ''
+# News messages
 HOME_NEWS_MSG = ''
 BPTEXT_NEWS_MSG = ''
 METAL_NEWS_MSG = ''
@@ -129,28 +124,11 @@ def internal_server_error(e):
   # Create the error message.
   error_msg = {'error': str(e), 'request': str(request), 'form': str(request.form), 'session': str(session)}
 
-  if SEND_MAIL and not app.debug:
-    # Read the email info file and parse
-    info_file = open(os.path.join(os.getcwd(), 'email_auth.txt'))
-    email_params = info_file.read().strip().split('|')
-    info_file.close()
-    print '[500 ERROR] Email parameters file successfully read.'
-
-    msg = MIMEText(str(error_msg))
-    msg['Subject'] = 'TF2Toolbox ERROR: %s' % time.ctime(time.time())
-    msg['To'] = email_params[2]
-    # Send the email via Gmail.
-    s = smtplib.SMTP('smtp.gmail.com')
-    s.ehlo()
-    s.starttls()
-    s.ehlo()
-    s.login(email_params[0], email_params[1])
-    s.sendmail(email_params[0], email_params[2], msg.as_string())
-    s.quit()
+  if app.config['SEND_MAIL'] and not app.debug:
+    send_notification_email('TF2Toolbox ERROR: %s' % time.ctime(time.time()), str(error_msg))
     print '[500 ERROR] Error email successfully sent!'
 
   return render_template('500.html', error_info=error_msg)
-
 
 def set_user_session(template_info, steamURL):
   """
@@ -220,7 +198,7 @@ def get_user_backpack(template_info, steamID):
 
   In the case of an error, adds an error message to template_info.
   """
-  backpack_url = "http://api.steampowered.com/IEconItems_440/GetPlayerItems/v0001/?SteamID=" + steamID + "&key=74EA34072E00ED29B92691B6F929F590"
+  backpack_url = "http://api.steampowered.com/IEconItems_440/GetPlayerItems/v0001/?SteamID=" + steamID + "&key=" + app.config['STEAM_API_KEY']
   try:
     rtime = time.time()
     url_file = urllib2.urlopen(backpack_url)
@@ -733,7 +711,7 @@ def get_schema(template_info):
   Returns the TF2 schema in JSON format.
   """
   schema_cache = os.path.join(os.getcwd(), 'static/schema.json')
-  schema_url = "http://api.steampowered.com/IEconItems_440/GetSchema/v0001/?key=74EA34072E00ED29B92691B6F929F590&language=en"
+  schema_url = "http://api.steampowered.com/IEconItems_440/GetSchema/v0001/?key=" + app.config['STEAM_API_KEY'] + "&language=en"
   mtime = 0
   if os.path.exists(schema_cache):
     mtime = os.path.getmtime(schema_cache)
@@ -752,14 +730,6 @@ def get_schema(template_info):
     print '[SCHEMA] Retrieving new schema.'
     schema_lines = schema.readlines()
 
-    if SEND_MAIL:
-      if os.path.exists(schema_cache):
-        old_schema_cache = open(schema_cache, 'r')
-        old_schema_string = old_schema_cache.readlines()
-        old_schema_cache.close()
-      else:
-        old_schema_string = ['']
-
     new_schema_cache = open(schema_cache, 'w')
     print '[SCHEMA] Writing new schema cache.'
     new_schema_cache.writelines(schema_lines)
@@ -767,25 +737,8 @@ def get_schema(template_info):
 
     schema_json = json.loads(''.join(schema_lines))
 
-    if SEND_MAIL:
-      # Read the email info file and parse
-      info_file = open(os.path.join(os.getcwd(), 'email_auth.txt'))
-      email_params = info_file.read().strip().split('|')
-      info_file.close()
-      print '[SCHEMA] Email parameters file successfully read.'
-
-      msg = MIMEText('Last modified time was %s' % dt.strftime('%a, %d %b %Y %X GMT'))
-      msg['Subject'] = 'TF2 Schema Update: %s' % time.ctime(time.time())
-      msg['To'] = email_params[2]
-
-      # Send the email via Gmail.
-      s = smtplib.SMTP('smtp.gmail.com')
-      s.ehlo()
-      s.starttls()
-      s.ehlo()
-      s.login(email_params[0], email_params[1])
-      s.sendmail(email_params[0], email_params[2], msg.as_string())
-      s.quit()
+    if app.config['SEND_MAIL'] and not app.debug:
+      send_notification_email('TF2 Schema Update: %s' % time.ctime(time.time()), 'Last modified time was %s' % dt.strftime('%a, %d %b %Y %X GMT'))
       print '[SCHEMA] Update email successfully sent!'
 
   except urllib2.HTTPError, e:
@@ -985,6 +938,19 @@ def metal_form_to_params(form):
 
   return params_list
 
+def send_notification_email(subject, message):
+  # Read the email info file and parse
+  msg = MIMEText(message)
+  msg['Subject'] = subject
+  msg['To'] = app.config['EMAIL_RECEIVER']
+  # Send the email via Gmail.
+  s = smtplib.SMTP(app.config['SMTP_SERVER'])
+  s.ehlo()
+  s.starttls()
+  s.ehlo()
+  s.login(app.config['EMAIL_SENDER'], app.config['EMAIL_SENDER_PASSWORD'])
+  s.sendmail(app.config['EMAIL_SENDER'], app.config['EMAIL_RECEIVER'], msg.as_string())
+  s.quit()
 
 if __name__ == '__main__':
   app.run()
