@@ -1,0 +1,14 @@
+TF2Toolbox
+Created by VMDX
+
+Requirements:
+  - Flask
+  - simplejson
+  - Python 2.5+
+
+Quickstart:
+  - Fill out a 'config.py' file - the 'config.py.example' file will guide you.
+  - `python tf2toolbox.py`
+  - That's it!
+
+Changelog is located in 'tf2toolbox/static/changelog.txt'
