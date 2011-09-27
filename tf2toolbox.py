@@ -518,7 +518,7 @@ def bp_parse(template_info, bp, form, session_info):
           item['attr']['gifted'] = True
         elif attribute['defindex'] == 229 and (attribute['value'] <= 100 or 'display_craft_num' in form):
           item['attr']['craftnum'] = attribute['value']
-        elif attribute['defindex'] == 134:
+        elif attribute['defindex'] == 134 and int(attribute['float_value']):
           item['attr']['particle'] = s['particles'][int(attribute['float_value'])]
 
     # Skip invalid items
