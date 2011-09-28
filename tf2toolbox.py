@@ -203,7 +203,7 @@ def get_user_backpack(template_info, steamID):
     rtime = time.time()
     url_file = urllib2.urlopen(backpack_url)
     template_info['api_time'] += time.time() - rtime
-    bp_json = json.load(url_file, 'utf16')
+    bp_json = json.load(url_file)
   except urllib2.URLError:
     template_info['error_msg'] = "We were unable to retrieve that user's backpack. The URL may be wrong or the SteamAPI may be down.\n"
     return None
