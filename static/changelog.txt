@@ -23,7 +23,12 @@ BUG FIXES
 OPTIMIZATION
 ------------
 
-* Fix the CSS spaghetti :(
+* Versioned CSS documents.
+http://developer.yahoo.com/performance/rules.html
+
+* CSS Image Spriting (maybe even for TF2 item images? :O)
+
+* Fix the CSS spaghetti :( - combine into single spreadsheet
 
 * Check for iterator form (xrange vs range)
 
@@ -32,6 +37,11 @@ http://wiki.teamfortress.com/wiki/TF2Toolbox
 
 
 -- CHANGELOG --
+
+10.1.2011
+  - Added latin1 encoding for backpacks to deal with funky character names
+  for gifted items
+  - Enabled far future expire headers on nginx for static content
 
 9.27.2011
   - Fix for certain particle effects that don't use float value
