@@ -16,6 +16,7 @@
 
 {% for cls in template_info['result']['ordered_classes'] %}
         <div class="class_column">
+{% if template_info['result']['weapons'][cls]['standard'] %}
 {% for wep in template_info['result']['weapons'][cls]['standard']|sort %}
           <div class="weapon_entry">
             <img class="weapon_image" src="{{ template_info['result']['weapons'][cls]['standard'][wep]['image'] }}" alt="{{ wep }}">
@@ -29,6 +30,9 @@
 {% endif %}
           </div>
 {% endfor %}
+{% else %}
+          &nbsp;
+{% endif %}
         </div>
 {% endfor %}
 
