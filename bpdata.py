@@ -237,7 +237,10 @@ ALT_WEAPONS = set(['Lugermorph', # Pistol
                'Iron Curtain', # Minigun
                'Fishcake', # Dalokoh's Bar
                'Big Kill', # Revolver
-               'Enthusiast\'s Timepiece' # Invis Watch
+               'Enthusiast\'s Timepiece', # Invis Watch
+               'Scottish Handshake', # Bottle
+               'Bootlegger', # Ali Baba's Wee Booties
+               'Conscientious Objector' # Any melee
                ])
 
-LIMITED_WEAPONS = set(['Golden Wrench', 'Saxxy'])
+LIMITED_WEAPONS = set(['Golden Wrench', 'Saxxy', 'Beta Quick-Fix'])
