@@ -6,12 +6,12 @@
       <div id="tool_title">
         <img id="tool_img" src="static/media/metal_tool_80.png" alt="metal_tool">
         <div id="tool_text">
-          <span id="tool_name">Metal Maker</span><br/>
+          <span id="tool_name" class="metal_color">Metal Maker</span><br/>
           <span id="tool_desc">Organizes backpack weapons into scrap metal and token combinations</span>         
         </div>
 
       </div>
-      <div id="checkboxes">
+      <div id="metal_checkboxes">
 
         <!-- <div class="checkbox_column checkbox_column_extra_wide">
           <span class="checkbox_title">Options:</span>
@@ -24,7 +24,7 @@
 {% if "num_bp_slots" in session %}
 {% set pages = session["num_bp_slots"] / 50 %}
         <div class="checkbox_column">
-          <span class="checkbox_title">Pages:</span>
+          <span class="checkbox_title metal_color">Pages:</span>
           <input type="checkbox" name="pages[]" value="all" checked>All<br />
 {% set current_page_in_col = 2 %}
 {% for page in range(1, pages+1) %}
@@ -34,19 +34,19 @@
 {% set current_page_in_col = 1 %}
         </div>
         <div class="checkbox_column">
-          <span class="checkbox_title"></span>
+          <span class="checkbox_title metal_color"></span>
 {% endif %}
 {% endfor %}
         </div>
 {% endif %}
 
         <div class="checkbox_column">
-          <span class="checkbox_title">Options:</span>
+          <span class="checkbox_title metal_color">Options:</span>
           <input type="checkbox" name="dup_weps_only" value="True" disabled><span style="color: #888888;">Only show duplicate weapons (in dev)</span><br />
         </div>
 
         <div class="checkbox_column checkbox_column_extra_wide">
-          <span class="checkbox_title">Notes:</span>
+          <span class="checkbox_title metal_color">Notes:</span>
           <ul>
             <li>Weapons will be split into <span class="special">special</span>, <span class="vintage">vintage</span>, and <span class="normal">normal</span> weapons.</li><br/>
             <li><span class="special">Special</span> weapons are ones with custom names, custom descriptions, or non-standard levels. These <u>are not</u> included in metal calculations.</li>
@@ -81,7 +81,3 @@
 	</script>
 </div>
 {% endblock adstrip %}
-
-{% block css %}
-  <link href="static/css/metal_style.css" media="screen" rel="stylesheet" type="text/css" />
-{% endblock css %}

@@ -870,12 +870,12 @@ def bptext_form_to_params(form):
   """
   params_list = []
 
-  # Items printing
-  items_list = [opt.lower() for opt in bpdata.BPTEXT_FORM_CATEGORIES if opt in form]
-  if not items_list:
-    params_list.append('Displaying no items. Huh?')
-  else:
-    params_list.append('Displaying %s.' % ', '.join(items_list))
+  # Items printing -- REMOVED since its redundant with the bptext output.
+  #items_list = [opt.lower() for opt in bpdata.BPTEXT_FORM_CATEGORIES if opt in form]
+  #if not items_list:
+  #  params_list.append('Displaying no items. Huh?')
+  #else:
+  #  params_list.append('Displaying %s.' % ', '.join(items_list))
 
   # Options printing
   if 'only_dup_weps' in form:

@@ -1,0 +1,988 @@
+/* Custom fonts declared here */
+
+@font-face {
+	font-family: TFBuild;
+	src: url('../fonts/tf2build.ttf');
+}
+
+@font-face {
+	font-family: TFSec;
+	src: url('../fonts/tf2secondary.ttf');
+}
+
+/* 
+
+-------------------------------------------------
+  GLOBAL HTML ELEMENT STYLING
+-------------------------------------------------
+
+*/
+
+html, body {
+	margin: 0px;
+	padding: 0px;
+	background-color: #313131;
+	width:100%;
+}
+
+/* Default font-family */
+* {
+	font-family: TFSec, sans-serif;
+}
+
+/* Clear bar */
+.clearbar {
+  clear: both;
+}
+
+/* 
+
+-------------------------------------------------
+  HEADER STYLING
+-------------------------------------------------
+
+*/
+#header {
+	height: 100px;   /* 50 header_banner + 10*2 padding + 30 toolbar table */
+	border-bottom: 1px solid #505050;
+	min-width: 950px;		/* Make sure this is set so we don't get any weird overlapping! */
+	width: 100%;
+	background-color: #2B2B2B;
+	
+}
+
+#header_banner {
+	position:relative;
+	float: left;
+	width: 400px;
+	height: 50px;
+	padding: 10px;
+}
+
+#banner_img {
+	float:left;
+}
+
+#banner_button {
+	width: 60px;
+	height: 60px;
+	z-index: 4;
+	position: absolute;
+	top: 1px;
+	right: 35px;
+}
+
+#banner_text {
+	font-family: TFBuild, Verdana;
+	font-size: 26px;
+	color: #ffefae;
+	float: left;
+	line-height: 50px;
+	position: relative;
+	left: 20px;
+	text-shadow: black 0.2em 0.2em 0.2em;
+}
+
+#current_user {
+	float: right;
+	width: 500px;
+	height: 90px;
+	font-family: TFBuild, Verdana;
+	color: white;
+	margin-top: 10px;
+	margin-right: 10px;
+	text-align: right;
+	line-height: 50px;
+	text-shadow: black 0.2em 0.2em 0.2em;
+}
+
+#current_user a {
+	font-family: TFBuild, Verdana;
+	text-decoration: none;
+}
+
+#current_user a:link {
+	color: white;
+}
+
+#current_user a:visited {
+	color: white;
+}
+
+#current_user a:hover {
+	color: white;
+}
+
+#signin_forms {
+	position: relative;
+	clear: both;
+	top: 5px;
+	width: 500px;
+	height: 30px;
+	margin-left: 0px;
+	/*overflow:hidden;*/		/* Hack because forms have some crap attached to the end. Hide overflow so that stuff aligns.*/
+}
+
+#signin_input {
+	margin-left: 0px;
+	font-size:11px;
+}
+
+#steam_button {
+	float: left;
+	position: relative;
+	top: 3px;
+}
+
+#signin_form {
+	float: left;
+	margin-left: 10px;
+	height: 30px;
+	line-height: 30px;
+	font-size: 16px;
+}
+
+#avatar {
+	float: right;
+	height: 48px;
+	width: 48px;
+	border: 2px solid gray;
+	margin-left: 10px;
+	margin-right: 12px;
+}
+
+#header_toolbar {
+	height: 30px;
+	clear:left;		/* Only clear the toolbox, not the current user. */
+}
+
+#header_toolbar_table {
+	height: 30px;
+	color: white;
+	border-collapse: collapse;
+	border-top: 1px solid #505050;
+	background-color: #000000;
+}
+
+#header_toolbar_table * {
+	font-family: TFBuild, Verdana;
+	text-decoration: none;
+	font-size: 14px;
+}
+
+#header_toolbar_table a:link {
+	color: white;
+}
+
+#header_toolbar_table a:visited {
+	color: white;
+}
+
+#header_toolbar_table a:hover {
+	color: #ffefae;
+}
+
+#header_toolbar_table td {
+	border-right: 1px solid #505050;
+	padding: 5px 10px;
+}
+
+#active_tool_cell {
+	background-color: #d27c00;
+}
+
+.top_bar {
+	position:relative;
+	background-color: orange;
+	height: 25px;
+	border:1px solid black;
+}
+
+.top_msg {
+	display:block;
+	text-align: center;
+	font-family: TFBuild, Verdana;
+	line-height: 25px;
+        text-shadow: #d27c00 0.1em 0.1em 0.2em;
+	
+}
+
+.top_msg a {
+	font-family: TFBuild, Verdana;
+	text-decoration: none;
+}
+
+.top_msg a:link {
+	color: #e6e6e6;
+}
+
+.top_msg a:visited {
+	color: #e6e6e6;
+}
+
+.top_msg a:hover {
+	color: #e6e6e6;
+}
+
+#content {
+	min-width: 850px;
+	position: relative;
+}
+
+/* 
+
+-------------------------------------------------
+ FOOTER STYLING  
+-------------------------------------------------
+
+*/
+
+#footer {
+	background-color: #2B2B2B;
+        min-width: 850px;
+	width: 100%;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	border-top: 1px solid #505050;
+	border-bottom: 1px solid #505050;
+	margin-top: 15px;
+        position: relative;
+        font-size: 14px;
+}
+
+#timing {
+  height: 25px;
+  position: absolute;
+  top: -27px;
+  padding-left: 5px;
+  padding-right: 5px;
+  line-height: 25px;
+  border-top: 1px solid #505050;
+  border-right: 1px solid #505050;
+  background-color: #2B2B2B;
+  color: #ffefae;
+  font-size: 10px;
+  font-family: Verdana;
+}
+
+.footer_text {
+	color: #ffefae;
+}
+
+.footer_text a {
+	text-decoration: none;
+}
+
+#footer a:link {
+	color: #ffefae;
+}
+
+#footer a:visited {
+	color: #ffefae;
+}
+
+#footer a:hover {
+	color: #ffffff;
+}
+
+a img {
+	border-style: none;
+}
+
+.info_tooltip {
+	position: relative;
+	top: 4px;
+}
+
+/* 
+
+-------------------------------------------------
+ DONATION PAGE STYLING  
+-------------------------------------------------
+
+*/
+#pp_button * {
+  display: block;
+  margin: auto;
+}
+#donate_title {
+  font-family: TFBuild, Verdana;
+  margin-top: 14px;
+  text-align:center;
+  display: block;
+  color: orange;
+  text-shadow: black 0.2em 0.2em 0.2em;
+  font-size: 20px;
+}
+
+#donate_intro {
+  text-align:center;
+  display: block;
+  color: #ffefae;
+  font-size: 14px;
+  text-shadow: black 0.2em 0.2em 0.2em;
+  margin-bottom: 20px;
+}
+
+#donors {
+  margin-top: 10px;
+}
+
+#donor_list_title {
+  padding-left: 10px;
+  font-family: TFBuild, Verdana;
+  display: block;
+  margin-bottom: 3px;
+  color: #ffefae;
+  text-shadow: black 0.2em 0.2em 0.2em;
+}
+
+.donor_list {
+  margin-top: 3px;
+  height: 150px;
+  display: block;
+  float: left;
+  color: #ffffff;
+  text-shadow: black 0.2em 0.2em 0.2em;
+}
+
+/* 
+
+-------------------------------------------------
+ AD STYLING  
+-------------------------------------------------
+
+*/
+#adstrip {
+  margin: auto;
+  padding-bottom: 30px;
+  width: 728px;
+  height: 90px;
+}
+
+#adside {
+  padding-top: 50px;
+  float: left;
+  width: 160px;
+  height: 600px;
+}
+
+/* 
+
+-------------------------------------------------
+ ABOUT PAGE STYLING  
+-------------------------------------------------
+
+*/
+
+.about_title {
+	font-family: TFBuild, Verdana;
+	color: #ffffff;
+	text-shadow: black 0.2em 0.2em 0.2em;
+	display: block;
+	margin-top: 20px;
+	margin-left: 10px;
+	text-decoration: underline;
+}
+
+p {
+	color: #dddddd;
+	text-shadow: black 0.1em 0.1em 0.2em;
+	padding-left: 15px;
+	width: 800px;
+	font-size:14px;
+}
+
+/***
+
+-------------------------------------------------
+ GLOBAL PAGE STYLING  
+-------------------------------------------------
+
+
+***/
+
+.toolbox {
+	float:left;
+	width: 400px;
+	height: 250px;
+	margin-left: 10px;
+}
+
+.tools_title {
+	font-family: TFBuild, Verdana;
+	color: #ffffff;
+	text-shadow: black 0.2em 0.2em 0.2em;
+	display: block;
+	margin-top: 20px;
+	margin-left: 10px;
+}
+
+.tool {
+	margin-top: 10px;
+	margin-left: 10px;
+	height: 100px;
+	width: 400px;	/* tool img margin + tool title width + tool img width*/
+
+}
+
+.tool_img {
+	float: left;
+	margin-right: 5px;
+	display:block;
+	width: 100px;
+	height: 100px;
+
+}
+
+.tool_title {
+	float:left;
+	font-family: TFBuild, Verdana;
+	font-size: 16px;
+	text-shadow: black 0.2em 0.2em 0.2em;
+	display: block;
+	margin-top: 13px;
+	width: 295px;
+	margin-bottom: 5px;
+}
+
+.tool_desc {
+	display: block;
+	margin-top: 5px;
+	font-family: TFSec;
+	font-size: 12px;
+	color: white;
+
+}
+
+.tool_news {
+	display: block;
+	margin-top: 5px;
+	font-family: TFSec;
+	font-size: 10px;
+	color: #ffefae;
+	font-style: italic;
+}
+
+/* Tool colors */
+
+.bptext_color {
+	color: #9ea3f0;
+}
+
+.metal_color {
+	color: #a6a9b8;
+}
+
+.weapon_color {
+	color: #ffb555;
+}
+
+/* 
+
+-------------------------------------------------
+ INDEX PAGE STYLING  
+-------------------------------------------------
+
+*/
+
+/*
+
+-------------------------------------------------
+ TOOLS STYLING (form, tool titles, etc) 
+-------------------------------------------------
+
+*/
+
+#tool_title {
+	width: 585px;
+}
+
+#tool_img {
+	float:left;
+}
+
+#tool_text {
+	float: left;
+	margin-top: 15px;
+	margin-left: 5px;
+	height: 50px;
+	width: 500px;
+}
+
+#tool_name {
+	font-family: TFBuild, Verdana;
+	font-size: 20px;
+	text-shadow: black 0.2em 0.2em 0.2em;
+}
+
+#tool_desc {
+	font-family: TFSec;
+	font-size: 12px;
+	color: white;
+}
+
+.checkbox_column {
+  text-align:left;
+  font-family: TFSec;
+  font-size:13px;
+  min-height: 170px;
+  float:left;
+  margin-right: 10px;
+  position: relative;
+}
+
+.checkbox_column_bigright {
+	margin-right: 30px;
+	position: relative;
+}
+
+.checkbox_column_extra_wide {
+	margin-left:10px;
+	width: 500px;
+}
+
+.checkbox_title {
+	font-size: 14px;
+	font-family: TFBuild, Verdana;
+	text-decoration: underline;
+	text-align:left;
+	text-shadow: black 0.1em 0.1em 0.1em;
+	display: block;
+	height: 20px;
+}
+
+/* 
+
+-------------------------------------------------
+ BPTEXT STYLING  
+-------------------------------------------------
+
+*/
+
+/* Form page */
+#bptext_checkboxes {
+  min-width: 1000px;  /* Should expand to fit floating elements inside. Is there a way to do this?? */
+  clear:both;
+  padding-top: 20px;
+  padding-left: 10px;
+  color: #f2f2f2;
+  margin-bottom: 20px;
+}
+
+.uncheck_button {
+  font-size: 13px;
+  position: absolute;
+  bottom: 0;
+}
+
+#input_button {
+  clear: both;
+  margin-top: 15px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#lookup_submit {
+	font-family:TFBuild, Verdana;
+	font-size:20px;
+	position: relative;
+}
+
+/* BBCode styling */
+#bbcode_output {
+	padding-left: 20px;
+	padding-top: 10px;
+	padding-bottom: 15px;
+        padding-right: 40px;
+	float:left;
+}
+
+#bbcode_status {
+	padding-top:40px;
+	width: 200px;
+	float:left;
+}
+
+#bbcode_status_display {
+	font-size: 16px;
+	font-family: TFBuild, Verdana;
+	text-decoration: underline;
+	text-align:left;
+	color: #ffffff;
+	text-shadow: black 0.1em 0.1em 0.1em;
+	display: block;
+	height: 20px;
+}
+
+#bbcode_status_list {
+	color: #ffffff;
+	font-size: 14px;
+}
+
+#bbcode_status_list li {
+	padding: 10px 0px;
+        margin-left: -20px;
+}
+
+#bbcode_status a {
+  color: #ffefae;
+  text-decoration: none;
+}
+
+#retry_button {
+	font-family:TFBuild, Verdana;
+	font-size:16px;
+}
+
+#bbcode_text {
+	font-family: Verdana;
+	font-size: 12px;
+}
+
+/*
+
+-------------------------------------------------
+ METAL STYLING  
+-------------------------------------------------
+
+*/
+/* Metal lookup */
+#metal_checkboxes {
+	clear:both;
+	height: 150px;
+	padding-top: 20px;
+	padding-left: 10px;
+	color: #f2f2f2;
+}
+
+/* Metal result */
+.ad_padding {
+	padding-bottom:50px !important;
+}
+
+#metal_output {
+	padding-top: 5px;
+	width: 1400px;
+}
+
+#weapon_content {
+	width: 1160px;
+	float:left;
+}
+
+#statistics {
+	padding-top: 30px;
+	width: 240px;
+	height: 800px;
+	float:left;
+}
+
+.stat_title {
+	font-size: 18px;
+	font-family: TFBuild, Verdana;
+	text-decoration: underline;
+	text-align:center;
+	color: #ffefae;
+	text-shadow: black 0.1em 0.1em 0.1em;
+	display: block;
+}
+
+.stat {
+	font-size: 13px;
+	font-family: TFBuild, Verdana;
+	text-align:center;
+	color: white;
+	text-shadow: black 0.1em 0.1em 0.2em;
+	display: block;
+	margin-bottom:10px;
+}
+
+.subtitle {
+	font-size: 15px;
+	text-decoration: underline;
+}
+
+.subsubtitle {
+	font-size: 14px;
+}
+
+#stat_notes * {
+	font-size: 12px;
+	color: white;
+}
+
+.class_column {
+	width: 100px;
+	padding-left: 8px;
+	padding-right: 7px;
+	float:left;
+/*	border-right: 1px dashed white;*/
+}
+
+.class_avatar {
+	float: left;
+	margin-left: 8px;
+	margin-right: 7px;
+	font-family: TFBuild, Verdana;
+	font-size: 16px;
+	color: #ffefae;
+	text-shadow: black 0.1em 0.1em 0.2em, -0.1em -0.1em 0.2em black, -0.1em 0.1em 0.2em black, 0.1em -0.1em 0.2em black;
+	width: 100px;
+	height: 100px;
+	text-align:center;
+	line-height:175px;
+	display: block;
+}
+
+.special {
+	color: #70B04A;
+}
+
+.vintage {
+	color: #476291;
+}
+.normal {
+	color: #FFD700;
+}
+.unique {
+	color: #ffba82;
+}
+.plain {
+	color: #e9e9e9;
+}
+.white {
+	color: white;
+}
+
+.scrap_metal_pic {
+	width: 50px;
+	height: 38px;
+}
+
+.weapon_entry {
+	width: 100px;
+	height: 50px;
+	margin-top: 5px;
+	border-bottom: 1px solid gray;
+}
+.weapon_image {
+	display:block;
+	float:left;
+	width: 50px;
+	height: 50px;
+}
+
+.quantity {
+	display:block;
+	float:left;
+	font-family: TFBuild, Verdana;
+	text-shadow: black 0.1em 0.1em 0.2em;
+}
+
+.q_single {
+	height: 50px;
+	line-height: 50px;
+}
+
+.q_double {
+	height: 25px;
+	line-height: 25px;
+}
+
+.q_x {
+	color: white;
+	width: 10px;
+	font-size: 10px;
+}
+
+.q_num {
+	width: 40px;
+	font-size: 18px;
+}
+
+#calculations {
+	clear:both;
+	width: 1150px;
+	height: 140px;
+	margin-top:10px;
+}
+
+.center {
+	text-align: center;
+}
+
+.calc {
+	font-family: TFBuild, Verdana;
+	font-size: 18px;
+	text-shadow: black 0.1em 0.1em 0.2em;
+}
+
+.calc_small {
+	font-family: TFBuild, Verdana;
+	font-size: 12px;
+	text-shadow: black 0.1em 0.1em 0.2em;
+}
+
+.calc_space {
+	padding-top: 10px;
+}
+
+.center_number {
+	display:block;
+	float:left;
+	width:50px;
+	text-align:center;
+	line-height: 38px;
+}
+
+.scrap_metal_pic {
+	float:left;
+	width: 50px;
+	height:38px;
+}
+
+.cross_column_title {
+	clear: both;
+	text-align: center;
+	width: 1150px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+.cross_column_title * {
+	font-family: TFBuild, Verdana;
+	font-size: 16px;
+	text-decoration: underline;
+	text-shadow: black 0.1em 0.1em 0.2em;
+}
+
+/*
+
+-------------------------------------------------
+ WEAPONS STYLING  
+-------------------------------------------------
+
+*/
+
+/* Weapon Stock style */
+
+.class_row {
+  min-width: 800px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.class_avatar {
+  float: left;
+	margin-left: 8px;
+	margin-right: 7px;
+	font-family: TFBuild, Verdana;
+	font-size: 16px;
+	color: #ffefae;
+	text-shadow: black 0.1em 0.1em 0.2em, -0.1em -0.1em 0.2em black, -0.1em 0.1em 0.2em black, 0.1em -0.1em 0.2em black;
+	width: 100px;
+	height: 100px;
+	text-align:center;
+	line-height:175px;
+	display: block;
+}
+
+.class_categories {
+  float: left;
+}
+
+.class_cat {
+  width: 685px;
+}
+
+.class_cat_title {
+  display: block;
+  text-decoration: underline;
+  font-family: TFBuild, Verdana;
+  font-size: 12px;
+  padding-top: 5px;
+
+}
+
+.essential {
+  color: #fedcba;
+  text-shadow: black 0.1em 0.1em 0.2em, -0.1em -0.1em 0.2em black, -0.1em 0.1em 0.2em black, 0.1em -0.1em 0.2em black;
+}
+
+.alternative {
+  color: #abcdef;
+  text-shadow: black 0.1em 0.1em 0.2em, -0.1em -0.1em 0.2em black, -0.1em 0.1em 0.2em black, 0.1em -0.1em 0.2em black;
+}
+
+.clearbar {
+  clear: both;
+}
+
+.wep_entry {
+  float: left;
+  width: 75px;
+  height: 75px;
+  display: block;
+  text-align: center;
+}
+
+.wep_name {
+  height: 25px;
+  display: block;
+  font-family: TFBuild, Verdana;
+  font-size: 10px;
+}
+
+.have {
+  color: #ADE5AF;
+  text-shadow: black 0.1em 0.1em 0.2em, -0.1em -0.1em 0.2em black, -0.1em 0.1em 0.2em black, 0.1em -0.1em 0.2em black;
+}
+
+.have_not {
+  color: #F72D34;
+  text-shadow: black 0.1em 0.1em 0.2em, -0.1em -0.1em 0.2em black, -0.1em 0.1em 0.2em black, 0.1em -0.1em 0.2em black;
+}
+
+.have_img {
+
+}
+
+.have_not_img {
+  /* for IE */
+  filter:alpha(opacity=15);
+  /* CSS3 standard */
+  opacity:0.15;
+}
+
+.wep_pic {
+  width: 50px;
+  height: 50px;
+}
+
+
+
+#weapon_stock_intro {
+  color: white;
+  font-size: 12px;
+}
+
+#intro_col1 {
+  float: left;
+}
+
+#intro_col2 {
+  float: left;
+}
+
+#disabled_lookup {
+	font-family:TFBuild, Verdana;
+	font-size:20px;
+	position: relative;
+        left: 100px;
+        top: 20px;
+        color: #bbbbbb;
+        margin-bottom: 60px;
+}
+

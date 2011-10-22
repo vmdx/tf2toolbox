@@ -1,3 +1,0 @@
-html, body, content, #header, #footer { /* Weird hack :( otherwise the three main divs don't stretch out far enough...*/
-	width:1400px;
-}

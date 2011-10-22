@@ -104,11 +104,6 @@
 {% endif %}
 {% endblock content %}
 
-{% block css %}
-  <link href="static/css/metal_style.css" media="screen" rel="stylesheet" type="text/css" />
-  <link href="static/css/metal_output.css" media="screen" rel="stylesheet" type="text/css" />
-{% endblock css %}
-
 {% block javascript %}
 <script type="text/javascript" src="static/js/jquery-1.4.4.min.js"></script>
 <script type="text/javascript" src="static/js/jquery.qtip-1.0.0-rc3.js"></script>
@@ -136,3 +131,11 @@ $(document).ready(function() {
 })
 </script>
 {% endblock javascript %}
+
+{% block css %}
+<style type="text/css">
+html, body, #content, #header, #footer { /* Weird hack :( otherwise the three main divs don't stretch out far enough...*/
+	width:1400px;
+}
+</style>
+{% endblock css %}
