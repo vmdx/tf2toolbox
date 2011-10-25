@@ -333,6 +333,9 @@ def bp_metal(template_info, bp, form, session_info):
   # Load in schema quality mappings: 0 -> "Normal", 1 -> "Genuine"
   s['qualities'] = {}
   for quality in schema['result']['qualities']:
+    # TODO: Hacky fix!!!! schema is fucking up hard.
+    if quality == 'normal' and 'normal' not in schema['result']['qualityNames']:
+      quality = 'unique'
     s['qualities'][schema['result']['qualities'][quality]] = schema['result']['qualityNames'][quality]
 
 
