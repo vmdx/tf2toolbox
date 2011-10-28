@@ -334,9 +334,10 @@ def bp_metal(template_info, bp, form, session_info):
   s['qualities'] = {}
   for quality in schema['result']['qualities']:
     # TODO: Hacky fix!!!! schema is fucking up hard.
-    if quality == 'normal' and 'normal' not in schema['result']['qualityNames']:
-      quality = 'unique'
-    s['qualities'][schema['result']['qualities'][quality]] = schema['result']['qualityNames'][quality]
+    if quality not in schema['result']['qualityNames']:
+      s['qualities'][schema['result']['qualities'][quality]] = quality.capitalize()
+    else:
+      s['qualities'][schema['result']['qualities'][quality]] = schema['result']['qualityNames'][quality]
 
 
   # Set up the result schema.
@@ -471,9 +472,10 @@ def bp_parse(template_info, bp, form, session_info):
   s['qualities'] = {}
   for quality in schema['result']['qualities']:
     # TODO: Hacky fix!!!! schema is fucking up hard.
-    if quality == 'normal' and 'normal' not in schema['result']['qualityNames']:
-      quality = 'unique'
-    s['qualities'][schema['result']['qualities'][quality]] = schema['result']['qualityNames'][quality]
+    if quality not in schema['result']['qualityNames']:
+      s['qualities'][schema['result']['qualities'][quality]] = quality.capitalize()
+    else:
+      s['qualities'][schema['result']['qualities'][quality]] = schema['result']['qualityNames'][quality]
 
   # Load in schema particle effects
   s['particles'] = {}
