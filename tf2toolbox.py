@@ -199,14 +199,22 @@ def get_user_backpack(template_info, steamID):
   In the case of an error, adds an error message to template_info.
   """
   backpack_url = "http://api.steampowered.com/IEconItems_440/GetPlayerItems/v0001/?SteamID=" + steamID + "&key=" + app.config['STEAM_API_KEY']
+  url_file = None
   try:
     rtime = time.time()
-    url_file = urllib2.urlopen(backpack_url)
+    url_file = urllib2.urlopen(backpack_url).read()
     template_info['api_time'] += time.time() - rtime
-    bp_json = json.load(url_file, 'latin1')  # Needs to be latin1 due to funky character names for gifted items.
+    bp_json = json.loads(url_file, 'latin1')  # Needs to be latin1 due to funky character names for gifted items.
   except urllib2.URLError:
     template_info['error_msg'] = "We were unable to retrieve that user's backpack. The URL may be wrong or the SteamAPI may be down.\n"
     return None
+  except json.decoder.JSONDecodeError, e:
+    # We need to find the offensive line of text and fix it.
+    print "Caught malformed JSON, attempting to fix."
+    if url_file is None:
+      return None
+    url_file = url_file.replace('.\n', '.0\n')
+    bp_json = json.loads(url_file, 'latin1')
 
   status = bp_json['result']['status']
   if status == 1: #backpack validation
