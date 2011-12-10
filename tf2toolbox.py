@@ -13,7 +13,7 @@ from email.mime.base import MIMEBase
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import os
-import simplejson as json
+import json
 import smtplib
 import time
 import urllib2
@@ -678,7 +678,12 @@ def bp_parse(template_info, bp, form, session_info):
 
     # Crate
     elif item['class'] == 'supply_crate':
-      add_to_result(result, int(item['attributes'][0]['float_value']), 'Crates', plaintext="Series %d Crate" % int(item['attributes'][0]['float_value']))
+      # Non-standard crates
+      if not 'attributes' in item or item['name'] != 'Mann Co. Supply Crate':
+        add_to_result(result, item['name'], 'Crates', plaintext=item['name'])
+      # Standard crates always have attributes.
+      else:
+        add_to_result(result, int(item['attributes'][0]['float_value']), 'Crates', plaintext="Series %d Crate" % int(item['attributes'][0]['float_value']))
 
   bptext_suffix_tags = []
   if 'display_sc_url' in form:
