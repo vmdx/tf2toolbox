@@ -241,7 +241,13 @@ ALT_WEAPONS = set(['Lugermorph', # Pistol
                'Enthusiast\'s Timepiece', # Invis Watch
                'Scottish Handshake', # Bottle
                'Bootlegger', # Ali Baba's Wee Booties
-               'Conscientious Objector' # Any melee
+               'Conscientious Objector', # Any melee
+               'Sharp Dresser', # Knife
+               'Wanga Prick', # Your Eternal Reward
+               'Apoco-Fists', # Fists
+               'Unarmed Combat' # Holy Mackerel
                ])
+
+# Why does it say the Sharp Dresser, Wanga Prick, and the Unarmed Combat are essential weapons when they're just reskins?
 
 LIMITED_WEAPONS = set(['Golden Wrench', 'Saxxy', 'Beta Quick-Fix'])
