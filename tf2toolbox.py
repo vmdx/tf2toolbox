@@ -124,7 +124,7 @@ def internal_server_error(e):
   # Create the error message.
   error_msg = {'error': str(e), 'request': str(request), 'form': str(request.form), 'session': str(session)}
 
-  if app.config['SEND_MAIL'] and not app.debug:
+  if True and not app.debug:
     send_notification_email('TF2Toolbox ERROR: %s' % time.ctime(time.time()), str(error_msg))
     print '[500 ERROR] Error email successfully sent!'
 
@@ -208,7 +208,7 @@ def get_user_backpack(template_info, steamID):
   except urllib2.URLError:
     template_info['error_msg'] = "We were unable to retrieve that user's backpack. The URL may be wrong or the SteamAPI may be down.\n"
     return None
-  except json.decoder.JSONDecodeError, e:
+  except ValueError, e:
     # We need to find the offensive line of text and fix it.
     print "Caught malformed JSON, attempting to fix."
     if url_file is None:
@@ -678,10 +678,8 @@ def bp_parse(template_info, bp, form, session_info):
 
     # Crate
     elif item['class'] == 'supply_crate':
-      # Non-standard crates
       if not 'attributes' in item or item['name'] != 'Mann Co. Supply Crate':
-        add_to_result(result, item['name'], 'Crates', plaintext=item['name'])
-      # Standard crates always have attributes.
+        add_to_result(result, item['name'], 'Crates')
       else:
         add_to_result(result, int(item['attributes'][0]['float_value']), 'Crates', plaintext="Series %d Crate" % int(item['attributes'][0]['float_value']))
 
