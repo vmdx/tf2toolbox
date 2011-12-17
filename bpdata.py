@@ -245,7 +245,10 @@ ALT_WEAPONS = set(['Lugermorph', # Pistol
                'Sharp Dresser', # Knife
                'Wanga Prick', # Your Eternal Reward
                'Apoco-Fists', # Fists
-               'Unarmed Combat' # Holy Mackerel
+               'Unarmed Combat', # Holy Mackerel
+               'Festive Bat', 'Festive Scattergun', 'Festive Rocket Launcher', 'Festive Flamethrower',
+               'Festive Stickybomb Launcher', 'Festive Minigun', 'Festive Wrench', 'Festive Medi Gun',
+               'Festive Sniper Rifle', 'Festive Knife' # Festive Weapons
                ])
 
 # Why does it say the Sharp Dresser, Wanga Prick, and the Unarmed Combat are essential weapons when they're just reskins?
