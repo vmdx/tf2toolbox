@@ -754,7 +754,7 @@ def get_schema(template_info):
     new_schema_cache.writelines(schema_lines)
     new_schema_cache.close()
 
-    schema_json = json.loads(''.join(schema_lines))
+    schema_json = json.loads(''.join(schema_lines), 'latin1')
 
     if app.config['SEND_MAIL'] and not app.debug:
       send_notification_email('TF2 Schema Update: %s' % time.ctime(time.time()), 'Last modified time was %s' % dt.strftime('%a, %d %b %Y %X GMT'))
@@ -765,7 +765,7 @@ def get_schema(template_info):
     if e.code == 304:
       print '[IMPORTANT] Cached schema is up-to-date!'
       schema = open(schema_cache)
-      schema_json = json.load(schema)
+      schema_json = json.load(schema, 'latin1')
       schema.close()
     else:
       return None
