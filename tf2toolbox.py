@@ -214,6 +214,7 @@ def get_user_backpack(template_info, steamID):
     if url_file is None:
       return None
     url_file = url_file.replace('.\n', '.0\n')
+    url_file = url_file.replace('\x04', '')
     bp_json = json.loads(url_file, 'latin1')
 
   status = bp_json['result']['status']
