@@ -219,6 +219,7 @@ QUALITY_BBCODE_MAP = {
   'Strange': '[color=#CD9B1D]Strange ',
   'Vintage': '[color=#476291]Vintage ',
   'Unique': '[color=#A59003]',
+  'Normal': '[color=#B2B2B2]',
   'Community': '[color=#70B04A]Community ',
   'Self-Made': '[color=#70B04A]Self-Made ',
   'Valve': '[color=#A50F79]Valve ',
