@@ -247,7 +247,7 @@ ALT_WEAPONS = set(['Lugermorph', # Pistol
                'Wanga Prick', # Your Eternal Reward
                'Apoco-Fists', # Fists
                'Unarmed Combat', # Holy Mackerel
-               'Festive Bat', 'Festive Scattergun', 'Festive Rocket Launcher', 'Festive Flamethrower',
+               'Festive Bat', 'Festive Scattergun', 'Festive Rocket Launcher', 'Festive Flame Thrower',
                'Festive Stickybomb Launcher', 'Festive Minigun', 'Festive Wrench', 'Festive Medi Gun',
                'Festive Sniper Rifle', 'Festive Knife' # Festive Weapons
                ])
