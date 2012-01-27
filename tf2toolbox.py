@@ -13,12 +13,10 @@ from email.mime.base import MIMEBase
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import os
-import json
+import simplejson as json
 import smtplib
 import time
 import urllib2
-import xml.etree.ElementTree as xml
-from xml.parsers.expat import ExpatError
 
 import bpdata
 
@@ -130,6 +128,56 @@ def internal_server_error(e):
 
   return render_template('500.html', error_info=error_msg)
 
+def resolve_vanity_url(template_info, vanity_id):
+  """
+  Given a Steam Community vanity ID, get the 64 bit Steam ID.
+  """
+  api_call = 'http://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/?vanityurl=%s&key=%s' % (vanity_id, app.config['STEAM_API_KEY'])
+
+  try:
+    rtime = time.time()
+    url_file = urllib2.urlopen(api_call).read()
+    template_info['api_time'] += time.time() - rtime
+    api_json = json.loads(url_file, 'latin1')  # Needs to be latin1 due to funky character names for usernames.
+  except urllib2.URLError:
+    template_info['error_msg'] = "We were unable to retrieve that user's backpack. The URL may be wrong or the SteamAPI may be down.\n"
+    return None
+
+  status = api_json['response']['success']
+  if status == 1:
+    return api_json['response']['steamid']
+  elif status == 42:
+    template_info['error_msg'] = "Sorry, %s is not a valid SteamCommunity ID.\n" % vanity_id
+  else:
+    template_info['error_msg'] = "There is a problem with Valve's API."
+  return None
+
+def get_player_info(template_info, steamID):
+  """
+  Given a 64 bit Steam ID, set session variables.
+  """
+  api_call = 'http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?steamids=%s&key=%s' % (steamID, app.config['STEAM_API_KEY'])
+
+  try:
+    rtime = time.time()
+    url_file = urllib2.urlopen(api_call).read()
+    template_info['api_time'] += time.time() - rtime
+    api_json = json.loads(url_file, 'latin1')  # Needs to be latin1 due to funky character names for usernames.
+  except urllib2.URLError:
+    template_info['error_msg'] = "We were unable to retrieve that user's info. The URL may be wrong or the SteamAPI may be down.\n"
+    return None
+
+  player_info = api_json['response']['players'][0]
+
+  if 'personaname' in player_info:
+    session['username'] = player_info['personaname']
+  if 'steamid' in player_info:
+    session['steamID'] = player_info['steamid']
+  if 'avatarmedium' in player_info:
+    session['avatar'] = player_info['avatarmedium']
+
+  return True
+
 def set_user_session(template_info, steamURL):
   """
   Given a Steam Community URL, sets the following session variables for the current user:
@@ -151,36 +199,15 @@ def set_user_session(template_info, steamURL):
     template_info['error_msg'] = "That was not a valid Steam Community URL.\n"
     return
 
-  steamURL += "?xml=1"
+  if steamURL.startswith('http://steamcommunity.com/id/'):
+    steamID64 = resolve_vanity_url(template_info, steamURL[len('http://steamcommunity.com/id/'):])
+    if steamID64 is None:
+      return
+    session['customURL'] = steamURL[len('http://steamcommunity.com/id/'):]
+  else:
+    steamID64 = steamURL[len('http://steamcommunity.com/profiles/'):]
 
-  try:
-    rtime = time.time()
-    url_file = urllib2.urlopen(steamURL)
-    template_info['api_time'] += time.time() - rtime
-    user_data = xml.XML(url_file.read())
-    url_file.close()
-    for child in user_data:
-      if child.text is None:
-        continue
-      if child.tag == 'steamID':
-        if not child.text:
-          template_info['error_msg'] = 'This user has not yet set up his/her Steam Community profile.'
-          return
-        session['username'] = child.text
-      elif child.tag == 'avatarMedium':
-        session['avatar'] = child.text
-      elif child.tag == 'steamID64':
-        session['steamID'] = child.text
-      elif child.tag == 'customURL':
-        session['customURL'] = child.text
-  except urllib2.URLError:
-    template_info['error_msg'] = "We were unable to retrieve that URL. Please try again!\n"
-    return
-  except UnicodeEncodeError:
-    template_info['error_msg'] = "Your URL contained an invalid character. Make sure that URL points to an existing Steam Community page!"
-    return
-  except ExpatError:
-    pass
+  get_player_info(template_info, steamID64)
 
   if 'username' not in session or 'avatar' not in session or 'steamID' not in session:
     template_info['error_msg'] = "We were unable to retrieve info for that profile.\n"
@@ -190,6 +217,7 @@ def set_user_session(template_info, steamURL):
   if not bp_json:
     return
   session['num_bp_slots'] = bp_json['result']['num_backpack_slots']
+  print session['num_bp_slots']
 
 
 def get_user_backpack(template_info, steamID):

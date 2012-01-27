@@ -69,7 +69,7 @@
         </div>
 
 {% if "num_bp_slots" in session %}
-{% set pages = session["num_bp_slots"] / 50 %}
+{% set pages = session["num_bp_slots"] // 50 %}
         <div class="checkbox_column">
           <span class="checkbox_title bptext_color">Pages:</span>
           <input type="checkbox" name="pages[]" value="all" checked>All<br />
