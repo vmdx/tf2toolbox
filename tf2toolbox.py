@@ -199,15 +199,19 @@ def set_user_session(template_info, steamURL):
     template_info['error_msg'] = "That was not a valid Steam Community URL.\n"
     return
 
-  if steamURL.startswith('http://steamcommunity.com/id/'):
-    steamID64 = resolve_vanity_url(template_info, steamURL[len('http://steamcommunity.com/id/'):])
-    if steamID64 is None:
-      return
-    session['customURL'] = steamURL[len('http://steamcommunity.com/id/'):]
-  else:
-    steamID64 = steamURL[len('http://steamcommunity.com/profiles/'):]
+  try:
+    if steamURL.startswith('http://steamcommunity.com/id/'):
+      steamID64 = resolve_vanity_url(template_info, steamURL[len('http://steamcommunity.com/id/'):])
+      if steamID64 is None:
+        return
+      session['customURL'] = steamURL[len('http://steamcommunity.com/id/'):]
+    else:
+      steamID64 = steamURL[len('http://steamcommunity.com/profiles/'):]
 
-  get_player_info(template_info, steamID64)
+    get_player_info(template_info, steamID64)
+  except UnicodeEncodeError:
+    template_info['error_msg'] = 'Your Steam Community URL contained an invalid character.'
+    return
 
   if 'username' not in session or 'avatar' not in session or 'steamID' not in session:
     template_info['error_msg'] = "We were unable to retrieve info for that profile.\n"
