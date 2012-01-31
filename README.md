@@ -1,19 +1,21 @@
-Changelog is located in 'tf2toolbox/static/changelog.txt'
+TF2Toolbox
+==========
 
+Backpack parsing utilities for Team Fortress 2.
 
-== TF2Toolbox -- backpack parsing utilities for Team Fortress 2
-
-=== Quickstart
+Quickstart
+----------
 
 Fill out a 'config.py' file - the 'config.py.example' file will guide you.
 
 Get the requirements.
-    pip install -r requirements.txt
+	pip install -r requirements.txt
 
 Start the server!
-    python tf2toolbox.py
+	python tf2toolbox.py
 
-=== Info
+Info
+----
 
 There is a changelog located in 'static/changelog.txt'.
 
