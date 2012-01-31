@@ -9,10 +9,10 @@ Quickstart
 Fill out a 'config.py' file - the 'config.py.example' file will guide you.
 
 Get the requirements.
-	pip install -r requirements.txt
+    pip install -r requirements.txt
 
 Start the server!
-	python tf2toolbox.py
+    python tf2toolbox.py
 
 Info
 ----
