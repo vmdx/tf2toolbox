@@ -1,0 +1,6 @@
+# TF2Toolbox files to ignore
+config.py
+schema.json
+
+# Python
+*.py[co]
