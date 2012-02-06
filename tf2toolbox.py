@@ -14,6 +14,7 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import os
 import simplejson as json
+import socket
 import smtplib
 import time
 import urllib2
@@ -232,22 +233,27 @@ def get_user_backpack(template_info, steamID):
   """
   backpack_url = "http://api.steampowered.com/IEconItems_440/GetPlayerItems/v0001/?SteamID=" + steamID + "&key=" + app.config['STEAM_API_KEY']
   url_file = None
-  try:
-    rtime = time.time()
-    url_file = urllib2.urlopen(backpack_url).read()
-    template_info['api_time'] += time.time() - rtime
-    bp_json = json.loads(url_file, 'latin1')  # Needs to be latin1 due to funky character names for gifted items.
-  except urllib2.URLError:
-    template_info['error_msg'] = "We were unable to retrieve that user's backpack. The URL may be wrong or the SteamAPI may be down.\n"
-    return None
-  except ValueError, e:
-    # We need to find the offensive line of text and fix it.
-    print "Caught malformed JSON, attempting to fix."
-    if url_file is None:
+  retries = 5
+  while retries > 0:
+    try:
+      rtime = time.time()
+      url_file = urllib2.urlopen(backpack_url).read()
+      template_info['api_time'] += time.time() - rtime
+      bp_json = json.loads(url_file, 'latin1')  # Needs to be latin1 due to funky character names for gifted items.
+      break
+    except urllib2.URLError:
+      template_info['error_msg'] = "We were unable to retrieve that user's backpack. The URL may be wrong or the SteamAPI may be down.\n"
       return None
-    url_file = url_file.replace('.\n', '.0\n')
-    url_file = url_file.replace('\x04', '')
-    bp_json = json.loads(url_file, 'latin1')
+    except ValueError, e:
+      # We need to find the offensive line of text and fix it.
+      print "Caught malformed JSON, attempting to fix."
+      if url_file is None:
+        return None
+      url_file = url_file.replace('.\n', '.0\n')
+      url_file = url_file.replace('\x04', '')
+      bp_json = json.loads(url_file, 'latin1')
+    except socket.error, e:
+      retries -= 1
 
   status = bp_json['result']['status']
   if status == 1: #backpack validation
