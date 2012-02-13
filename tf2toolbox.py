@@ -164,6 +164,10 @@ def get_player_info(template_info, steamID):
     url_file = urllib2.urlopen(api_call).read()
     template_info['api_time'] += time.time() - rtime
     api_json = json.loads(url_file, 'latin1')  # Needs to be latin1 due to funky character names for usernames.
+    if 'response' not in api_json or 'players' not in api_json or not api_json['response']['players']:
+      template_info['error_msg'] = "We were unable to retrieve info for that profile.\n"
+      return
+
   except urllib2.URLError:
     template_info['error_msg'] = "We were unable to retrieve that user's info. The URL may be wrong or the SteamAPI may be down.\n"
     return None

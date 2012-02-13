@@ -4,3 +4,7 @@ schema.json
 
 # Python
 *.py[co]
+
+# Vim
+*.swp
+
