@@ -213,7 +213,8 @@ def set_user_session(template_info, steamURL):
       steamID64 = steamURL[len('http://steamcommunity.com/profiles/'):]
 
     get_player_info(template_info, steamID64)
-  except UnicodeEncodeError:
+  except UnicodeEncodeError, e:
+    print e
     template_info['error_msg'] = 'Your Steam Community URL contained an invalid character.'
     return
 
@@ -235,10 +236,11 @@ def get_user_backpack(template_info, steamID):
   In the case of an error, adds an error message to template_info.
   """
   backpack_url = "http://api.steampowered.com/IEconItems_440/GetPlayerItems/v0001/?SteamID=" + steamID + "&key=" + app.config['STEAM_API_KEY']
-  url_file = None
+  bp_text = None
 
   rtime = time.time()
   req = requests.get(backpack_url)
+  req.encoding = 'latin1'
   if not req.ok:
     template_info['error_msg'] = "We were unable to retrieve that user's backpack. The URL may be wrong or the SteamAPI may be down.\n"
     return None
@@ -247,18 +249,20 @@ def get_user_backpack(template_info, steamID):
   template_info['api_time'] += time.time() - rtime
 
   try:
-    bp_json = json.loads(str(req.text), 'latin1')  # Needs to be latin1 due to funky character names for gifted items.
+    bp_text = str(req.content)
+    bp_json = json.loads(bp_text, 'latin1')  # Needs to be latin1 due to funky character names for gifted items.
   except ValueError, e:
     # We need to find the offensive line of text and fix it.
     print "Caught malformed JSON, attempting to fix."
-    if url_file is None:
+    if bp_text is None:
       return None
-    url_file = url_file.replace('.\n', '.0\n')
-    url_file = url_file.replace('\x04', '')
-    bp_json = json.loads(url_file, 'latin1')
+    bp_text = bp_text.replace('.\n', '.0\n')
+    bp_text = bp_text.replace('\x04', '')
+    bp_json = json.loads(bp_text, 'latin1')
 
   status = bp_json['result']['status']
   if status == 1: #backpack validation
+    print 'got here'
     return bp_json
   elif status == 15:
     template_info['error_msg'] = "Sorry, this user's backpack is private.\n"
@@ -557,6 +561,8 @@ def bp_parse(template_info, bp, form, session_info):
   # The scout one looks like this: (1, 0, 'Scout')
   # This way, it gets sorted ahead of all the Scout weapons/hats (due to the 0).
   for item in bp['result']['items']:
+
+    print item
 
     # Set item info from schema
     item['name'] = s[item['defindex']]['name']
