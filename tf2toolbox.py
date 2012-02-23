@@ -562,8 +562,6 @@ def bp_parse(template_info, bp, form, session_info):
   # This way, it gets sorted ahead of all the Scout weapons/hats (due to the 0).
   for item in bp['result']['items']:
 
-    print item
-
     # Set item info from schema
     item['name'] = s[item['defindex']]['name']
     item['slot'] = s[item['defindex']]['slot']
@@ -784,11 +782,11 @@ def get_schema(template_info):
 
   dt = datetime.datetime.utcfromtimestamp(mtime)
 
-
   rtime = time.time()
 
   print '[SCHEMA] Checking schema at %s for mtime: %s' % (schema_cache, dt.strftime('%a, %d %b %Y %X GMT'))
   req = requests.get(schema_url, headers={'If-Modified-Since': dt.strftime('%a, %d %b %Y %X GMT')})
+  req.encoding = 'latin1'
 
   if req.status_code == 304:
     print '[IMPORTANT] Cached schema is up-to-date!'
@@ -800,7 +798,7 @@ def get_schema(template_info):
     template_info['error_msg'] = "We were unable to retrieve the TF2 item schema. The SteamAPI may be down.\n"
     return None
   else:
-    schema = str(req.text)
+    schema = str(req.content)
 
   template_info['api_time'] += time.time() - rtime
   print '[SCHEMA] Retrieving new schema.'
