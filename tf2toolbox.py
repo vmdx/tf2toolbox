@@ -13,11 +13,11 @@ from email.mime.base import MIMEBase
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import os
+import requests
 import simplejson as json
 import socket
 import smtplib
 import time
-import urllib2
 
 import bpdata
 
@@ -135,14 +135,14 @@ def resolve_vanity_url(template_info, vanity_id):
   """
   api_call = 'http://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/?vanityurl=%s&key=%s' % (vanity_id, app.config['STEAM_API_KEY'])
 
-  try:
-    rtime = time.time()
-    url_file = urllib2.urlopen(api_call).read()
-    template_info['api_time'] += time.time() - rtime
-    api_json = json.loads(url_file, 'latin1')  # Needs to be latin1 due to funky character names for usernames.
-  except urllib2.URLError:
+  rtime = time.time()
+  req = requests.get(api_call)
+  if not req.ok:
     template_info['error_msg'] = "We were unable to retrieve that user's backpack. The URL may be wrong or the SteamAPI may be down.\n"
     return None
+
+  template_info['api_time'] += time.time() - rtime
+  api_json = json.loads(str(req.text), 'latin1')  # Needs to be latin1 due to funky character names for usernames.
 
   status = api_json['response']['success']
   if status == 1:
@@ -159,19 +159,17 @@ def get_player_info(template_info, steamID):
   """
   api_call = 'http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?steamids=%s&key=%s' % (steamID, app.config['STEAM_API_KEY'])
 
-  try:
-    rtime = time.time()
-    url_file = urllib2.urlopen(api_call).read()
-    template_info['api_time'] += time.time() - rtime
-    api_json = json.loads(url_file, 'latin1')  # Needs to be latin1 due to funky character names for usernames.
-    print api_json
-    if 'response' not in api_json or 'players' not in api_json['response'] or not api_json['response']['players']:
-      template_info['error_msg'] = "We were unable to retrieve info for that profile.\n"
-      return
-
-  except urllib2.URLError:
-    template_info['error_msg'] = "We were unable to retrieve that user's info. The URL may be wrong or the SteamAPI may be down.\n"
+  rtime = time.time()
+  req = requests.get(api_call)
+  if not req.ok:
+    template_info['error_msg'] = "We were unable to retrieve that user's backpack. The URL may be wrong or the SteamAPI may be down.\n"
     return None
+
+  template_info['api_time'] += time.time() - rtime
+  api_json = json.loads(str(req.text), 'latin1')  # Needs to be latin1 due to funky character names for usernames.
+  if 'response' not in api_json or 'players' not in api_json['response'] or not api_json['response']['players']:
+    template_info['error_msg'] = "We were unable to retrieve info for that profile.\n"
+    return
 
   player_info = api_json['response']['players'][0]
 
@@ -238,27 +236,26 @@ def get_user_backpack(template_info, steamID):
   """
   backpack_url = "http://api.steampowered.com/IEconItems_440/GetPlayerItems/v0001/?SteamID=" + steamID + "&key=" + app.config['STEAM_API_KEY']
   url_file = None
-  retries = 5
-  while retries > 0:
-    try:
-      rtime = time.time()
-      url_file = urllib2.urlopen(backpack_url).read()
-      template_info['api_time'] += time.time() - rtime
-      bp_json = json.loads(url_file, 'latin1')  # Needs to be latin1 due to funky character names for gifted items.
-      break
-    except urllib2.URLError:
-      template_info['error_msg'] = "We were unable to retrieve that user's backpack. The URL may be wrong or the SteamAPI may be down.\n"
+
+  rtime = time.time()
+  req = requests.get(backpack_url)
+  if not req.ok:
+    template_info['error_msg'] = "We were unable to retrieve that user's backpack. The URL may be wrong or the SteamAPI may be down.\n"
+    return None
+
+
+  template_info['api_time'] += time.time() - rtime
+
+  try:
+    bp_json = json.loads(str(req.text), 'latin1')  # Needs to be latin1 due to funky character names for gifted items.
+  except ValueError, e:
+    # We need to find the offensive line of text and fix it.
+    print "Caught malformed JSON, attempting to fix."
+    if url_file is None:
       return None
-    except ValueError, e:
-      # We need to find the offensive line of text and fix it.
-      print "Caught malformed JSON, attempting to fix."
-      if url_file is None:
-        return None
-      url_file = url_file.replace('.\n', '.0\n')
-      url_file = url_file.replace('\x04', '')
-      bp_json = json.loads(url_file, 'latin1')
-    except socket.error, e:
-      retries -= 1
+    url_file = url_file.replace('.\n', '.0\n')
+    url_file = url_file.replace('\x04', '')
+    bp_json = json.loads(url_file, 'latin1')
 
   status = bp_json['result']['status']
   if status == 1: #backpack validation
@@ -781,38 +778,37 @@ def get_schema(template_info):
 
   dt = datetime.datetime.utcfromtimestamp(mtime)
 
-  schema_req = urllib2.Request(schema_url)
-  schema_req.add_header('If-Modified-Since', dt.strftime('%a, %d %b %Y %X GMT'))
+
+  rtime = time.time()
 
   print '[SCHEMA] Checking schema at %s for mtime: %s' % (schema_cache, dt.strftime('%a, %d %b %Y %X GMT'))
+  req = requests.get(schema_url, headers={'If-Modified-Since': dt.strftime('%a, %d %b %Y %X GMT')})
 
-  try:
-    rtime = time.time()
-    schema = urllib2.urlopen(schema_req)
-    template_info['api_time'] += time.time() - rtime
-    print '[SCHEMA] Retrieving new schema.'
-    schema_lines = schema.readlines()
+  if req.status_code == 304:
+    print '[IMPORTANT] Cached schema is up-to-date!'
+    schema = open(schema_cache)
+    schema_json = json.load(schema, 'latin1')
+    schema.close()
+    return schema_json
+  elif not req.ok:
+    template_info['error_msg'] = "We were unable to retrieve the TF2 item schema. The SteamAPI may be down.\n"
+    return None
+  else:
+    schema = str(req.text)
 
-    new_schema_cache = open(schema_cache, 'w')
-    print '[SCHEMA] Writing new schema cache.'
-    new_schema_cache.writelines(schema_lines)
-    new_schema_cache.close()
+  template_info['api_time'] += time.time() - rtime
+  print '[SCHEMA] Retrieving new schema.'
 
-    schema_json = json.loads(''.join(schema_lines), 'latin1')
+  new_schema_cache = open(schema_cache, 'w')
+  print '[SCHEMA] Writing new schema cache.'
+  new_schema_cache.write(schema)
+  new_schema_cache.close()
 
-    if app.config['SEND_MAIL'] and not app.debug:
-      send_notification_email('TF2 Schema Update: %s' % time.ctime(time.time()), 'Last modified time was %s' % dt.strftime('%a, %d %b %Y %X GMT'))
-      print '[SCHEMA] Update email successfully sent!'
+  schema_json = json.loads(schema, 'latin1')
 
-  except urllib2.HTTPError, e:
-    print e
-    if e.code == 304:
-      print '[IMPORTANT] Cached schema is up-to-date!'
-      schema = open(schema_cache)
-      schema_json = json.load(schema, 'latin1')
-      schema.close()
-    else:
-      return None
+  if app.config['SEND_MAIL'] and not app.debug:
+    send_notification_email('TF2 Schema Update: %s' % time.ctime(time.time()), 'Last modified time was %s' % dt.strftime('%a, %d %b %Y %X GMT'))
+    print '[SCHEMA] Update email successfully sent!'
 
   return schema_json
 
