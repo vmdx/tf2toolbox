@@ -159,7 +159,9 @@ PAINT_NUMBER_MAP = {
     8400928: "Value of Teamwork",
     2452877: "Value of Teamwork",
     11049612: "Lab Coat",
-    8626083: "Lab Coat"
+    8626083: "Lab Coat",
+    12377523: "A Mann's Mint",
+    2960676: "After Eight"
   },
   3100495: "[color=#2f4f4f]Slate[/color]",
   8208497: "[color=#7d4071]Purple[/color]",
@@ -197,7 +199,10 @@ PAINT_NUMBER_MAP = {
   8400928: "[color=#803020]Value of [/color][color=#256d8d]Teamwork[/color]",
   2452877: "[color=#803020]Value of [/color][color=#256d8d]Teamwork[/color]",
   11049612: "[color=#a89a8c]Lab [/color][color=#839fa3]Coat[/color]",
-  8626083: "[color=#a89a8c]Lab [/color][color=#839fa3]Coat[/color]"
+  8626083: "[color=#a89a8c]Lab [/color][color=#839fa3]Coat[/color]",
+  # Feb 23 After Eight and Mann's Mint paints!
+  12377523: "[color=#bcddb3]Mann's Mint[/color]",
+  2960676: "[color=#2d2d24]After Eight[/color]"
 }
 
 
