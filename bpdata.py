@@ -118,7 +118,10 @@ PAINT_MAP = {
   "Cream Spirit": "[color=#c36c2d]Cream [/color][color=#b88035]Spirit",
   "Operator's Overalls": "[color=#483838]Operator's [/color][color=#384248]Overalls",
   "The Value of Teamwork": "[color=#803020]The Value [/color][color=#256d8d]of Teamwork",
-  "Waterlogged Lab Coat": "[color=#a89a8c]Waterlogged [/color][color=#839fa3]Lab Coat"
+  "Waterlogged Lab Coat": "[color=#a89a8c]Waterlogged [/color][color=#839fa3]Lab Coat",
+  # New paints from Feb 23
+  "A Mann's Mint": "[color=#bcddb3]A Mann's Mint",
+  "After Eight": "[color=#2d2d24]After Eight"
 }
 
 PAINT_NUMBER_MAP = {
@@ -201,7 +204,7 @@ PAINT_NUMBER_MAP = {
   11049612: "[color=#a89a8c]Lab [/color][color=#839fa3]Coat[/color]",
   8626083: "[color=#a89a8c]Lab [/color][color=#839fa3]Coat[/color]",
   # Feb 23 After Eight and Mann's Mint paints!
-  12377523: "[color=#bcddb3]Mann's Mint[/color]",
+  12377523: "[color=#bcddb3]Mint[/color]",
   2960676: "[color=#2d2d24]After Eight[/color]"
 }
 
