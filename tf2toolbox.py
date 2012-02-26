@@ -137,12 +137,13 @@ def resolve_vanity_url(template_info, vanity_id):
 
   rtime = time.time()
   req = requests.get(api_call)
+  req.encoding = 'latin1'
   if not req.ok:
     template_info['error_msg'] = "We were unable to retrieve that user's backpack. The URL may be wrong or the SteamAPI may be down.\n"
     return None
 
   template_info['api_time'] += time.time() - rtime
-  api_json = json.loads(str(req.text), 'latin1')  # Needs to be latin1 due to funky character names for usernames.
+  api_json = json.loads(str(req.content), 'latin1')  # Needs to be latin1 due to funky character names for usernames.
 
   status = api_json['response']['success']
   if status == 1:
@@ -161,12 +162,13 @@ def get_player_info(template_info, steamID):
 
   rtime = time.time()
   req = requests.get(api_call)
+  req.encoding = 'latin1'
   if not req.ok:
     template_info['error_msg'] = "We were unable to retrieve that user's backpack. The URL may be wrong or the SteamAPI may be down.\n"
     return None
 
   template_info['api_time'] += time.time() - rtime
-  api_json = json.loads(str(req.text), 'latin1')  # Needs to be latin1 due to funky character names for usernames.
+  api_json = json.loads(str(req.content), 'latin1')  # Needs to be latin1 due to funky character names for usernames.
   if 'response' not in api_json or 'players' not in api_json['response'] or not api_json['response']['players']:
     template_info['error_msg'] = "We were unable to retrieve info for that profile.\n"
     return
