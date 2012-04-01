@@ -8,3 +8,5 @@ schema.json
 # Vim
 *.swp
 
+# saved API resources for debugging
+resources/
