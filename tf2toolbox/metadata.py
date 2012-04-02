@@ -12,16 +12,6 @@ TF2CLASS_SORT_DICT = {
   'Multiple': 10
 }
 
-# TF2 patch released used for sorting by release
-# Sorted in reverse chronological order (latest = first)
-TF2RELEASE_SORT_DICT = {
-
-}
-
-TF2RELEASE_INFO = {
-
-}
-
 # BPText form categories, in order.
 BPTEXT_FORM_CATEGORIES = [
   'Unusual Hats',
@@ -209,6 +199,10 @@ PAINT_NUMBER_MAP = {
 }
 
 
+# Note: the below update means the info in this variable does not need to be updated anymore.
+# This map is used to determine off-level weapons.
+# Random leveling is no longer a feature as of the May 29, 2009 Patch. All new items receive a standard level.
+# However, hats will still receive random levels between 1 and 100, and all existing items with random levels will still retain them.
 WEAPON_LEVEL_MAP = {
   1: ["Buffalo Steak Sandvich", "Dalokohs Bar", "Direct Hit", "Normal items", "Rocket Jumper", "Sandvich", "Shortstop", "Sticky Jumper", "Sydney Sleeper", "Your Eternal Reward"],
   5: ["Ambassador", "Black Box", "Big Kill", "Blutsauger", "Bonk! Atomic Punch", "Brass Beast", "Buff Banner", "Bushwacka", "Claidheamh M\x83r", "Cloak and Dagger", "Crit-a-Cola", "Dead Ringer", "Enthusiast's Timepiece", "Eyelander", "Frontier Justice", "Frying Pan", "Homewrecker", "Iron Curtain", "Jarate", "L'Etranger", "Lugermorph", "Mad Milk", "Natascha", "Pain Train", "Powerjack", "Scotsman's Skullcutter", "Scottish Resistance", "Tribalman's Shiv", "Vita-Saw", "Wrangler"],
@@ -261,6 +255,5 @@ ALT_WEAPONS = set(['Lugermorph', # Pistol
                'Black Rose' # Knife
                ])
 
-# Why does it say the Sharp Dresser, Wanga Prick, and the Unarmed Combat are essential weapons when they're just reskins?
-
 LIMITED_WEAPONS = set(['Golden Wrench', 'Saxxy', 'Beta Quick-Fix'])
+
