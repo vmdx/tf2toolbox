@@ -4,7 +4,7 @@ import time
 from tf2toolbox import app
 from tf2toolbox.exceptions import TF2ToolboxException
 from tf2toolbox.steamapi import get_user_backpack
-from tf2toolbox.utils import set_user_session, send_notification_email
+from tf2toolbox.utils import set_user_session, send_notification_email, get_steamid_from_url
 
 import tf2toolbox.bptext
 import tf2toolbox.metal
@@ -49,9 +49,22 @@ def bptext():
   template_info = {'nav_cell': 'Backpack Text', 'signin_action': '/bptext'}
   if request.method == 'POST' and request.form['form_id'] == 'bptext' and 'steamID' in session:
     try:
-      bp_json = get_user_backpack(session['steamID'])
-      template_info['bptext_result_string'] = tf2toolbox.bptext.bp_parse(bp_json, request.form, session)
-      template_info['bptext_params'] = tf2toolbox.bptext.bptext_form_to_params(request.form)
+      multi_accounts = request.form['multi'].splitlines()
+      if len(multi_accounts) > 1:
+        bp_strings = []
+        for account in multi_accounts:
+          account_sid = get_steamid_from_url(account)
+          bp_json = get_user_backpack(account_sid)
+          fake_session = {'steamID': account_sid}
+          if account.startswith('http://steamcommunity.com/id/'):
+            fake_session['customURL'] = account[len('http://steamcommunity.com/id/'):]
+          bp_strings.append('*** Backpack for ' + account + '\n\n' + tf2toolbox.bptext.bp_parse(bp_json, request.form, fake_session))
+        template_info['bptext_result_string'] = '\n\n----------------------------------------\n\n'.join(bp_strings)
+        template_info['bptext_params'] = tf2toolbox.bptext.bptext_form_to_params(request.form)
+      else:
+        bp_json = get_user_backpack(session['steamID'])
+        template_info['bptext_result_string'] = tf2toolbox.bptext.bp_parse(bp_json, request.form, session)
+        template_info['bptext_params'] = tf2toolbox.bptext.bptext_form_to_params(request.form)
     except TF2ToolboxException as e:
       template_info['error_msg'] = str(e)
     return render_template('bptext_result.html', template_info=template_info, session=session)

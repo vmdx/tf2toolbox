@@ -3,6 +3,23 @@ from flask import session
 from tf2toolbox.exceptions import TF2ToolboxException
 from tf2toolbox.steamapi import resolve_vanity_url, get_player_info, get_user_backpack
 
+def get_steamid_from_url(steamURL):
+  if not steamURL.startswith('http://steamcommunity.com/id/') and not steamURL.startswith('http://steamcommunity.com/profiles/'):
+    raise TF2ToolboxException("That was not a valid Steam Community URL.\n")
+
+  try:
+    if steamURL.startswith('http://steamcommunity.com/id/'):
+      steamID64 = resolve_vanity_url(steamURL[len('http://steamcommunity.com/id/'):])
+      if steamID64 is None:
+        return
+    else:
+      steamID64 = steamURL[len('http://steamcommunity.com/profiles/'):]
+
+  except UnicodeEncodeError, e:
+    raise TF2ToolboxException('Your Steam Community URL contained an invalid character.')
+
+  return steamID64
+
 def set_user_session(steamURL):
   """
   Given a Steam Community URL, sets the following session variables for the current user:
