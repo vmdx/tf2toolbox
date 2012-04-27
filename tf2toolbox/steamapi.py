@@ -26,9 +26,9 @@ def get_schema():
   print '[SCHEMA] Checking schema at %s for mtime: %s' % (schema_cache, dt.strftime('%a, %d %b %Y %X GMT'))
 
   try:
-    req = requests.get(schema_url, headers={'If-Modified-Since': dt.strftime('%a, %d %b %Y %X GMT')})
+    req = requests.get(schema_url, headers={'If-Modified-Since': dt.strftime('%a, %d %b %Y %X GMT')}, timeout=5)
     req.encoding = 'latin1'
-  except requests.exceptions.ConnectionError:
+  except (requests.exceptions.ConnectionError, requests.exceptions.Timeout):
     raise TF2ToolboxException("We were unable to retrieve the TF2 item schema. The SteamAPI may be down - please try again shortly.\n")
 
   if req.status_code == 304:
@@ -61,9 +61,9 @@ def get_user_backpack(steamid):
   bp_text = None
 
   try:
-    req = requests.get(backpack_url)
+    req = requests.get(backpack_url, timeout=5)
     req.encoding = 'latin1'
-  except requests.exceptions.ConnectionError:
+  except (requests.exceptions.ConnectionError, requests.exceptions.Timeout):
     raise TF2ToolboxException("We were unable to retrieve that user's backpack. The SteamAPI may be down - please try again shortly.\n")
 
 
@@ -99,9 +99,9 @@ def get_player_info(steamid):
   api_call = 'http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?steamids=%s&key=%s' % (steamid, app.config['STEAM_API_KEY'])
 
   try:
-    req = requests.get(api_call)
+    req = requests.get(api_call, timeout=5)
     req.encoding = 'latin1'
-  except requests.exceptions.ConnectionError:
+  except (requests.exceptions.ConnectionError, requests.exceptions.Timeout):
     raise TF2ToolboxException("We were unable to retrieve that player's info. The SteamAPI may be down - please try again shortly.\n")
 
 
@@ -131,9 +131,9 @@ def resolve_vanity_url(vanity_id):
   api_call = 'http://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/?vanityurl=%s&key=%s' % (vanity_id, app.config['STEAM_API_KEY'])
 
   try:
-    req = requests.get(api_call)
+    req = requests.get(api_call, timeout=5)
     req.encoding = 'latin1'
-  except requests.exceptions.ConnectionError:
+  except (requests.exceptions.ConnectionError, requests.exceptions.Timeout):
     raise TF2ToolboxException("We were unable to retrieve that player's info. The SteamAPI may be down - please try again shortly.\n")
 
   if not req.ok:
