@@ -22,7 +22,7 @@ Thanks for stopping by!
 
 ### Use of Memcached
 
-TF2Toolbox can optionally use `memcached` to store SteamAPI results (vanity URL lookups, profile information, etc.). This
+TF2Toolbox can optionally use `memcached` to store SteamAPI results (vanity URL lookups, the schema!). This
 behavior can be set in `tf2toolbox/config.py`. Use of `memcached` requires memcached to be running locally.
 
 To install on Mac OS X:
@@ -31,7 +31,9 @@ brew install libevent
 
 To install on Linux:
 http://code.google.com/p/memcached/wiki/NewInstallFromPackage
+Or just apt-get install memcached
 
 Memcached keys and values:
-  'vmdx' -> 
-  (steam vanity name) -> (64 bit steam id)
+  'SCHEMA' -> the schema in a Python dict
+  'SCHEMA-CACHED-TIME' -> the last time the schema was cached
+  'VANITY-(steam vanity name)' -> (64 bit steam id)
