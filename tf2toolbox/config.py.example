@@ -27,4 +27,8 @@ EMAIL_SENDER_PASSWORD = 'your_password'
 # Who is going to receive the email? (should be the admin)
 EMAIL_RECEIVER = 'your_email@whatever.com'
 
+# Using memcached? Hooray, less API calls!
+USE_MEMCACHED = True
+# Where is memcached running?
+MEMCACHED_LOCATION = '127.0.0.1:11211'
 

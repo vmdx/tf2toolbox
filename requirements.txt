@@ -4,3 +4,5 @@ Werkzeug==0.8.1
 simplejson==2.3.2
 wsgiref==0.1.2
 requests==0.10.4
+# Only needed if you set USE_MEMCACHED = True in config.py
+python-memcached==1.48
