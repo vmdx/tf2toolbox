@@ -121,6 +121,10 @@ def bp_parse(bp, form, session_info):
         sort_key[0] += ' Untradeable'
         suffix_tags.append('Untradeable')
 
+      if 'flag_cannot_craft' in item:
+        sort_key[0] += ' Uncraftable'
+        suffix_tags.append('Uncraftable')
+
       if 'gifted' in item['attr']:
         sort_key[0] += ' Gifted'
         suffix_tags.append('Gifted')
@@ -185,6 +189,10 @@ def bp_parse(bp, form, session_info):
       if 'flag_cannot_trade' in item:
         sort_key[0] += ' Untradeable'
         suffix_tags.append('Untradeable')
+
+      if 'flag_cannot_craft' in item:
+        sort_key[0] += ' Uncraftable'
+        suffix_tags.append('Uncraftable')
 
       if 'gifted' in item['attr']:
         sort_key[0] += ' Gifted'
@@ -316,6 +324,9 @@ def should_skip(item, form):
 
   # Skip untradeables if optioned.
   if 'hide_untradeable' in form and 'flag_cannot_trade' in item:
+    return True
+
+  if 'hide_uncraftable' in form and 'flag_cannot_craft' in item:
     return True
 
   # Skip gifted if optioned.
