@@ -251,7 +251,7 @@ def bp_parse(bp, form, session_info):
 
   if form['inc_bp_link'] != 'none':
     if form['inc_bp_link'] == 'tf2b':
-      bptext_suffix_tags.append('TF2B: http://tf2b.com/%s' % (session_info['customURL'] if 'customURL' in session_info else session_info['steamID']))
+      bptext_suffix_tags.append('TF2B: http://tf2b.com/tf2/%s' % (session_info['customURL'] if 'customURL' in session_info else session_info['steamID']))
     elif form['inc_bp_link'] == 'tf2items':
       bptext_suffix_tags.append('TF2Items: http://tf2items.com/%s' % ('id/'+session_info['customURL'] if 'customURL' in session_info else 'profiles/'+session_info['steamID']))
     elif form['inc_bp_link'] == 'optf2':
