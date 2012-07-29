@@ -416,12 +416,20 @@ def bptext_form_to_params(form):
   # Options printing
   if 'only_dup_weps' in form:
     params_list.append('Only showing duplicate weapons!')
-  if 'hide_untradeable' in form and 'hide_gifted' in form:
+  if 'hide_untradeable' in form and 'hide_uncraftable' in form and 'hide_gifted' in form:
+    params_list.append('Hiding untradable, uncraftable and gifted items.'
+  elif 'hide_untradeable' in form and 'hide_gifted' in form:
     params_list.append('Hiding untradeable and gifted items.')
+  elif 'hide_uncraftable' in form and 'hide_gifted' in form:
+    params_list.append('Hiding uncraftable and gifted items.')
+  elif 'hide_untradeable' in form and 'hide_uncraftable' in form:
+    params_list.append('Hiding untradable and uncraftable items.')
   elif 'hide_gifted' in form:
     params_list.append('Hiding gifted items.')
   elif 'hide_untradeable' in form:
     params_list.append('Hiding untradeable items.')
+  elif 'hide_untradeable' in form:
+    params_list.append('Hiding uncraftable items.')
 
   # Print backpack pages displayed.
   page_list = form.getlist('pages[]')
