@@ -428,7 +428,7 @@ def bptext_form_to_params(form):
     params_list.append('Hiding gifted items.')
   elif 'hide_untradeable' in form:
     params_list.append('Hiding untradeable items.')
-  elif 'hide_untradeable' in form:
+  elif 'hide_uncraftable' in form:
     params_list.append('Hiding uncraftable items.')
 
   # Print backpack pages displayed.
