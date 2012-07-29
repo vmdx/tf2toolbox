@@ -417,7 +417,7 @@ def bptext_form_to_params(form):
   if 'only_dup_weps' in form:
     params_list.append('Only showing duplicate weapons!')
   if 'hide_untradeable' in form and 'hide_uncraftable' in form and 'hide_gifted' in form:
-    params_list.append('Hiding untradable, uncraftable and gifted items.'
+    params_list.append('Hiding untradable, uncraftable and gifted items.')
   elif 'hide_untradeable' in form and 'hide_gifted' in form:
     params_list.append('Hiding untradeable and gifted items.')
   elif 'hide_uncraftable' in form and 'hide_gifted' in form:
