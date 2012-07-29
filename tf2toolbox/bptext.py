@@ -121,6 +121,10 @@ def bp_parse(bp, form, session_info):
         sort_key[0] += ' Untradeable'
         suffix_tags.append('Untradeable')
 
+      if 'flag_cannot_craft' in item:
+        sort_key[0] += ' Uncraftable'
+        suffix_tags.append('Uncraftable')
+
       if 'gifted' in item['attr']:
         sort_key[0] += ' Gifted'
         suffix_tags.append('Gifted')
@@ -164,7 +168,7 @@ def bp_parse(bp, form, session_info):
 
 
     # Weapons
-    elif item['slot'] in ['primary', 'secondary', 'melee', 'pda', 'pda2']:
+    elif item['slot'] in ['primary', 'secondary', 'melee', 'pda', 'pda2'] and item['class'] != 'slot_token':
       quality = s['qualities'][item['quality']]
       # Suffixes: Quality tag, Untradeable, Gifted, CraftNum, Weapon Level for Vintage
       # TODO: Support UHHH and other unusual weapons. Should probably go in Genuine Weapons.
@@ -185,6 +189,10 @@ def bp_parse(bp, form, session_info):
       if 'flag_cannot_trade' in item:
         sort_key[0] += ' Untradeable'
         suffix_tags.append('Untradeable')
+
+      if 'flag_cannot_craft' in item:
+        sort_key[0] += ' Uncraftable'
+        suffix_tags.append('Uncraftable')
 
       if 'gifted' in item['attr']:
         sort_key[0] += ' Gifted'
@@ -243,7 +251,7 @@ def bp_parse(bp, form, session_info):
 
   if form['inc_bp_link'] != 'none':
     if form['inc_bp_link'] == 'tf2b':
-      bptext_suffix_tags.append('TF2B: http://tf2b.com/%s' % (session_info['customURL'] if 'customURL' in session_info else session_info['steamID']))
+      bptext_suffix_tags.append('TF2B: http://tf2b.com/tf2/%s' % (session_info['customURL'] if 'customURL' in session_info else session_info['steamID']))
     elif form['inc_bp_link'] == 'tf2items':
       bptext_suffix_tags.append('TF2Items: http://tf2items.com/%s' % ('id/'+session_info['customURL'] if 'customURL' in session_info else 'profiles/'+session_info['steamID']))
     elif form['inc_bp_link'] == 'optf2':
@@ -316,6 +324,9 @@ def should_skip(item, form):
 
   # Skip untradeables if optioned.
   if 'hide_untradeable' in form and 'flag_cannot_trade' in item:
+    return True
+
+  if 'hide_uncraftable' in form and 'flag_cannot_craft' in item:
     return True
 
   # Skip gifted if optioned.
@@ -405,12 +416,20 @@ def bptext_form_to_params(form):
   # Options printing
   if 'only_dup_weps' in form:
     params_list.append('Only showing duplicate weapons!')
-  if 'hide_untradeable' in form and 'hide_gifted' in form:
+  if 'hide_untradeable' in form and 'hide_uncraftable' in form and 'hide_gifted' in form:
+    params_list.append('Hiding untradable, uncraftable and gifted items.')
+  elif 'hide_untradeable' in form and 'hide_gifted' in form:
     params_list.append('Hiding untradeable and gifted items.')
+  elif 'hide_uncraftable' in form and 'hide_gifted' in form:
+    params_list.append('Hiding uncraftable and gifted items.')
+  elif 'hide_untradeable' in form and 'hide_uncraftable' in form:
+    params_list.append('Hiding untradable and uncraftable items.')
   elif 'hide_gifted' in form:
     params_list.append('Hiding gifted items.')
   elif 'hide_untradeable' in form:
     params_list.append('Hiding untradeable items.')
+  elif 'hide_uncraftable' in form:
+    params_list.append('Hiding uncraftable items.')
 
   # Print backpack pages displayed.
   page_list = form.getlist('pages[]')
