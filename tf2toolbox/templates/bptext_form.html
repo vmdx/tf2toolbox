@@ -14,69 +14,69 @@
       <div id="bptext_checkboxes">
         <div class="checkbox_column">
           <span class="checkbox_title bptext_color">Show Hats:</span>
-          <input type="checkbox" name="Unusual Hats" value="True" class="hat_box" checked><span style="color: #8650AC">Unusual</span><br />
-          <input type="checkbox" name="Rare Promos" value="True" class="hat_box" checked>Rare Promos  <img id="rare_promos_tooltip" class="info_tooltip" src="static/media/info_tooltip.png"><br />
-          <input type="checkbox" name="Genuine Hats" value="True" class="hat_box" checked><span style="color: #4D7455">Genuine</span><br />
-          <input type="checkbox" name="Vintage Hats" value="True" class="hat_box" checked><span style="color: #476291">Vintage</span><br />
-          <input type="checkbox" name="Normal Hats" value="True" class="hat_box" checked><span style="color: #A59003">Normal</span><br />
-          <input type="checkbox" name="Promo Hats" value="True" class="hat_box" checked>Promo<br />
+          <input type="checkbox" name="Unusual Hats" id="unusual_hats" value="True" class="hat_box" checked="checked"><label for="unusual_hats" style="color: #8650AC">Unusual</label><br/>
+          <input type="checkbox" name="Rare Promos" id="rare_promos" value="True" class="hat_box" checked="checked"><label for="rare_promos">Rare Promos</label>  <img id="rare_promos_tooltip" class="info_tooltip" src="static/media/info_tooltip.png"><br/>
+          <input type="checkbox" name="Genuine Hats" id="genuine_hats" value="True" class="hat_box" checked="checked"><label for="genuine_hats" style="color: #4D7455">Genuine</label><br/>
+          <input type="checkbox" name="Vintage Hats" id="vintage_hats" value="True" class="hat_box" checked="checked"><label for="vintage_hats" style="color: #476291">Vintage</label><br/>
+          <input type="checkbox" name="Normal Hats" id="normal_hats" value="True" class="hat_box" checked="checked"><label for="normal_hats" style="color: #A59003">Normal</label><br/>
+          <input type="checkbox" name="Promo Hats" id="promo_hats" value="True" class="hat_box" checked="checked"><label for="Promo Hats">Promo</label><br/>
 	  <button type="button" class="uncheck_button" onclick="uncheckAll('hat_box')">Clear Hats</button>
         </div>
         <div class="checkbox_column" style="padding-right: 18px;">
           <span class="checkbox_title bptext_color">Weapons:</span>
-          <input type="checkbox" name="Genuine Weapons" value="True" class="wp_box" checked><span style="color: #4D7455">Genuine</span><br />
-          <input type="checkbox" name="Strange Weapons" value="True" class="wp_box" checked><span style="color: #CD9B1D">Strange</span><br />
-          <input type="checkbox" name="Vintage Weapons" value="True" class="wp_box" checked><span style="color: #476291">Vintage</span><br />
-          <input type="checkbox" name="Normal Weapons" value="True" class="wp_box" checked><span style="color: #A59003">Normal</span><br />
+          <input type="checkbox" name="Genuine Weapons" id="genuine_weapons" value="True" class="wp_box" checked="checked"><label for="genuine_weapons" style="color: #4D7455">Genuine</label><br/>
+          <input type="checkbox" name="Strange Weapons" id="strange_weapons" value="True" class="wp_box" checked="checked"><label for="strange_weapons" style="color: #CD9B1D">Strange</label><br/>
+          <input type="checkbox" name="Vintage Weapons" id="vintage_weapons" value="True" class="wp_box" checked="checked"><label for="vintage_weapons" style="color: #476291">Vintage</label><br/>
+          <input type="checkbox" name="Normal Weapons" id="normal_weapons" value="True" class="wp_box" checked="checked"><label for="normal_weapons" style="color: #A59003">Normal</label><br/>
 	  <button type="button" class="uncheck_button" onclick="uncheckAll('wp_box')">Clear Weps</button>
         </div>
         <div class="checkbox_column" style="width:90px;">
           <span class="checkbox_title bptext_color">Other:</span>
-          <input type="checkbox" name="Paint" value="True" class="misc_box" checked>Paint<br />
-          <input type="checkbox" name="Tools" value="True" class="misc_box" checked>Tools<br />
-          <input type="checkbox" name="Crates" value="True" class="misc_box" checked>Crates<br />
-          <input type="checkbox" name="Metal" value="True" class="misc_box" checked>Metal<br />
+          <input type="checkbox" name="Paint" id="paint" value="True" class="misc_box" checked="checked"><label for="paint">Paint</label><br/>
+          <input type="checkbox" name="Tools" id="tools" value="True" class="misc_box" checked="checked"><label for="tools">Tools</label><br/>
+          <input type="checkbox" name="Crates" id="crates" value="True" class="misc_box" checked="checked"><label for="crates">Crates</label><br/>
+          <input type="checkbox" name="Metal" id="metal" value="True" class="misc_box" checked="checked"><label for="metal">Metal</label><br/>
 	  <button type="button" class="uncheck_button" onclick="uncheckAll('misc_box')">Clear Misc</button>
         </div>
 
         <div class="checkbox_column checkbox_column_bigright">
           <span class="checkbox_title bptext_color">Options:</span>
-          <input type="checkbox" name="only_dup_weps" value="True" />Only show weapons with duplicates<br />
-          <input type="checkbox" name="display_hat_levels" value="True" />Display hat levels<br />
-          <input type="checkbox" name="display_craft_num" value="True">Display craft numbers over 100<br />
-          <input type="checkbox" name="hide_untradeable" value="True" />Exclude all untradable items (dirty)<br />
-          <input type="checkbox" name="hide_uncraftable" value="True" />Exclude all uncraftable items (dirty)<br />
-          <input type="checkbox" name="hide_gifted" value="True" />Exclude all gifted items (dirty)<br />
-          <input type="checkbox" name="display_sc_url" value="True" checked/>Add link to Steam Community URL<br />
-          <input type="checkbox" name="display_credit" value="True" checked/>Display TF2Toolbox credit - thanks! :)<br />
-          <br />
+          <input type="checkbox" name="only_dup_weps" id="only_dup_weps" value="True"/><label for="only_dup_weps">Only show weapons with duplicates</label><br/>
+          <input type="checkbox" name="display_hat_levels" id="display_hat_levels" value="True"/><label for="display_hat_levels">Display hat levels</label><br/>
+          <input type="checkbox" name="display_craft_num" id="display_craft_num" value="True"/><label for="display_craft_num">Display craft numbers over 100</label><br/>
+          <input type="checkbox" name="hide_untradeable" id="hide_untradeable" value="True"/><label for="hide_untradeable">Exclude all untradable items (dirty)</label><br/>
+          <input type="checkbox" name="hide_uncraftable" id="hide_uncraftable" value="True"/><label for="hide_uncraftable">Exclude all uncraftable items (dirty)</label><br/>
+          <input type="checkbox" name="hide_gifted" id="hide_gifted" value="True"/><label for="hide_gifted">Exclude all gifted items (dirty)</label><br/>
+          <input type="checkbox" name="display_sc_url" id="display_sc_url" value="True" checked="checked"/><label for="display_sc_url">Add link to Steam Community URL</label><br/>
+          <input type="checkbox" name="display_credit" id="display_credit" value="True" checked="checked"/><label for="display_credit">Display TF2Toolbox credit - thanks! :)</label><br/>
+          <br/>
         </div>
         <div class="checkbox_column checkbox_column_bigright">
           <span class="checkbox_title bptext_color">Show BP Link?</span>
-          <input type="radio" name="inc_bp_link" value="none" checked>None<br />
-          <input type="radio" name="inc_bp_link" value="tf2b">TF2B<br />
-          <input type="radio" name="inc_bp_link" value="tf2items">TF2Items<br />
-          <input type="radio" name="inc_bp_link" value="optf2">OPTF2<br /><br />
+          <input type="radio" name="inc_bp_link" id="inc_bp_link_none" value="none" checked="checked"><label for="inc_bp_link_none">None</label><br/>
+          <input type="radio" name="inc_bp_link" id="inc_bp_link_tf2b" value="tf2b"><label for="inc_bp_link_tf2b">TF2B</label><br/>
+          <input type="radio" name="inc_bp_link" id="inc_bp_link_tf2items" value="tf2items"><label for="inc_bp_link_tf2items">TF2Items</label><br/>
+          <input type="radio" name="inc_bp_link" id="inc_bp_link_optf2" value="optf2"><label for="inc_bp_link_optf2">OPTF2</label><br/><br/>
           <span class="checkbox_title bptext_color">Output Type</span>
-          <input type="radio" name="output_type" value="bbcode" checked>BBCode<br />
-          <input type="radio" name="output_type" value="markdown">Reddit Markdown<br />
-          <input type="radio" name="output_type" value="plaintext">Plaintext<br />
+          <input type="radio" name="output_type" id="output_type_bbcode" value="bbcode" checked="checked"><label for="output_type_bbcode">BBCode</label><br/>
+          <input type="radio" name="output_type" id="output_type_markdown" value="markdown"><label for="output_type_markdown">Reddit Markdown</label><br/>
+          <input type="radio" name="output_type" id="output_type_plaintext" value="plaintext"><label for="output_type_plaintext">Plaintext</label><br/>
         </div>
         <div class="checkbox_column checkbox_column_bigright">
           <span class="checkbox_title bptext_color">Sort Output By</span>
-          <input type="radio" name="output_sort" value="alpha" checked>Alphabetical<br />
-          <input type="radio" name="output_sort" value="class">Class<br />
-          <input type="radio" name="output_sort" value="release" disabled><span style="color: #888888;">TF2 Update (in dev!)</span><br />
+          <input type="radio" name="output_sort" id="output_sort_alpha" value="alpha" checked="checked"><label for="output_sort_alpha">Alphabetical</label><br/>
+          <input type="radio" name="output_sort" id="output_sort_class" value="class"><label for="output_sort_class">Class</label><br/>
+          <input type="radio" name="output_sort" id="output_sort_release" value="release" disabled="disabled"><label for="output_sort_release" style="color: #888888;">TF2 Update (in dev!)</label><br/>
         </div>
 
 {% if "num_bp_slots" in session %}
 {% set pages = session["num_bp_slots"] // 50 %}
         <div class="checkbox_column">
           <span class="checkbox_title bptext_color">Pages:</span>
-          <input type="checkbox" name="pages[]" value="all" checked>All<br />
+          <input type="checkbox" name="pages[]" value="all" checked>All<br/>
 {% set current_page_in_col = 2 %}
 {% for page in range(1, pages+1) %}
-          <input type="checkbox" name="pages[]" value="{{ page }}">{{ page }}<br />
+          <input type="checkbox" name="pages[]" value="{{ page }}">{{ page }}<br/>
 {% set current_page_in_col = current_page_in_col + 1 %}
 {% if current_page_in_col == 8 and page != pages %}
 {% set current_page_in_col = 1 %}
