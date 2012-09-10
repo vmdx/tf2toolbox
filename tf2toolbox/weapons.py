@@ -49,7 +49,8 @@ def bp_weapons(bp, session_info):
       # Is it used by one class or multiple?
       # Is it a stock weapon? (defindex 0-30). If so, initialize to True.
       category = 'essential'
-      if item_name in ALT_WEAPONS or item_name in LIMITED_WEAPONS:
+      if item_name in ALT_WEAPONS or item_name in LIMITED_WEAPONS or \
+         item_name.startswith('Botkiller') or item_name.startswith('Gold Botkiller'):
         category = 'alternative'
 
       if not used_by or len(used_by) > 1: # Special case for Saxxy - used_by = None

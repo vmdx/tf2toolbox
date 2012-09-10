@@ -252,7 +252,11 @@ ALT_WEAPONS = set(['Lugermorph', # Pistol
                'Festive Bat', 'Festive Scattergun', 'Festive Rocket Launcher', 'Festive Flame Thrower',
                'Festive Stickybomb Launcher', 'Festive Minigun', 'Festive Wrench', 'Festive Medi Gun',
                'Festive Sniper Rifle', 'Festive Knife', # Festive Weapons
-               'Black Rose' # Knife
+               'Black Rose', # Knife
+               'Lollichop', # fire axe
+               'Rainblower', # flamethrower
+               'Deflector', # funky mvm heavy weapon
+               'AWPer Hand', # sniper rifle
                ])
 
 LIMITED_WEAPONS = set(['Golden Wrench', 'Saxxy', 'Beta Quick-Fix'])
