@@ -2,6 +2,10 @@ from flask import session
 
 from tf2toolbox.exceptions import TF2ToolboxException
 from tf2toolbox.steamapi import resolve_vanity_url, get_player_info, get_user_backpack
+from tf2toolbox import app
+
+from email.mime.text import MIMEText
+import smtplib
 
 def set_user_session(steamURL):
     """

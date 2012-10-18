@@ -2,7 +2,7 @@ from collections import defaultdict
 
 import tf2toolbox.metadata
 from tf2toolbox.steamapi import get_schema
-
+from tf2toolbox.exceptions import TF2ToolboxException
 
 def bp_parse(bp, form, session_info):
     """

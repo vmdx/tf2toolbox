@@ -1,5 +1,6 @@
 from tf2toolbox.metadata import ALT_WEAPONS, LIMITED_WEAPONS
 from tf2toolbox.steamapi import get_schema
+from tf2toolbox.exceptions import TF2ToolboxException
 
 def bp_weapons(bp, session_info):
     """
