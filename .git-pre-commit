@@ -1,0 +1,6 @@
+#!/bin/sh
+#
+# TF2Toolbox precommit hook - runs pylint and makes
+# sure there are no errors.
+
+find . -name "*.py" | xargs pylint --errors-only
