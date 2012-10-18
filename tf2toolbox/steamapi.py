@@ -13,6 +13,7 @@ from tf2toolbox.exceptions import TF2ToolboxException
 
 if app.config['USE_MEMCACHED']:
     import memcache
+    memcache.SERVER_MAX_VALUE_LENGTH = 2048*1024
 
 def get_schema():
     """
@@ -24,7 +25,7 @@ def get_schema():
 
     # Step 1. Check the schema cache - when was it last updated? (mtime / dt)
     if app.config['USE_MEMCACHED']:
-        mc = memcache.Client([app.config['MEMCACHED_LOCATION']], debug=0)
+        mc = memcache.Client([app.config['MEMCACHED_LOCATION']], debug=True, server_max_value_length=app.config['MAX_VALUE_SIZE_MEMCACHED'])
         last_modified = mc.get('SCHEMA-CACHED-TIME')
         if not (last_modified is None):
             mtime = last_modified
@@ -65,7 +66,8 @@ def get_schema():
 
     if app.config['USE_MEMCACHED']:
         mc.set('SCHEMA-CACHED-TIME', int(time.time()))
-        mc.set('SCHEMA', schema_json)
+        result = mc.set('SCHEMA', schema_json)
+        # TODO if not result: schema was too large and didn't get saved! alert!!!
         print '[SCHEMA] Wrote new schema cache to memcached.'
         mc.disconnect_all()
     else:

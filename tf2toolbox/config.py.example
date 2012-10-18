@@ -36,4 +36,7 @@ EMAIL_RECEIVER = 'your_email@whatever.com'
 USE_MEMCACHED = True
 # Where is memcached running?
 MEMCACHED_LOCATION = '127.0.0.1:11211'
+# Max value size in memcached
+# See README.md for a more detailed explanation of this var
+MAX_VALUE_SIZE_MEMCACHED = 2048*1024 # 2 megabytes
 
