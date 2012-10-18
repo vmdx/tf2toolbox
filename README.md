@@ -1,5 +1,7 @@
 ## TF2Toolbox
 
+[![Build Status](https://secure.travis-ci.org/vmdx/tf2toolbox.png?branch=master)](http://travis-ci.org/vmdx/tf2toolbox)
+
 Backpack parsing utilities for Team Fortress 2.
 
 #### Quickstart
