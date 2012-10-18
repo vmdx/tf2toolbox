@@ -45,8 +45,10 @@ def donate(error=''):
 
 @app.route('/bptext', methods=['GET', 'POST'])
 @allow_signin
-def bptext():
+def bptext(error=''):
     template_info = {'nav_cell': 'Backpack Text', 'signin_action': '/bptext'}
+    if error:
+        template_info['error_msg'] = error
     if request.method == 'POST' and request.form['form_id'] == 'bptext' and 'steamID' in session:
         try:
             bp_json = get_user_backpack(session['steamID'])
