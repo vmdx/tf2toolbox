@@ -6,3 +6,5 @@ install:
   - pip install -r requirements.txt --use-mirrors
 # command to run tests, e.g. python setup.py test
 script: nosetests
+env:
+  - secure: "N+B7jZ/D82WdfB6DOcUMWrFxGoMBM6B66X6AMOE9YpT/T17eNkRZsAffqVol\nSaAF4NpIsrvBqfMB2pfhhkB0qN6v9QEFEJNG8o/8lAZfbpBwaCDcJ/gGrJx+\ndaw2QGjjLVakVfbUHvN/o4PsWPQN+UUCS+W5az6ZpyFa6joJ0GI="

@@ -2,12 +2,17 @@
 This is an example configuration file. All fields are required
 to run TF2Toolbox unless otherwise specified. This file should
 be called 'config.py' in production.
+
+Note: if environment variables are set, those take priority!
 """
+
+import os
+
 # app.debug is set to this. Always False in production.
 DEBUG = False
 
 # Steam API key
-STEAM_API_KEY = 'your api key here'
+STEAM_API_KEY = os.environ.get('TF2TOOLBOX_STEAM_API_KEY') or 'your api key here'
 
 # Flask secret key for sessions and protecting your users
 # Best way to generate is import os; os.urandom(24)
