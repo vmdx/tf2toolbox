@@ -14,12 +14,9 @@ def allow_signin(func):
     def wrapped():
         try:
             if request.method == 'POST' and request.form['form_id'] == 'signin':
-                request.form['steamURL'].decode('ascii')
                 set_user_session(request.form['steamURL'])
         except TF2ToolboxException as e:
             return func(error=str(e))
-        except UnicodeEncodeError as e:
-            return func(error='That Steam Community URL contains invalid characters')
         return func()
 
     # app.route() relies on the original function name, so we need to make sure to set it

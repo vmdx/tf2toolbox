@@ -7,6 +7,8 @@ from tf2toolbox import app
 from email.mime.text import MIMEText
 import smtplib
 
+import urllib
+
 def set_user_session(steamURL):
     """
     Given a Steam Community URL, sets the following session variables for the current user:
@@ -27,19 +29,28 @@ def set_user_session(steamURL):
     if not steamURL.startswith('http://steamcommunity.com/id/') and not steamURL.startswith('http://steamcommunity.com/profiles/'):
         raise TF2ToolboxException("That was not a valid Steam Community URL.\n")
 
+
+
     try:
+        steamURL.decode('ascii')
         if steamURL.startswith('http://steamcommunity.com/id/'):
+            idstring = steamURL[len('http://steamcommunity.com/id/'):]
+            if urllib.quote_plus(idstring) != idstring:
+                raise TF2ToolboxException("Your Steam Community URL contained invalid characters.")
             steamID64 = resolve_vanity_url(steamURL[len('http://steamcommunity.com/id/'):])
             if steamID64 is None:
                 return
             session['customURL'] = steamURL[len('http://steamcommunity.com/id/'):]
         else:
             steamID64 = steamURL[len('http://steamcommunity.com/profiles/'):]
+            int(steamID64)
 
         for key, value in get_player_info(steamID64).iteritems():
             session[key] = value
     except UnicodeEncodeError, e:
-        raise TF2ToolboxException('Your Steam Community URL contained an invalid character.')
+        raise TF2ToolboxException('Your Steam Community URL contained invalid characters.')
+    except ValueError, e:
+        raise TF2ToolboxException('Your Steam Community URL was invalid.')
 
     if 'username' not in session or 'avatar' not in session or 'steamID' not in session:
         raise TF2ToolboxException("We were unable to retrieve info for that profile.\n")
