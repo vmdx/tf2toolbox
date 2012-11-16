@@ -360,7 +360,7 @@ BPTEXT_LANGUAGE_SYNTAX = {
         'category_closer': '\n',
         'subcat_exp': '\n_%s_\n',
         'parse_text': 'plaintext',
-        'bottom_credit': 'List generated at [TF2Toolbox.com](http://tf2toolbox.com/bptext) with help from [JonDum](http://www.reddit.com/r/tf2trade/comments/k2zru/tool_tf2toolboxcom_bbcode_converter/) at Reddit.\n'
+        'bottom_credit': 'List generated at [TF2Toolbox.com](http://tf2toolbox.com/bptext)\n'
     }
 }
 
@@ -447,7 +447,7 @@ def bptext_form_to_params(form):
     if form['output_type'] == 'bbcode':
         params_list.append('Translated backpack to BBCode.')
     elif form['output_type'] == 'markdown':
-        params_list.append('Translated backpack to Reddit Markdown. Huge thanks to <a href="http://www.reddit.com/r/tf2trade/comments/k2zru/tool_tf2toolboxcom_bbcode_converter/">JonDum at Reddit</a> for the help and inspiration!')
+        params_list.append('Translated backpack to Reddit Markdown. Thanks to JonDum at Reddit for the help and inspiration.')
     elif form['output_type'] == 'plaintext':
         params_list.append('Translated backpack to plaintext.')
 
