@@ -168,7 +168,7 @@ def bp_parse(bp, form, session_info):
 
 
         # Weapons
-        elif item['slot'] in ['primary', 'secondary', 'melee', 'pda', 'pda2'] and item['class'] != 'slot_token':
+        elif item['slot'] in ['primary', 'secondary', 'melee', 'pda', 'pda2', 'building'] and item['class'] != 'slot_token':
             quality = s['qualities'][item['quality']]
             # Suffixes: Quality tag, Untradeable, Gifted, CraftNum, Weapon Level for Vintage
             # TODO: Support UHHH and other unusual weapons. Should probably go in Genuine Weapons.

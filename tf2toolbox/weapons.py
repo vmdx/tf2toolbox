@@ -38,7 +38,7 @@ def bp_weapons(bp, session_info):
     s = {}
     for entry in schema['result']['items']:
         # Load the weapon list.
-        if entry.get('item_slot', None) in ['primary', 'secondary', 'melee', 'pda', 'pda2'] and entry['item_class'] != 'slot_token':
+        if entry.get('item_slot', None) in ['primary', 'secondary', 'melee', 'pda', 'pda2', 'building'] and entry['item_class'] != 'slot_token':
 
             # Skip multiclass stock upgradeables.
             if entry.get('defindex') >= 190 and entry.get('defindex') <= 212:
@@ -48,10 +48,9 @@ def bp_weapons(bp, session_info):
 
             # Categorize the weapon. Is it essential (adds new functionality to game?) or alternative (replicates existing functionality/promotional)
             # Is it used by one class or multiple?
-            # Is it a stock weapon? (defindex 0-30). If so, initialize to True.
+            # Is it a stock weapon? (defindex 0-30), or the Sapper (has weird defindex)?. If so, initialize to True.
             category = 'essential'
-            if item_name in ALT_WEAPONS or item_name in LIMITED_WEAPONS or \
-                 item_name.startswith('Botkiller') or item_name.startswith('Gold Botkiller'):
+            if item_name in ALT_WEAPONS or item_name in LIMITED_WEAPONS or 'Botkiller' in item_name:
                 category = 'alternative'
 
             if not used_by or len(used_by) > 1: # Special case for Saxxy - used_by = None
@@ -60,7 +59,7 @@ def bp_weapons(bp, session_info):
                 cls = used_by[0]
 
             if item_name not in result[cls][category]:
-                if entry.get('defindex') <= 30:
+                if entry.get('defindex') <= 30 or item_name == 'Sapper':
                     result[cls][category][item_name] = [True, entry.get('image_url')]
                 else:
                     result[cls][category][item_name] = [False, entry.get('image_url')]

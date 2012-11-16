@@ -257,6 +257,7 @@ ALT_WEAPONS = set(['Lugermorph', # Pistol
                  'Rainblower', # flamethrower
                  'Deflector', # funky mvm heavy weapon
                  'AWPer Hand', # sniper rifle
+                 'Robo-Sandvich', # sandvich
                  ])
 
 LIMITED_WEAPONS = set(['Golden Wrench', 'Saxxy', 'Beta Quick-Fix'])
