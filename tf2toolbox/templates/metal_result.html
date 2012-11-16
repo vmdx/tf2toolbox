@@ -11,7 +11,7 @@
         </div>
 
         <div class="cross_column_title">
-          <span class="vintage">Vintage</span><span style="color: #dddddd;"> & </span><span class="normal">Normal</span><span style="color: #dddddd;"> Weapons</span>
+          <span class="vintage">Vintage</span><span style="color: #dddddd;"> & </span><span class="normal">Unique</span><span style="color: #dddddd;"> Weapons</span>
         </div>
 
 {% for cls in template_info['result']['ordered_classes'] %}
@@ -38,7 +38,7 @@
 
         <div class="clearbar"></div>
         <hr>
-        
+
         <div id="calculations">
 {% for cls in template_info['result']['ordered_classes'] %}
           <div class="class_column center">
@@ -50,7 +50,7 @@
           </div>
 {% endfor %}
         </div>
-        
+
         <div class="cross_column_title">
           <span class="special">Special Weapons</span>
         </div>
@@ -66,7 +66,7 @@
 {% endfor %}
 
       </div>
-    
+
       <div id="statistics">
         <span class="stat_title">Numbers</span>
         <br/>
@@ -85,7 +85,7 @@
         <span class="stat white subsubtitle">{{ template_info['result']['nv_secondary_count'] + template_info['result']['v_secondary_count']}} ({{ (template_info['result']['nv_secondary_count'] + template_info['result']['v_secondary_count']) / 3 }}  tokens)</span>
         <span class="stat normal">&nbsp&#8226 Non-vintage: {{ template_info['result']['nv_secondary_count'] }}</span>
         <span class="stat vintage">&nbsp&#8226 Vintage: {{ template_info['result']['v_secondary_count'] }}</span>
-      
+
         <br/>
         <span class="stat_title">Notes</span>
         <ul id="stat_notes">
@@ -97,9 +97,9 @@
 
         </ul>
       </div>
-    
+
       <div class="clearbar"></div>
-      
+
     </div>
 {% endif %}
 {% endblock content %}
@@ -127,7 +127,7 @@ $(document).ready(function() {
           }
         });
       }
-    }); 
+    });
 })
 </script>
 {% endblock javascript %}
