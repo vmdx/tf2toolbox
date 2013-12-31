@@ -225,7 +225,8 @@ QUALITY_BBCODE_MAP = {
     'Community': '[color=#70B04A]Community ',
     'Self-Made': '[color=#70B04A]Self-Made ',
     'Valve': '[color=#A50F79]Valve ',
-    'Haunted': '[color=#8650AC]Haunted '
+    'Haunted': '[color=#8650AC]Haunted ',
+    "Collector's": "[color=#830000]Collector's ",
 }
 
 # Weapon Stock data
